@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Odoo
 
 [![Build Status](https://runbot.odoo.com/runbot/badge/flat/1/master.svg)](https://runbot.odoo.com/runbot)
@@ -35,3 +36,6 @@ Developers can start with [the developer tutorials](https://www.odoo.com/documen
 
 If you believe you have found a security issue, check our [Responsible Disclosure page](https://www.odoo.com/security-report)
 for details and get in touch with us via email.
+=======
+# Odoo19
+>>>>>>> 96faf29b4c96226e48ce7828d87e6ab38e9e428a
