@@ -143,7 +143,12 @@ class TestHrContract(TestPayrollCommon):
         }])
 
         offer.final_yearly_costs = 500000.0
-        version = offer._get_version()
+        # Add the ctx key manually, as the test is running in a savepoint, can't use the ctx manager
+        version = offer.with_context(
+            hr_version_ctx_savepoint=True,  # can't import `HR_VERSION_CTX_KEY`, as this module doesn't depend on `hr_contract_salary`...
+            salary_simulation=True,
+            tracking_disable=True,
+        )._get_version()
         version.company_id.country_code = 'IN'
 
         self.assertAlmostEqual(version.l10n_in_basic_percentage, default_percentage,

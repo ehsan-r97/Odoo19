@@ -5,13 +5,13 @@
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Jacob Ljungström <jacob.ljungstrom03@gmail.com>, 2025.
-# Hanna Kharraziha <hakha@odoo.com>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:44+0000\n"
-"PO-Revision-Date: 2025-11-19 10:21+0000\n"
+"PO-Revision-Date: 2026-03-24 15:50+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "documents_fleet/sv/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: documents_fleet
 #: model:ir.model.fields,field_description:documents_fleet.field_fleet_vehicle__documents_fleet_settings
@@ -74,7 +74,7 @@ msgstr "Förare"
 #: model:documents.document,name:documents_fleet.document_fleet_folder
 #: model:ir.model.fields,field_description:documents_fleet.field_res_config_settings__documents_fleet_settings
 msgid "Fleet"
-msgstr "Fordonsflotta"
+msgstr "Fordon"
 
 #. module: documents_fleet
 #: model:documents.tag,name:documents_fleet.documents_fine

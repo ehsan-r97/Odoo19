@@ -651,10 +651,6 @@ export class SalaryPackage extends Interaction {
             const $radio = group[0].parentElement.parentElement;
             if (!group.some(el => el.checked)) {
                 requiredEmptyRadio = true;
-                const $warning = document.createElement("div");
-                $warning.classList = "alert alert-danger alert-dismissable fade show";
-                $warning.textContent = _t("Some required fields are not filled");
-                document.querySelector("button#hr_cs_submit").parentElement.append($warning);
                 $radio.classList.toggle("invalid_radio", requiredEmptyRadio);
                 elementToScroll = $radio;
                 elementToScrollPosition = $($radio).offset().top;
@@ -662,9 +658,11 @@ export class SalaryPackage extends Interaction {
                 $radio.classList.toggle("invalid_radio");
             }
         });
+        // Prevent stacking by removing existing alerts
+        $("button#hr_cs_submit").parent().find(".required_alert").remove();
 
-        if(requiredEmptyInput ||  requiredEmptySelect || requiredEmptyTextArea) {
-            $("<div class='alert alert-danger alert-dismissable fade show'>")
+        if(requiredEmptyInput ||  requiredEmptySelect || requiredEmptyTextArea || requiredEmptyRadio) {
+            $("<div class='alert alert-danger alert-dismissable fade show mt-2 required_alert'>")
                 .text(_t("Some required fields are not filled"))
                 .appendTo($("button#hr_cs_submit").parent());
             $("input:required").toArray().forEach(input => {

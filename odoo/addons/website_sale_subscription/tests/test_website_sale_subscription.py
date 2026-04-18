@@ -5,7 +5,7 @@ from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from odoo.addons.portal.controllers.portal import CustomerPortal
-from odoo.addons.website_sale.controllers.cart import Cart
+from odoo.addons.website_sale_subscription.controllers.cart import Cart
 from odoo.addons.website_sale.tests.common import MockRequest
 
 from .common import WebsiteSaleSubscriptionCommon
@@ -283,3 +283,47 @@ class TestWebsiteSaleSubscription(WebsiteSaleSubscriptionCommon):
             cart.order_line.tax_ids, tax_0,
             "Tax should have been updated when reopening a subscription",
         )
+
+    def test_zero_price_subscription_with_pricelist(self):
+        """
+        Enable the `prevent_zero_price_sale` setting.
+        Create a subscription product with a price of 0, except for a specific pricelist where it is
+        priced at 20.0.
+        Add the subscription product to the cart from the website as a user using that pricelist
+        The product should be added and the sale order's monthly recurring revenue should be 20.0.
+        """
+        self.website.prevent_zero_price_sale = True
+        subscription = (
+            self.env["product.product"]
+            .with_context(website_id=self.website.id)
+            .create(
+                {
+                    "name": "subscription",
+                    "recurring_invoice": True,
+                    "lst_price": 0,
+                    "is_published": True,
+                    "subscription_rule_ids": [
+                        Command.create(
+                            {
+                                "plan_id": self.plan_month.id,
+                                "fixed_price": 20,
+                                "pricelist_id": self.pricelist.id,
+                            }
+                        )
+                    ],
+                }
+            )
+        )
+
+        website = self.website.with_user(self.public_user)
+        with MockRequest(website.env, website=website) as request:
+            Cart().add_to_cart(
+                product_template_id=subscription.product_tmpl_id.id,
+                product_id=subscription.id,
+                quantity=1,
+                plan_id=self.plan_month.id,
+            )
+            sale_order = request.cart
+        self.assertEqual(len(sale_order.order_line), 1)
+        self.assertEqual(sale_order.order_line.product_id, subscription)
+        self.assertEqual(sale_order.recurring_monthly, 20.0)

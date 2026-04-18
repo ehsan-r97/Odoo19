@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 19:04+0000\n"
-"PO-Revision-Date: 2026-02-06 19:04+0000\n"
+"POT-Creation-Date: 2026-03-20 19:01+0000\n"
+"PO-Revision-Date: 2026-03-20 19:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -37,6 +37,12 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/l10n_eu_iot_scale_cert/static/src/app/scale_certification_status/scale_certification_dialog.xml:0
 msgid "Certified Odoo Point of Sale"
+msgstr ""
+
+#. module: l10n_eu_iot_scale_cert
+#. odoo-javascript
+#: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/components/product_screen/certified_product_screen.js:0
+msgid "Certified Scale error"
 msgstr ""
 
 #. module: l10n_eu_iot_scale_cert
@@ -90,12 +96,6 @@ msgid "Get Weight"
 msgstr ""
 
 #. module: l10n_eu_iot_scale_cert
-#. odoo-javascript
-#: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/components/scale_screen/certified_scale_screen.xml:0
-msgid "Gross Weight:"
-msgstr ""
-
-#. module: l10n_eu_iot_scale_cert
 #: model:ir.model.fields,field_description:l10n_eu_iot_scale_cert.field_pos_config__id
 msgid "ID"
 msgstr ""
@@ -115,6 +115,7 @@ msgstr ""
 
 #. module: l10n_eu_iot_scale_cert
 #. odoo-javascript
+#: code:addons/l10n_eu_iot_scale_cert/static/src/customer_display_overrides/customer_display.xml:0
 #: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/components/scale_screen/certified_scale_screen.xml:0
 msgid "Net Weight:"
 msgstr ""
@@ -170,12 +171,6 @@ msgstr ""
 
 #. module: l10n_eu_iot_scale_cert
 #. odoo-javascript
-#: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/components/scale_screen/certified_scale_screen.xml:0
-msgid "Tare"
-msgstr ""
-
-#. module: l10n_eu_iot_scale_cert
-#. odoo-javascript
 #: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/models/pos_store.js:0
 msgid "The unit of measure must be set to kg to weigh in a certified POS."
 msgstr ""
@@ -196,6 +191,18 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/l10n_eu_iot_scale_cert/static/src/app/scale_certification_status/scale_certification_dialog.xml:0
 msgid "Warning"
+msgstr ""
+
+#. module: l10n_eu_iot_scale_cert
+#. odoo-javascript
+#: code:addons/l10n_eu_iot_scale_cert/static/src/customer_display_overrides/customer_display.xml:0
+msgid "Weighing Product:"
+msgstr ""
+
+#. module: l10n_eu_iot_scale_cert
+#. odoo-javascript
+#: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/components/product_screen/certified_product_screen.js:0
+msgid "You cannot change quantity of a product which needs to be weighed"
 msgstr ""
 
 #. module: l10n_eu_iot_scale_cert

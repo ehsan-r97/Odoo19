@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2026-01-23 18:03+0000\n"
+"PO-Revision-Date: 2026-02-14 10:03+0000\n"
 "Last-Translator: \"Kwanghee Park (kwpa)\" <kwpa@odoo.com>\n"
 "Language-Team: Korean <https://translate.odoo.com/projects/odoo-19/"
 "delivery_starshipit/ko/>\n"
@@ -75,7 +75,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/delivery_starshipit/wizard/starshipit_shipping_wizard.py:0
 msgid "Add a shipping method"
-msgstr ""
+msgstr "선적 방법 추가"
 
 #. module: delivery_starshipit
 #: model_terms:ir.ui.view,arch_db:delivery_starshipit.view_shipping_method_starshipit
@@ -138,7 +138,7 @@ msgstr "배송"
 #. module: delivery_starshipit
 #: model:ir.model,name:delivery_starshipit.model_choose_delivery_carrier
 msgid "Delivery Carrier Selection Wizard"
-msgstr ""
+msgstr "배송업체 선택 마법사"
 
 #. module: delivery_starshipit
 #: model_terms:ir.ui.view,arch_db:delivery_starshipit.view_shipping_method_starshipit

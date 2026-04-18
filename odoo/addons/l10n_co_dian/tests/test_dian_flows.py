@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest.mock import patch
 from markupsafe import Markup
 
@@ -225,7 +225,7 @@ class TestDianFlows(TestCoDianCommon):
         }])
 
         # 2nd attempt (success without errors or warnings)
-        with patch(f'{self.document_path}._parse_errors', return_value=[]):
+        with self.patched_document('_parse_errors', []):
             self._mock_send_and_print(move=self.invoice, response_file='SendBillSync_warnings.xml')
 
         self.assertEqual(len(self.invoice.l10n_co_dian_document_ids), 1)  # no need to keep the rejected documents
@@ -234,6 +234,26 @@ class TestDianFlows(TestCoDianCommon):
             'zip_key': False,
             'state': 'invoice_accepted',
             'message': "<p>Procesado Correctamente.</p>",
+        }])
+
+    def test_send_bill_sync_get_status_error(self):
+        """
+        The attempt SendBillSync is accepted, but getStatus got a non 200 status code
+        => status of the invoice should still be invoice_accepted
+        """
+        with (
+            self.patched_document('_get_status', self._mocked_response('GetStatus_invoice.xml', 503)),
+            self._mock_build_and_send_request('SendBillSync_warnings.xml'),
+            self._disable_get_acquirer_call(),
+            self.assertRaisesRegex(UserError, "Error\\(s\\) when generating the Attached Document"),
+        ):
+            self.env['account.move.send.wizard'].with_context(
+                active_model=self.invoice._name,
+                active_ids=self.invoice.ids
+            ).create({}).action_send_and_print()
+
+        self.assertRecordValues(self.invoice.l10n_co_dian_document_ids, [{
+            'state': 'invoice_accepted',
         }])
 
     def test_send_bill_sync_unknown_error(self):
@@ -291,6 +311,17 @@ class TestDianFlows(TestCoDianCommon):
             'name': 'Real Company Name',
             'email': 'company@mail.com',
         }])
+
+    def test_invoice_date_constraints_dian(self):
+        """Test that invoices date older than 6 days or more than 6 days ahead trigger the constraint."""
+        now = fields.Datetime.now()
+
+        valid_invoice = self._create_move(invoice_date=now - timedelta(days=6))
+        self._mock_send_and_print(move=valid_invoice, response_file='SendBillSync_warnings.xml')
+
+        invalid_invoice = self._create_move(invoice_date=now - timedelta(days=7))
+        with self.assertRaisesRegex(UserError, "The issue date can not be older than 6 days or more than 6 days in the future."):
+            self._mock_send_and_print(move=invalid_invoice, response_file='SendBillSync_warnings.xml')
 
 
 @freeze_time('2024-01-30')

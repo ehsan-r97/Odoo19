@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-01-15 12:27+0000\n"
+"PO-Revision-Date: 2026-02-28 09:36+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/mrp_mps/"
 "pl/>\n"
@@ -204,7 +204,7 @@ msgstr "Firma"
 #. module: mrp_mps
 #: model:ir.model,name:mrp_mps.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ustawienia konfiguracji"
+msgstr "Konfiguracja ustawień"
 
 #. module: mrp_mps
 #. odoo-javascript
@@ -393,7 +393,7 @@ msgstr "Prognoza zbyt niska"
 #. odoo-javascript
 #: code:addons/mrp_mps/static/src/components/line.xml:0
 msgid "Forecasted"
-msgstr "Przewidywane"
+msgstr "Prognozowane"
 
 #. module: mrp_mps
 #. odoo-javascript
@@ -547,7 +547,7 @@ msgstr "Wątek produkcyjny"
 #. odoo-python
 #: code:addons/mrp_mps/wizard/mrp_mps_forecast_details.py:0
 msgid "Manufacturing Order"
-msgstr "Zamówienie produkcji"
+msgstr "Zlecenie produkcyjne"
 
 #. module: mrp_mps
 #. odoo-python

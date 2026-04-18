@@ -1,9 +1,14 @@
 from odoo import api, models, _
 from odoo.exceptions import RedirectWarning
-from odoo.tools import float_repr
+from odoo.tools import float_compare, float_is_zero, float_repr
 
 from lxml import etree
 from datetime import date, datetime
+
+TAX_BASE_CODES = {'21', '35', '41', '42', '43', '44', '45', '46', '48', '49', '50', '60', '73',
+                  '76', '77', '81', '84', '86', '87', '89', '91', '93', '90', '94', '95'}
+
+BASE_CODE_TO_TAX_CODE = {'35': '36', '76': '80', '95': '98', '94': '96', '46': '47', '73': '74', '84': '85'}
 
 
 class L10n_DeTaxReportHandler(models.AbstractModel):
@@ -37,6 +42,27 @@ class L10n_DeTaxReportHandler(models.AbstractModel):
         )
 
     def export_tax_report_to_xml(self, options):
+
+        def insert_line(code, value):
+
+            # Some lines were made for intermediate calculations or guidance only and shouldn't be reported (ex DE_LINE36)
+            # Kz83 is calculated by the system and shouldn't be provided.
+            if not (value and code.isnumeric() and code != '83'):
+                return
+
+            formatted_value = (
+                float_repr(int(value), 0)
+                if code in TAX_BASE_CODES
+                else float_repr(value, 2)
+            )
+
+            # all "Kz" may be supplied as negative, except "Kz37", "Kz39", "Kz50"
+            value = float(formatted_value)
+            if float_is_zero(value, 2) or code in ('37', '39', '50') and float_compare(value, 0.0, 2) == -1:
+                return
+
+            elem = etree.SubElement(taxes, f'Kz{code}')
+            elem.text = formatted_value
 
         if self.env.company.l10n_de_stnr:
             steuer_nummer = self.env.company.get_l10n_de_stnr_national()
@@ -79,24 +105,27 @@ class L10n_DeTaxReportHandler(models.AbstractModel):
         for record in self.env['account.report.line'].browse(report_line_ids):
             codes_context[record.id] = record.code
 
+        to_insert = []
+
         for line in report_lines:
             line_code = codes_context[line['columns'][0]['report_line_id']]
             if not (line_code and line_code.startswith('DE') and not line_code.endswith('TAX')):
                 continue
             line_code = line_code.split('_')[1]
-            # all "Kz" may be supplied as negative, except "Kz37", "Kz39", "Kz50"
             if 'balance' in colname_to_idx:
                 line_value = line['columns'][colname_to_idx['balance']]['no_format']
             else:
-                line_value = line['columns'][colname_to_idx['base']]['no_format'] or line['columns'][colname_to_idx['tax']]['no_format']
-            if line_value and (line_code not in ("37", "39", "50") or line_value > 0) and line_code.isnumeric():
-                elem = etree.SubElement(taxes, "Kz" + line_code)
-                # These can not be supplied with decimals
-                if line_code in ("21", "35", "41", "42", "43", "44", "45", "46", "48", "49", "50", "60", "73",
-                                 "76", "77", "81", "84", "86", "87", "89", "91", "93", "90", "94", "95"):
-                    elem.text = float_repr(int(line_value), 0)
-                else:
-                    elem.text = float_repr(line_value, 2)
+                tax_value = line['columns'][colname_to_idx['tax']]['no_format']
+                base_value = line['columns'][colname_to_idx['base']]['no_format']
+
+                if tax_code := BASE_CODE_TO_TAX_CODE.get(line_code):
+                    to_insert.append((tax_code, tax_value))
+
+                line_value = base_value or tax_value
+            to_insert.append((line_code, line_value))
+
+        for code, value in sorted(to_insert):
+            insert_line(code, value)
 
         return {
             'file_name': report.get_default_report_filename(options, 'xml'),

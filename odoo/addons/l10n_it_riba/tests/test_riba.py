@@ -34,6 +34,7 @@ class TestRiba(AccountTestInvoicingCommon):
             'acc_type': 'bank',
             'acc_number': 'IT94W0333201600000001112418',
             'bank_id': partner_bank.id,
+            'allow_out_payment': True,
         })
         isernia = cls.env.ref('base.state_it_is')
         cls.partner_a.write({
@@ -75,6 +76,7 @@ class TestRiba(AccountTestInvoicingCommon):
             'acc_number': 'IT60X0542811101000000123456',
             'partner_id': company.partner_id.id,
             'acc_type': 'bank',
+            'allow_out_payment': True,
         })
         sale_tax = company.account_sale_tax_id
         cls.invoices = cls.env['account.move'].with_company(company).create([

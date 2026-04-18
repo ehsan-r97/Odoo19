@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2026-02-02 13:41+0000\n"
+"PO-Revision-Date: 2026-02-28 10:04+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/databases/"
 "de/>\n"
@@ -32,8 +32,8 @@ msgstr "%(nb_new_dbs)s neue Datenbanken, %(nb_updated_dbs)s aktualisiert."
 msgid ""
 "<span class=\"o_wrap_label\"><span class=\"o_form_label\">Fetch</span></span>"
 msgstr ""
-"<span class=\"o_wrap_label\"><span class=\"o_form_label\">Abrufen</span></"
-"span>"
+"<span class=\"o_wrap_label\"><span class=\"o_form_label\""
+">Abrufen</span></span>"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.edit_project
@@ -306,6 +306,8 @@ msgstr "Fehler beim Erstellen von Benutzern in %(dbname)s: %(message)s\n"
 msgid ""
 "Error while fetching information from %(host_names)s on %(ip)s: %(message)s\n"
 msgstr ""
+"Fehler beim Abrufen von Informationen von %(host_names)s auf %(ip)s: %"
+"(message)s\n"
 
 #. module: databases
 #. odoo-python
@@ -323,18 +325,18 @@ msgstr "Fehler beim Entfernen von Benutzern aus %(dbname)s: %(message)s\n"
 #. odoo-python
 #: code:addons/databases/wizard/databases_synchronization_wizard.py:0
 msgid "Error while resolving %(url)s: %(exception)s\n"
-msgstr ""
+msgstr "Fehler beim Auflösen von %(url)s: %(exception)s\n"
 
 #. module: databases
 #. odoo-python
 #: code:addons/databases/wizard/databases_synchronization_wizard.py:0
 msgid "Error while resolving %(url)s: found no IP\n"
-msgstr ""
+msgstr "Fehler beim Auflösen von %(url)s: Keine IP gefunden\n"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__everywhere_user_ids
 msgid "Everywhere User"
-msgstr "Überall Benutzer"
+msgstr "Globaler Benutzer"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_project_project__database_fetch_documents
@@ -366,12 +368,12 @@ msgid ""
 "inviting users."
 msgstr ""
 "Erhalten Sie eine Übersicht über alle Ihre Odoo-Datenbanken und führen Sie "
-"Massenaktionen wie das Einladen von Benutzern durch."
+"Sammelaktionen durch, z. B. Benutzer einladen."
 
 #. module: databases
 #: model:ir.model.constraint,message:databases.constraint_project_project_database_url_unique
 msgid "Hey, this URL is already hooked up to a database!"
-msgstr "Diese URL ist bereits mit einer Datenbank verknüpft."
+msgstr "Diese URL ist bereits mit einer Datenbank verknüpft!"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_project_project__database_hosting
@@ -551,8 +553,8 @@ msgid ""
 "                Collaborate efficiently by chatting in real-time or via "
 "email."
 msgstr ""
-"Organisieren Sie Ihre Aufgaben, indem Sie sie in Ihrer Pipeline verteilen."
-"<br>\n"
+"Organisieren Sie Ihre Aufgaben, indem Sie sie in Ihrer Pipeline "
+"verteilen.<br>\n"
 "                Arbeiten Sie effizient zusammen, indem Sie in Echtzeit oder "
 "via E-Mail chatten."
 
@@ -581,7 +583,7 @@ msgstr "Projektvorlage"
 #. module: databases
 #: model:ir.model,name:databases.model_project_template_create_wizard
 msgid "Project Template create Wizard"
-msgstr "Assistent zum Erstellen von Projektvorlagen"
+msgstr "Assistent zur Erstellung von Projektvorlagen"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_res_config_settings__databases_project_template_id
@@ -718,9 +720,9 @@ msgid ""
 "Synchronize to automatically fetch Odoo Online databases, or set an API Key "
 "to connect to On Premise or Odoo.sh ones."
 msgstr ""
-"Synchronisieren Sie, um Odoo-Online-Datenbanken automatisch abzurufen, oder "
-"legen Sie einen API-Schlüssel fest, um eine Verbindung zu On-Premise- oder "
-"Odoo.sh-Datenbanken herzustellen."
+"Starten Sie die Synchronisierung, um Odoo-Online-Datenbanken automatisch "
+"abzurufen, oder legen Sie einen API-Schlüssel fest, um eine Verbindung zu On-"
+"Premise- oder Odoo.sh-Datenbanken herzustellen."
 
 #. module: databases
 #: model:ir.actions.act_window,name:databases.action_view_tasks_all
@@ -742,9 +744,8 @@ msgid ""
 "The database %(url)s is registered as a saas database in odoo.com. As it "
 "seems to be configured we have left it as is.\n"
 msgstr ""
-"Die Datenbank %(url)s ist als SaaS-Datenbank bei odoo.com registriert. Da "
-"sie bereits konfiguriert zu sein scheint, haben wir sie unverändert "
-"belassen.\n"
+"Die Datenbank %(url)s ist bei odoo.com als SaaS-Datenbank registriert. Da "
+"sie bereits konfiguriert zu sein scheint, haben wir sie nicht verändert.\n"
 
 #. module: databases
 #. odoo-python
@@ -763,7 +764,7 @@ msgstr ""
 #. module: databases
 #: model:ir.model.constraint,message:databases.constraint_project_project_database_url_required
 msgid "Uh-oh! It seems we are missing a url for a database!"
-msgstr "Oh je! Es scheint, als würde uns eine URL für eine Datenbank fehlen."
+msgstr "Oh je! Es scheint, als fehle uns eine URL für eine Datenbank!"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__user_ids

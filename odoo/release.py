@@ -40,6 +40,6 @@ MIN_PY_VERSION = (3, 10)
 MAX_PY_VERSION = (3, 13)
 MIN_PG_VERSION = 13
 
-version += '+e-20260209'
+version += '+e-20260409'
 
-repos_heads = {'odoo': 'fb987f8ce85f90dac14cdf0f0f47d7fdaeefbbea', 'enterprise': '2b887d094c66be7aebd92fbf735b1852f5dde4b5', 'design-themes': '06e2fec8cd4090887d4d01ca32ed323e80504fd5'}
+repos_heads = {'odoo': 'f7c309cdac754ead9e00b3443a2fe764efec819c', 'enterprise': '025980534c9b93345e99d9c7180c59f33012b4a0', 'design-themes': '9e169d961fd291d3c9f282a79342c13ccbd4d70f'}

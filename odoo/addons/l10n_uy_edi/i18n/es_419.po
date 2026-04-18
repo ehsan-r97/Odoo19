@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 19:10+0000\n"
-"PO-Revision-Date: 2026-02-07 09:51+0000\n"
+"PO-Revision-Date: 2026-02-14 09:54+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19-l10n/l10n_uy_edi/es_419/>\n"
@@ -73,7 +73,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_uy_edi/models/l10n_uy_edi_addenda.py:0
 msgid "%(name)s (%(type)s)"
-msgstr ""
+msgstr "%(name)s (%(type)s)"
 
 #. module: l10n_uy_edi
 #. odoo-python
@@ -100,6 +100,12 @@ msgid ""
 "enter these parameters here. Test your connection. Note: Only one test and "
 "production environment are allowed per subscription</span>"
 msgstr ""
+"<span>Para crear tu cuenta, asegúrate de contar con una suscripción válida. "
+"Haz clic en \"Crear cuenta de proveedor UCFE\", configúrala en el portal del "
+"proveedor UCFE, obtén la contraseña del WS, el código de comercio y el "
+"código de la terminal, e ingresa estos parámetros aquí. Prueba la conexión. "
+"Nota: Solo puedes tener un entorno de prueba y uno de producción por "
+"suscripción</span>"
 
 #. module: l10n_uy_edi
 #: model:ir.model,name:l10n_uy_edi.model_account_move_send
@@ -120,7 +126,7 @@ msgstr "Adenda"
 #: model:ir.model.fields,field_description:l10n_uy_edi.field_account_bank_statement_line__l10n_uy_edi_addenda_ids
 #: model:ir.model.fields,field_description:l10n_uy_edi.field_account_move__l10n_uy_edi_addenda_ids
 msgid "Addenda & Disclosure"
-msgstr "Adenda & Leyendas"
+msgstr "Adenda y leyendas"
 
 #. module: l10n_uy_edi
 #: model_terms:ir.ui.view,arch_db:l10n_uy_edi.l10n_uy_edi_addenda_view_tree
@@ -309,12 +315,12 @@ msgstr "Crear CFE"
 #. module: l10n_uy_edi
 #: model_terms:ir.ui.view,arch_db:l10n_uy_edi.res_config_settings_view_form_inherit_l10n_uy_edi
 msgid "Create UCFE Provider Account"
-msgstr ""
+msgstr "Crear cuenta de proveedor UCFE"
 
 #. module: l10n_uy_edi
 #: model_terms:ir.ui.view,arch_db:l10n_uy_edi.res_config_settings_view_form_inherit_l10n_uy_edi
 msgid "Create UCFE Provider Test Account"
-msgstr ""
+msgstr "Crear cuenta de prueba de proveedor UCFE"
 
 #. module: l10n_uy_edi
 #: model:ir.model,website_form_label:l10n_uy_edi.model_res_partner

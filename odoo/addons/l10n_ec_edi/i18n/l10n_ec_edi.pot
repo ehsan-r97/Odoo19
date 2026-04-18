@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 19:03+0000\n"
-"PO-Revision-Date: 2026-02-06 19:03+0000\n"
+"POT-Creation-Date: 2026-02-27 19:17+0000\n"
+"PO-Revision-Date: 2026-02-27 19:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -324,6 +324,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_document
 #: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_withhold_document
 msgid "<strong>Partner</strong>"
+msgstr ""
+
+#. module: l10n_ec_edi
+#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_header
+msgid "<strong>RIMPE Regime: </strong>"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -1247,15 +1252,13 @@ msgid "Purchase Withhold"
 msgstr ""
 
 #. module: l10n_ec_edi
-#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_header
-msgid ""
-"RIMPE Contributor Type\n"
-"                                        <br/>"
+#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe
+msgid "RIMPE Regime - Deprecated"
 msgstr ""
 
 #. module: l10n_ec_edi
-#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe
-msgid "RIMPE Regime"
+#: model:l10n_ec.taxpayer.type,name:l10n_ec_edi.l10n_ec_taxpayer_type_13
+msgid "RIMPE Regime Entrepreneur"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -1264,8 +1267,13 @@ msgid "RIMPE Regime Popular Business"
 msgstr ""
 
 #. module: l10n_ec_edi
-#: model:l10n_ec.taxpayer.type,name:l10n_ec_edi.l10n_ec_taxpayer_type_13
-msgid "RIMPE Regime Taxpayer"
+#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe_emprendedor
+msgid "RIMPE taxpayer - Entrepreneur"
+msgstr ""
+
+#. module: l10n_ec_edi
+#: model:ir.model.fields.selection,name:l10n_ec_edi.selection__res_company__l10n_ec_regime__rimpe_negocio_popular
+msgid "RIMPE taxpayer - Popular Business"
 msgstr ""
 
 #. module: l10n_ec_edi

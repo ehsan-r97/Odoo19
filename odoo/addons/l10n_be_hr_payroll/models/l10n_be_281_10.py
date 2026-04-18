@@ -145,7 +145,7 @@ class L10n_Be281_10(models.Model):
     @api.model
     def _get_atn_nature(self, payslips):
         result = ''
-        if any(payslip.vehicle_id or payslip.version_id.car_id for payslip in payslips):
+        if payslips._get_line_values(['ATN.CAR'], compute_sum=True)['ATN.CAR']['sum']['total']:
             result += 'F'
         if any(payslip.version_id.has_laptop for payslip in payslips):
             result += 'H'
@@ -299,7 +299,7 @@ class L10n_Be281_10(models.Model):
 
             cycle_days_amount = sum(all_line_values['CYCLE'][p.id]['total'] for p in payslips)
             if cycle_days_amount:
-                cycle_km = sum(all_line_values['CYCLE'][p.id]['quantity'] * p.contract_id.km_home_work for p in payslips)
+                cycle_km = sum(all_line_values['CYCLE'][p.id]['quantity'] * p.version_id.km_home_work * 2 for p in payslips)
             else:
                 cycle_km = 0
 
@@ -311,14 +311,20 @@ class L10n_Be281_10(models.Model):
             mobility_budget_total_amount = sum(monthly_amount for monthly_amount in mobility_budget_by_month.values())
 
             diff_to_atn = 0
+            private_car_to_atn = 0
             if has_private_car:
                 other_transport_mean = max(0, mapped_total['CAR.PRIV'])
             else:
                 other_transport_mean = min(mapped_total['CAR.PRIV'] + mapped_total['ATN.CAR'], other_transport_exemption)
-                other_transport_exemption_by_niss[employee.niss] += other_transport_mean
+                # private car is not exempted
+                other_transport_mean = max(other_transport_mean, mapped_total['CAR.PRIV'])
+                other_transport_exemption_by_niss[employee.niss] += max(other_transport_mean - mapped_total['CAR.PRIV'], 0)
+                if mapped_total['CAR.PRIV'] and mapped_total['ATN.CAR']:
+                    private_car_to_atn += mapped_total['CAR.PRIV']
                 if other_transport_exemption_by_niss[employee.niss] > max_other_transport_exemption:
-                    diff_to_atn = other_transport_exemption_by_niss[employee.niss] - max_other_transport_exemption
+                    diff_to_atn += other_transport_exemption_by_niss[employee.niss] - max_other_transport_exemption
                 other_transport_mean = other_transport_mean - diff_to_atn
+            private_car_to_atn = min(private_car_to_atn, max_other_transport_exemption)
 
             sheet_values = {
                 'employee': employee,
@@ -371,7 +377,7 @@ class L10n_Be281_10(models.Model):
                 'f10_2076_voordelenaardbedrag': _to_eurocent(
                     max(
                         0,
-                        round(sum(mapped_total[code] for code in ['ATN.INT', 'ATN.MOB', 'ATN.LAP', 'ATN.CAR']) + diff_to_atn - other_transport_exemption, 2) if has_company_car else round(sum(mapped_total[code] for code in ['ATN.INT', 'ATN.MOB', 'ATN.LAP', 'ATN.CAR']), 2))),
+                        round(sum(mapped_total[code] for code in ['ATN.INT', 'ATN.MOB', 'ATN.LAP', 'ATN.CAR']) + diff_to_atn - other_transport_exemption + private_car_to_atn, 2) if has_company_car else round(sum(mapped_total[code] for code in ['ATN.INT', 'ATN.MOB', 'ATN.LAP', 'ATN.CAR']), 2))),
                 # f10_2077_totaal
                 'f10_2078_compensationamountwithoutstandards': _to_eurocent(round(mapped_total['REP.FEES.VOLATILE'], 2)),
                 'f10_2079_covidovertimeremuneration2023': 0,

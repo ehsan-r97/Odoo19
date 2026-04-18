@@ -89,7 +89,7 @@ class ProductTemplate(models.Model):
             ('product_template_id', 'in', self.ids),
             ('state', '=', 'sale')])
         if confirmed_lines:
-            self.recurring_invoice = not self.recurring_invoice
+            self.recurring_invoice = self._origin.recurring_invoice
             return {'warning': {
                 'title': _("Warning"),
                 'message': _(

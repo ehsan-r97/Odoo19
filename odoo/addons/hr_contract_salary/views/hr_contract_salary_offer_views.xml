@@ -152,13 +152,19 @@
                             <label for="sign_template_id" string="PDF Template"/>
                             <div class="o_row">
                                 <field name="sign_template_id" options="{'no_create': True}"
-                                    readonly="contract_template_id" placeholder="Select the PDF that the employee will sign"/>
+                                    readonly="has_sign_template" placeholder="Select the PDF that the employee will sign"/>
                                 <button name="action_edit_offer_signatories" type="object" class="btn btn-secondary"
                                     string="Edit Signatories" invisible="sign_template_id" disabled="1"/>
                                 <button name="action_edit_offer_signatories" type="object" class="btn btn-secondary"
                                     string="Edit Signatories" invisible="not sign_template_id"/>
                             </div>
                             <field name="final_yearly_costs" readonly="state in ['cancelled', 'full_signed']"/>
+                            <field name="contract_type_id" groups="hr.group_hr_user"
+                                readonly="state in ['cancelled', 'full_signed']"
+                                placeholder="e.g. Permanent, Replacement, Short term" />
+                            <field name="contract_type_id" readonly="1" options="{'no_open': True}"
+                                groups="!hr.group_hr_user"
+                                placeholder="e.g. Permanent, Replacement, Short term" />
                             <field name="job_title" readonly="state == 'cancelled'"
                                 placeholder="e.g. Lead Dev, Junior Consultant"/>
                             <field name="employee_job_id" readonly="state in ['cancelled', 'full_signed']"

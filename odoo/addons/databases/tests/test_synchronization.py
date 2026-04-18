@@ -3,7 +3,7 @@ import urllib.parse
 
 from .common import TestDatabasesCommon
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import freeze_time, tagged
 from odoo.tests.common import users
@@ -539,11 +539,208 @@ class TestSynchronization(TestDatabasesCommon):
             }, headers={'Authorization': 'Bearer admin_apikey', 'X-Odoo-Database': 'odoo-sa'}, allow_redirects=False, timeout=15),
             call('post', 'http://odoo-sa.my.odoo.test/json/2/res.users/write', data=None, json={
                 'ids': [23],
-                'values': {'active': False},
+                'vals': {'active': False},
             }, headers={'Authorization': 'Bearer admin_apikey', 'X-Odoo-Database': 'odoo-sa'}, allow_redirects=False, timeout=15),
         ])
 
         self.assertFalse(remove_wizard.error_message)
+
+    @users('db_manager@company.tld')
+    def test_synchronization_with_duplicate_property_labels(self):
+        Project = self.env['project.project']
+        self.json2_mocked_calls['www.odoo.com']['odoo.database']['list'] = [
+            {'name': 'odoo-sa', 'url': 'http://odoo-sa.my.odoo.test', 'login': 'some_user@odoo.com', 'version': '16.0+e'},
+        ]
+        self.mock_json2_calls_for_db('odoo-sa.my.odoo.test', kpis=[
+            {'id': 'my_kpi.some_unique_id', 'name': 'Duplicate label', 'type': 'integer', 'value': 1},
+            {'id': 'my_kpi.another_unique_id', 'name': 'Duplicate label', 'type': 'integer', 'value': 4},
+        ])
+        Project.action_synchronize_all_databases()
+        new_projects = Project.search([])
+
+        self.assertRecordValues(new_projects.sudo().database_kpi_base_definition_id, [{
+            'properties_definition': [
+                {'name': 'my_kpi_some_unique_id', 'string': 'Duplicate label', 'type': 'integer', 'default': 0},
+                {'name': 'my_kpi_another_unique_id', 'string': 'Duplicate label', 'type': 'integer', 'default': 0},
+            ],
+        }])
+        self.assertRecordValues(new_projects, [{
+            'database_kpi_properties': {
+                'my_kpi_some_unique_id': 1,
+                'my_kpi_another_unique_id': 4,
+            },
+        }])
+
+    @users('db_manager@company.tld')
+    def test_synchronize_all_databases_synchronization_order(self):
+        """Synchronizing all dbs should synchronize db from the user triggering the action first"""
+        # set the synchronization limit to 1
+        self.env['ir.config_parameter'].sudo().set_param('databases.immediate_sync_limit', 1)
+
+        # create 2 db records, 1 in which the user has a login record, another one without
+        db_other, db_user = self.env['project.project'].create([
+            {
+                'name': 'Other DB',
+                'database_hosting': 'saas',
+                'database_url': 'http://other-db.odoo.test',
+                'database_name': 'other-db',
+                'database_api_login': 'admin',
+                'database_api_key': 'key',
+            },
+            {
+                'name': 'User DB',
+                'database_hosting': 'saas',
+                'database_url': 'http://user-db.odoo.test',
+                'database_name': 'user-db',
+                'database_api_login': 'admin',
+                'database_api_key': 'key',
+                'database_user_ids': [Command.create({
+                    'name': self.env.user.name,
+                    'login': self.env.user.login,
+                })]
+            },
+        ])
+
+        # call action_synchronize_all_databases
+        self.json2_mocked_calls['www.odoo.com']['odoo.database']['list'] = []
+        self.mock_json2_calls_for_db('user-db.odoo.test')
+        self.mock_json2_calls_for_db('other-db.odoo.test')
+
+        self.env['project.project'].action_synchronize_all_databases()
+
+        # Ensure the db from the user was synchronized and that the other wasn't synchronized
+        self.assertTrue(db_user.database_last_synchro, "The db in which the user can login should get synchronized first")
+        self.assertFalse(
+            db_other.database_last_synchro,
+            "Considering that only one db can be synchronized right now, the db without a user should have been delayed."
+        )
+
+    @users('db_manager@company.tld')
+    def test_synchronize_several_selected_databases_synchronization_order(self):
+        """Synchronizing a selection of dbs should synchronize selected dbs in which the user can loggin first"""
+        # set the synchronization limit to 1
+        self.env['ir.config_parameter'].sudo().set_param('databases.immediate_sync_limit', 1)
+
+        # create 3 db records, 2 in which the user has a login record, another one without
+        db_user_1, db_other, db_user_2 = self.env['project.project'].create([
+            {
+                'name': 'User DB 1',
+                'database_hosting': 'saas',
+                'database_url': 'http://user-db-1.odoo.test',
+                'database_name': 'user-db-1',
+                'database_api_login': 'admin',
+                'database_api_key': 'key',
+                'database_user_ids': [Command.create({
+                    'name': self.env.user.name,
+                    'login': self.env.user.login,
+                })]
+            },
+            {
+                'name': 'Other DB',
+                'database_hosting': 'saas',
+                'database_url': 'http://other-db.odoo.test',
+                'database_name': 'other-db',
+                'database_api_login': 'admin',
+                'database_api_key': 'key',
+            },
+            {
+                'name': 'User DB 2',
+                'database_hosting': 'saas',
+                'database_url': 'http://user-db-2.odoo.test',
+                'database_name': 'user-db-2',
+                'database_api_login': 'admin',
+                'database_api_key': 'key',
+                'database_user_ids': [Command.create({
+                    'name': self.env.user.name,
+                    'login': self.env.user.login,
+                })]
+            }
+        ])
+
+        # select 1 db with a login and another one without and call action_database_synchronize on those
+        selected_dbs = db_other + db_user_2
+        self.mock_json2_calls_for_db('user-db-1.odoo.test')
+        self.mock_json2_calls_for_db('user-db-2.odoo.test')
+        self.mock_json2_calls_for_db('other-db.odoo.test')
+        selected_dbs.action_database_synchronize()
+
+        self.assertFalse(db_user_1.database_last_synchro, "This db wasn't selected and shouldn't have been synchronized")
+        self.assertTrue(
+            db_user_2.database_last_synchro,
+            "This db is selected + the user can log in and thus should have been synchronized first"
+        )
+        self.assertFalse(
+            db_other.database_last_synchro,
+            "This db is selected but doesn't contain the user and should have been delayed"
+        )
+
+    @users('db_manager@company.tld')
+    def test_ensuring_synchronization_order_change_depending_on_user(self):
+        """This test ensure the sync order really changes depending on the user being in the databases"""
+        # set the synchronization limit to 1
+        self.env['ir.config_parameter'].sudo().set_param('databases.immediate_sync_limit', 1)
+
+        # first ensure the databases are sync by id
+        db_first_sync, db_second_sync = self.env['project.project'].create([
+            {
+                'name': 'Other DB',
+                'database_hosting': 'saas',
+                'database_url': 'http://other-db.odoo.test',
+                'database_name': 'other-db',
+                'database_api_login': 'admin',
+                'database_api_key': 'key',
+            },
+            {
+                'name': 'User DB',
+                'database_hosting': 'saas',
+                'database_url': 'http://another-db.odoo.test',
+                'database_name': 'user-db',
+                'database_api_login': 'admin',
+                'database_api_key': 'key',
+            },
+        ])
+        self.json2_mocked_calls['www.odoo.com']['odoo.database']['list'] = []
+        self.mock_json2_calls_for_db('user-db.odoo.test')
+        self.mock_json2_calls_for_db('other-db.odoo.test')
+
+        self.env['project.project'].action_synchronize_all_databases()
+
+        self.assertTrue(db_first_sync.database_last_synchro, "This db should have been synchronized considering the default order")
+        self.assertFalse(
+            db_second_sync.database_last_synchro,
+            "This db synchronization should have been delayed considering the default order"
+        )
+
+        # Synchronize a second time and ensure the second db was synchronized
+        self.env['project.project'].action_synchronize_all_databases()
+
+        # ensure second sync will sync this one
+        self.assertTrue(db_second_sync.database_last_synchro, "The second synchronization should have synchronize this db first")
+
+        # reset sync date, add a user and ensure it impacts the sync order
+        dbs = (db_first_sync + db_second_sync)
+        dbs.database_last_synchro = False
+        self.assertFalse(any(dbs.mapped('database_last_synchro')))
+
+        self.json2_mocked_calls['www.odoo.com']['odoo.database']['list'] = []
+        self.mock_json2_calls_for_db('user-db.odoo.test')
+        self.mock_json2_calls_for_db('other-db.odoo.test')
+        db_second_sync.write({
+            'database_user_ids': [Command.create({
+                'name': self.env.user.name,
+                'login': self.env.user.login,
+            })]
+        })
+
+        self.env['project.project'].action_synchronize_all_databases()
+        self.assertTrue(
+            db_second_sync.database_last_synchro,
+            "The user can log into this db and thus it should have been synchronized first"
+        )
+        self.assertFalse(
+            db_first_sync.database_last_synchro,
+            "This db synchronization should have been delayed considering only one db can be synchronized"
+        )
 
 
 @tagged('-at_install', 'post_install')

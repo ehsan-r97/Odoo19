@@ -5,6 +5,7 @@ import hashlib
 from collections import defaultdict, OrderedDict
 from odoo import fields, http, models, _, Command
 
+from odoo.addons.hr_contract_salary.utils.hr_version import hr_version_context
 from odoo.addons.sign.controllers.main import Sign
 from odoo.exceptions import UserError
 from odoo.http import request
@@ -52,6 +53,9 @@ class SignContract(Sign):
             version.hash_token = False
             if version.applicant_id:
                 version.applicant_id.employee_id = version.employee_id
+                # once user is created, never update the work_email through simulator.
+                if not version.employee_id.user_id:
+                    version.employee_id.work_email = False
             version.wage_on_signature = wage_to_apply
 
             if not request_item.sign_request_id.nb_wait:
@@ -236,11 +240,7 @@ class HrContractSalary(http.Controller):
         for bundle_name in ["web.assets_frontend", "web.assets_frontend_lazy"]:
             request.env["ir.qweb"]._get_asset_nodes(bundle_name, debug=debug, js=True, css=True)
 
-        # THE REST OF THE TRANSACTION WILL BE ROLLED-BACK
-        # This is just a simulation.
-
-        request.env.flush_all()
-        with request.env.cr.savepoint(flush=False) as sp:
+        with hr_version_context(request):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(kw.get('token'), offer, version)
@@ -285,23 +285,20 @@ class HrContractSalary(http.Controller):
 
             response = request.render("hr_contract_salary.salary_package", values)
             response.flatten()
-            request.env.flush_all()
-            sp.rollback()
+
         return response
 
     @http.route(['/salary_package/thank_you/<int:offer_id>'], type='http', auth="public", website=True, sitemap=False)
     def salary_package_thank_you(self, offer_id=None, **kw):
-        offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
-        request.env.flush_all()
-        with request.env.cr.savepoint(flush=False) as sp:
+        with hr_version_context(request):
+            offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             result = request.render("hr_contract_salary.salary_package_thank_you", {
                 'responsible_name': version.hr_responsible_id.partner_id.name or version.job_id.user_id.partner_id.name,
                 'responsible_email': version.hr_responsible_id.work_email or version.job_id.user_id.partner_id.email,
                 'responsible_phone': version.hr_responsible_id.work_phone or version.job_id.user_id.partner_id.phone,
             })
-            request.env.flush_all()
-            sp.rollback()
+
         return result
 
     def _get_personal_infos_countries(self, version, personal_info):
@@ -592,18 +589,16 @@ class HrContractSalary(http.Controller):
 
         # Update personal info on the employee
         if bank_account_vals:
-            bank_account_vals['partner_id'] = partner.id
-            existing_bank_account = request.env['res.partner.bank'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('acc_number', '=', bank_account_vals['acc_number'])], limit=1)
-            if existing_bank_account:
-                bank_account = existing_bank_account
-                if bank_account_vals.get('acc_holder_name'):
-                    bank_account.sudo().acc_holder_name = bank_account_vals['acc_holder_name']
-            else:
-                bank_account = request.env['res.partner.bank'].sudo().create(bank_account_vals)
-
-            employee_vals['bank_account_ids'] = [Command.link(bank_account.id)]
+            bank_account = request.env['res.partner.bank'].sudo()._find_or_create_bank_account(
+                account_number=bank_account_vals['acc_number'],
+                partner=partner,
+                company=employee.company_id,
+                extra_create_vals=bank_account_vals,
+            )
+            employee_vals['bank_account_ids'] = [Command.set([bank_account.id])]
+            acc_holder_name = bank_account_vals.get('acc_holder_name')
+            if acc_holder_name and bank_account.sudo().acc_holder_name != acc_holder_name:
+                bank_account.sudo().acc_holder_name = acc_holder_name
 
         employee_vals['work_contact_id'] = partner.id
 
@@ -727,35 +722,42 @@ class HrContractSalary(http.Controller):
 
         return new_version, version_diff
 
+    def _update_salary(self, offer, version, benefits=None, **kw):
+        """
+        Internal implementation of `update_salary`.
+
+        Override this method instead of `update_salary` to avoid multiple calls to `_get_version`
+        """
+        result = {}
+        version_vals = version._get_values_dict()
+        new_version = self.create_new_version(version_vals, offer.id, benefits, no_write=True)[0]
+        final_yearly_costs = float(benefits['version']['final_yearly_costs'] or 0.0)
+        new_gross = new_version._get_gross_from_employer_costs(final_yearly_costs)
+        new_version.write({
+            'wage': new_gross,
+            'final_yearly_costs': final_yearly_costs,
+        })
+
+        result['new_gross'] = round(new_gross, 2)
+        new_version = new_version.with_context(
+            origin_version_id=version.id,
+            simulation_working_schedule=kw.get('simulation_working_schedule', False))
+        result.update(self._get_compute_results(new_version))
+        return result
+
     @http.route('/salary_package/update_salary', type="jsonrpc", auth="public")
     def update_salary(self, offer_id=None, benefits=None, **kw):
         result = {}
 
-        request.env.flush_all()
-        with request.env.cr.savepoint(flush=False) as sp:
-
+        with hr_version_context(request):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(kw.get('token'), offer, version)
             if not has_access:
                 return error_page
-            version_vals = version._get_values_dict()
-            new_version = self.create_new_version(version_vals, offer_id, benefits, no_write=True)[0]
-            final_yearly_costs = float(benefits['version']['final_yearly_costs'] or 0.0)
-            new_gross = new_version._get_gross_from_employer_costs(final_yearly_costs)
-            new_version.write({
-                'wage': new_gross,
-                'final_yearly_costs': final_yearly_costs,
-            })
 
-            result['new_gross'] = round(new_gross, 2)
-            new_version = new_version.with_context(
-                origin_version_id=version.id,
-                simulation_working_schedule=kw.get('simulation_working_schedule', False))
-            result.update(self._get_compute_results(new_version))
+            result.update(self._update_salary(offer, version, benefits, **kw))
 
-            request.env.flush_all()
-            sp.rollback()
         return result
 
     def _get_compute_results(self, new_version):
@@ -807,6 +809,17 @@ class HrContractSalary(http.Controller):
             result['resume_lines_mapped'][resume_line.category_id.name][resume_line.code] = (resume_line.name, round(float(monthly_total), 2), uoms['currency'], uoms['position'], resume_explanation, resume_line.uom)
         return result
 
+    def _onchange_benefit(self, offer, version, benefit_field, new_value, benefits, **kw):
+        benefit = request.env['hr.contract.salary.benefit'].sudo().search([
+            ('structure_type_id', '=', version.structure_type_id.id),
+            ('field', '=', benefit_field)], limit=1)
+        if hasattr(version, '_get_description_%s' % benefit_field):
+            description = getattr(version, '_get_description_%s' % benefit_field)(new_value)
+        else:
+            description = benefit.description
+
+        return {'new_value': new_value, 'description': description, 'extra_values': False}
+
     @http.route(['/salary_package/onchange_benefit'], type='jsonrpc', auth='public')
     def onchange_benefit(self, benefit_field, new_value, offer_id, benefits, **kw):
         # Return a dictionary describing the new benefit configuration:
@@ -816,23 +829,17 @@ class HrContractSalary(http.Controller):
         #                to the benefit new_value
         # Override this controllers to add customize
         # the returned value for a specific benefit
-        offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
-        request.env.flush_all()
-        with request.env.cr.savepoint(flush=False) as sp:
+        result = {}
+        with hr_version_context(request):
+            offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(kw.get('token'), offer, version)
             if not has_access:
                 return error_page
-            benefit = request.env['hr.contract.salary.benefit'].sudo().search([
-                ('structure_type_id', '=', version.structure_type_id.id),
-                ('field', '=', benefit_field)], limit=1)
-            if hasattr(version, '_get_description_%s' % benefit_field):
-                description = getattr(version, '_get_description_%s' % benefit_field)(new_value)
-            else:
-                description = benefit.description
-            request.env.flush_all()
-            sp.rollback()
-        return {'new_value': new_value, 'description': description, 'extra_values': False}
+
+            result.update(self._onchange_benefit(offer, version, benefit_field, new_value, benefits, **kw))
+
+        return result
 
     @http.route(['/salary_package/onchange_personal_info'], type='jsonrpc', auth='public')
     def onchange_personal_info(self, field, value):
@@ -938,12 +945,11 @@ class HrContractSalary(http.Controller):
 
     @http.route(['/salary_package/submit'], type='jsonrpc', auth='public')
     def submit(self, offer_id=None, benefits=None, **kw):
-        offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id).exists()
-        if not offer.applicant_id and not offer.employee_version_id:
-            raise UserError(_('This link is invalid. Please contact the HR Responsible to get a new one...'))
+        with hr_version_context(request):
+            offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id).exists()
+            if not offer.applicant_id and not offer.employee_version_id:
+                raise UserError(_('This link is invalid. Please contact the HR Responsible to get a new one...'))
 
-        request.env.flush_all()
-        with request.env.cr.savepoint(flush=False) as sp:
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(kw.get('token'), offer, version)
             if not has_access:
@@ -951,8 +957,6 @@ class HrContractSalary(http.Controller):
             if version.employee_id.user_id == request.env.user:
                 kw['employee'] = version.employee_id
             version_vals = version._get_values_dict()
-            request.env.flush_all()
-            sp.rollback()
 
         kw['package_submit'] = True
         new_version = self.create_new_version(version_vals, offer_id, benefits, no_write=True, **kw)
@@ -1091,21 +1095,17 @@ class HrContractSalary(http.Controller):
 
     @http.route(['/salary_package/post_feedback'], type='jsonrpc', auth='public')
     def refuse(self, offer_id, feedback=None, token=None):
-        offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id).exists()
-        if not offer.applicant_id and not offer.employee_version_id:
-            raise UserError(_('This link is invalid. Please contact the HR Responsible to get a new one...'))
+        with hr_version_context(request):
+            offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id).exists()
+            if not offer.applicant_id and not offer.employee_version_id:
+                raise UserError(_('This link is invalid. Please contact the HR Responsible to get a new one...'))
 
-        request.env.flush_all()
-        with request.env.cr.savepoint(flush=False) as sp:
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(token, offer, version)
             if not has_access:
                 return error_page
             if not version and (not token or not consteq(offer.access_token, token)):
                 raise UserError(_('This link is invalid. Please contact the HR Responsible to get a new one...'))
-
-            request.env.flush_all()
-            sp.rollback()
 
         if feedback:
             partner = offer.applicant_id.partner_id or offer.employee_id.work_contact_id

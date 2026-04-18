@@ -18,7 +18,8 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 'sequence': 50,
                 'action': 'export_file',
                 'action_param': 'l10n_lu_export_saft_to_xml',
-                'file_export_type': _('XML')
+                'file_export_type': _('XML'),
+                'branch_allowed': True,
             })
 
     @api.model
@@ -126,6 +127,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 if line_vals['tax_line_id']:
                     move_vals['tax_detail_vals_list'].append({
                         'currency_id': line_vals['currency_id'],
+                        'currency_code': line_vals['currency_code'],
                         'tax_id': line_vals['tax_line_id'],
                         'tax_name': line_vals['tax_name'],
                         'tax_amount': line_vals['tax_amount'],

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 19:04+0000\n"
+"POT-Creation-Date: 2026-02-13 19:02+0000\n"
 "PO-Revision-Date: 2025-11-18 17:11+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19-l10n/"
@@ -42,6 +42,12 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/l10n_eu_iot_scale_cert/static/src/app/scale_certification_status/scale_certification_dialog.xml:0
 msgid "Certified Odoo Point of Sale"
+msgstr ""
+
+#. module: l10n_eu_iot_scale_cert
+#. odoo-javascript
+#: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/components/product_screen/certified_product_screen.js:0
+msgid "Certified Scale error"
 msgstr ""
 
 #. module: l10n_eu_iot_scale_cert
@@ -203,6 +209,12 @@ msgstr "Nienazwany produkt"
 #: code:addons/l10n_eu_iot_scale_cert/static/src/app/scale_certification_status/scale_certification_dialog.xml:0
 msgid "Warning"
 msgstr "Ostrzeżenie"
+
+#. module: l10n_eu_iot_scale_cert
+#. odoo-javascript
+#: code:addons/l10n_eu_iot_scale_cert/static/src/pos_overrides/components/product_screen/certified_product_screen.js:0
+msgid "You cannot change quantity of a product which needs to be weighed"
+msgstr ""
 
 #. module: l10n_eu_iot_scale_cert
 #. odoo-javascript

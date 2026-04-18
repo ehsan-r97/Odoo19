@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:45+0000\n"
-"PO-Revision-Date: 2026-01-23 18:05+0000\n"
+"POT-Creation-Date: 2026-02-13 18:42+0000\n"
+"PO-Revision-Date: 2026-02-19 07:50+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Czech <https://translate.odoo.com/projects/odoo-19/ai/cs/>\n"
 "Language: cs\n"
@@ -115,8 +115,8 @@ msgstr ""
 "\n"
 "            Klíčové body:\n"
 "- ⚠️ Vrací pouze POLE PRO VYHLEDÁVÁNÍ – ostatní nelze použít v doménách\n"
-"- Pro vztahy: Zobrazuje související model v závorkách "
-"(many2one, one2many, many2many)\n"
+"- Pro vztahy: Zobrazuje související model v závorkách (many2one, one2many, "
+"many2many)\n"
 "- K přechodu na jiné modely lze použít pouze pole vztahů\n"
 "- Literální pole, jako jsou char/text/float, NELZE použít pro přechod\n"
 "            - 'sortable' označuje, zda lze pole použít v parametru order_by\n"
@@ -157,8 +157,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"            Seznam číselných polí (měřítek) dostupných pro agregaci v pivotní"
-"ch/grafických zobrazeních.\n"
+"            Seznam číselných polí (měřítek) dostupných pro agregaci v "
+"pivotních/grafických zobrazeních.\n"
 "Musí být voláno před použitím měřítek v open_menu_pivot() nebo "
 "open_menu_graph().\n"
 "\n"
@@ -224,8 +224,8 @@ msgstr ""
 "- Ovládání pořadí (ASC/DESC)\n"
 "\n"
 "💡 Nejprve zavolejte compute_report_measures(), abyste našli platné míry\n"
-"⚠️ Každý vyhledávací řetězec musí mít formát „pole=text“. Pole může "
-"obsahovat více vyhledávacích řetězců nebo může být prázdné [].\n"
+"⚠️ Každý vyhledávací řetězec musí mít formát „pole=text“. Pole může obsahovat "
+"více vyhledávacích řetězců nebo může být prázdné [].\n"
 "⚠️ Režim musí být přesně „bar“, „line“ nebo „pie“.\n"
 "⚠️ Pořadí musí být přesně „ASC“ nebo „DESC“.\n"
 "        "
@@ -264,8 +264,8 @@ msgstr ""
 "- Ideální pro CRM pipeline, tabule úkolů, pracovní postupy projektů\n"
 "\n"
 "⚠️ Používejte pouze názvy filtrů a pole pro seskupení z dat nabídky\n"
-"⚠️ Každý vyhledávací řetězec musí mít formát „pole=text“. Pole může "
-"obsahovat více vyhledávacích řetězců nebo může být prázdné []\n"
+"⚠️ Každý vyhledávací řetězec musí mít formát „pole=text“. Pole může obsahovat "
+"více vyhledávacích řetězců nebo může být prázdné []\n"
 "        "
 
 #. module: ai
@@ -347,8 +347,8 @@ msgstr ""
 "\n"
 "            Otevře kontingenční tabulku s pokročilým vyhledáváním a "
 "filtrováním.\n"
-"Nejvhodnější pro: dotazy „Top N“, žebříčky, křížové tabulky, metriky výkonu."
-"\n"
+"Nejvhodnější pro: dotazy „Top N“, žebříčky, křížové tabulky, metriky "
+"výkonu.\n"
 "\n"
 "Klíčové funkce:\n"
 "- Podporuje filtry z vyhledávacího zobrazení\n"
@@ -414,10 +414,10 @@ msgstr ""
 "Vrací CSV s oddělovačem pipe (|):\n"
 "```\n"
 " menu_id|model_name|context|domain|search_view\n"
-"389|sale.order|{\"search_default_my_quotation\": "
-"1}|[]|<search><fields>...</fields></search>\n"
-"172|account.move|{\"search_default_draft\": 1}|"
-"[[\"type\", \"=\", \"out_invoice\"]]|<search>...</search>\n"
+"389|sale.order|{\"search_default_my_quotation\": 1}|[]|<search><fields>...</"
+"fields></search>\n"
+"172|account.move|{\"search_default_draft\": 1}|[[\"type\", \"=\", "
+"\"out_invoice\"]]|<search>...</search>\n"
 "```\n"
 "\n"
 "Klíčové informace:\n"
@@ -544,9 +544,9 @@ msgid ""
 "ai_tool_show_warning\" aria-hidden=\"true\" title=\"The AI will not be "
 "limited by the groups defined on tools\"/>"
 msgstr ""
-"<i class=\"fa fa-warning text-warning me-2\" invisible="
-"\"not ai_tool_show_warning\" aria-hidden=\"true\" title="
-"\"AI nebude omezena skupinami definovanými v nástrojích\"/>"
+"<i class=\"fa fa-warning text-warning me-2\" invisible=\"not "
+"ai_tool_show_warning\" aria-hidden=\"true\" title=\"AI nebude omezena "
+"skupinami definovanými v nástrojích\"/>"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.ai_log_action
@@ -907,8 +907,8 @@ msgid ""
 "persons. Channel can be freely joined (depending on its configuration)."
 msgstr ""
 "Chat je soukromý a jedinečný mezi dvěma osobami. Skupina je soukromá mezi "
-"pozvanými osobami. Kanál může být libovolně zpřístupněn "
-"(v závislosti na jeho konfiguraci)."
+"pozvanými osobami. Kanál může být libovolně zpřístupněn (v závislosti na "
+"jeho konfiguraci)."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__checksum
@@ -1051,6 +1051,7 @@ msgstr "Diskuzní kanál"
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__display_name
 #: model:ir.model.fields,field_description:ai.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:ai.field_ir_http__display_name
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_composer_mixin__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_render_mixin__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_template__display_name
@@ -1149,6 +1150,16 @@ msgid "Field Selector"
 msgstr "Selektor polí"
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__ttype
+msgid "Field Type"
+msgstr "Typ pole"
+
+#. module: ai
+#: model:ir.model,name:ai.model_ir_model_fields
+msgid "Fields"
+msgstr "Pole"
+
+#. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__type__binary
 msgid "File"
 msgstr "Soubor"
@@ -1206,6 +1217,7 @@ msgstr "Dobrý den, s čím vám mohu pomoci?"
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__id
 #: model:ir.model.fields,field_description:ai.field_ir_attachment__id
 #: model:ir.model.fields,field_description:ai.field_ir_http__id
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__id
 #: model:ir.model.fields,field_description:ai.field_mail_composer_mixin__id
 #: model:ir.model.fields,field_description:ai.field_mail_render_mixin__id
 #: model:ir.model.fields,field_description:ai.field_mail_template__id
@@ -1324,8 +1336,8 @@ msgid ""
 "JSON schema for the parameters of the action (leave empty if no arguments "
 "are needed)"
 msgstr ""
-"JSON schéma pro parametry akce "
-"(nechte prázdné, pokud nejsou potřeba žádné argumenty)"
+"JSON schéma pro parametry akce (nechte prázdné, pokud nejsou potřeba žádné "
+"argumenty)"
 
 #. module: ai
 #: model_terms:ir.ui.view,arch_db:ai.res_config_settings_view_form
@@ -1851,8 +1863,8 @@ msgstr "Název"
 #: model_terms:ir.ui.view,arch_db:ai.ir_actions_server_view_form
 msgid "To return a result to the AI agent, do <code>ai['result'] = ...</code>"
 msgstr ""
-"Chcete-li vrátit výsledek agentovi AI, proveďte <code>ai['result'] = "
-"...</code>"
+"Chcete-li vrátit výsledek agentovi AI, proveďte <code>ai['result'] = ...</"
+"code>"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_ids
@@ -1927,7 +1939,8 @@ msgstr "URL"
 #. odoo-python
 #: code:addons/ai/utils/html_extractor.py:0
 msgid "URL %(url)s returned non-HTML content: %(content_type)s"
-msgstr "URL %(url)s vrátila obsah, který není ve formátu HTML: %(content_type)s"
+msgstr ""
+"URL %(url)s vrátila obsah, který není ve formátu HTML: %(content_type)s"
 
 #. module: ai
 #. odoo-python
@@ -2071,3 +2084,8 @@ msgstr "provedeno."
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "fa-hashtag"
 msgstr "fa-hashtag"
+
+#. module: ai
+#: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
+msgid "vector"
+msgstr "vektor"

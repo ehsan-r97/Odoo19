@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:45+0000\n"
+"POT-Creation-Date: 2026-02-13 18:42+0000\n"
 "PO-Revision-Date: 2025-11-20 08:15+0000\n"
 "Last-Translator: \"Chloe Wang (chwa)\" <chwa@odoo.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
@@ -1007,6 +1007,7 @@ msgstr "讨论群组"
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__display_name
 #: model:ir.model.fields,field_description:ai.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:ai.field_ir_http__display_name
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_composer_mixin__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_render_mixin__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_template__display_name
@@ -1105,6 +1106,16 @@ msgid "Field Selector"
 msgstr "字段选择"
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__ttype
+msgid "Field Type"
+msgstr ""
+
+#. module: ai
+#: model:ir.model,name:ai.model_ir_model_fields
+msgid "Fields"
+msgstr ""
+
+#. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__type__binary
 msgid "File"
 msgstr "文件"
@@ -1162,6 +1173,7 @@ msgstr "您好，有什么需要帮忙？"
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__id
 #: model:ir.model.fields,field_description:ai.field_ir_attachment__id
 #: model:ir.model.fields,field_description:ai.field_ir_http__id
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__id
 #: model:ir.model.fields,field_description:ai.field_mail_composer_mixin__id
 #: model:ir.model.fields,field_description:ai.field_mail_render_mixin__id
 #: model:ir.model.fields,field_description:ai.field_mail_template__id
@@ -2003,6 +2015,11 @@ msgstr "已执行。"
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "fa-hashtag"
 msgstr "fa-hashtag"
+
+#. module: ai
+#: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
+msgid "vector"
+msgstr ""
 
 #~ msgid "An error occurred while generating the AI response."
 #~ msgstr "生成 AI 响应时发生错误。"

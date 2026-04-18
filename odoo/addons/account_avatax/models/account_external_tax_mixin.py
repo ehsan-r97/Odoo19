@@ -29,7 +29,7 @@ class AccountExternalTaxMixin(models.AbstractModel):
     @api.constrains('partner_id', 'fiscal_position_id')
     def _check_address(self):
         incomplete_partner_to_records = {}
-        for record in self.filtered(lambda r: r.is_avatax and r._get_avatax_service_params()['perform_address_validation']):
+        for record in self.filtered(lambda r: r.is_avatax and r.is_tax_computed_externally and r._get_avatax_service_params()['perform_address_validation']):
             partner = record.partner_id
             country = partner.country_id
             if (
@@ -90,14 +90,14 @@ class AccountExternalTaxMixin(models.AbstractModel):
                 name=product.display_name,
                 id=product.id,
             ))
-        item_code = f'UPC:{product.barcode}' if base_line['record'].company_id.avalara_use_upc and product.barcode else product.code
+        item_code = f'UPC:{product.barcode}' if base_line['record'].company_id.avalara_use_upc and product.barcode else product.code or ''
         subtotal = base_line['tax_details']['total_excluded_currency']
         return {
             'amount': -subtotal if is_refund else subtotal,
             'description': line_data['description'],
             'quantity': abs(base_line['quantity']),
             'taxCode': avatax_category.code,
-            'itemCode': item_code,
+            'itemCode': item_code[:50],
             'number': "%s,%s" % (base_line['record']._name, base_line['id']),
         }
 

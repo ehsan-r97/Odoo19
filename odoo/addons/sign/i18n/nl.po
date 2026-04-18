@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-02-20 18:41+0000\n"
+"PO-Revision-Date: 2026-03-27 18:03+0000\n"
 "Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/sign/nl/>\n"
 "Language: nl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_res_partner__signature_count
@@ -360,6 +360,9 @@ msgid ""
 "                                    Shared\n"
 "                                </span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\" title=\"Shared\">\n"
+"                                    Gedeeld\n"
+"                                </span>"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
@@ -401,19 +404,6 @@ msgstr "<span class=\"text-muted\">Niet beschikbaar</span>"
 msgid "<span class=\"text-nowrap\">Add certificate on each page</span>"
 msgstr ""
 "<span class=\"text-nowrap\">Certificaat toevoegen op elke pagina</span>"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
-msgid ""
-"<span groups=\"base.group_system\">\n"
-"                                    Certify your documents using a "
-"provided .pfx or .p12 file.\n"
-"                                </span>"
-msgstr ""
-"<span groups=\"base.group_system\">\n"
-"                                    Certificeer je documenten met behulp van "
-"een meegeleverd .pfx- of .p12-bestand.\n"
-"                                </span>"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_kanban
@@ -725,7 +715,7 @@ msgstr "Antwrep"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_form
 msgid "Anyone"
-msgstr ""
+msgstr "Iedereen"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_view_kanban
@@ -822,7 +812,7 @@ msgstr "Bevoegde gebruikers:"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_item_type_view_form
 msgid "Autocomplete this field"
-msgstr ""
+msgstr "Dit veld automatisch aanvullen"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_send_request_view_form
@@ -976,6 +966,11 @@ msgstr "Certificaat van afronding<br/>"
 #: code:addons/sign/models/sign_request.py:0
 msgid "Certificate of completion - %s.pdf"
 msgstr "Voltooiingscertificaat - %s.pdf"
+
+#. module: sign
+#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
+msgid "Certify your documents using a provided .pfx or .p12 file."
+msgstr "Certificeer je documenten met een meegeleverd .pfx- of .p12-bestand."
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_item_role__change_authorized
@@ -2580,7 +2575,7 @@ msgstr "Nog geen document"
 #. odoo-javascript
 #: code:addons/sign/static/src/views/helper/sign_action_helper.xml:0
 msgid "No documents here"
-msgstr ""
+msgstr "Hier zijn geen documenten"
 
 #. module: sign
 #. odoo-python
@@ -2592,7 +2587,7 @@ msgstr "Geen gespecificeerde reden"
 #. odoo-javascript
 #: code:addons/sign/static/src/views/helper/sign_action_helper.xml:0
 msgid "No template here"
-msgstr ""
+msgstr "Hier is geen sjabloon"
 
 #. module: sign
 #: model_terms:ir.actions.act_window,help:sign.sign_template_action
@@ -2924,7 +2919,7 @@ msgstr "Doorverwijzing URL"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_form
 msgid "Redirect signers to a page after signing"
-msgstr ""
+msgstr "Ondertekenaars na ondertekening doorsturen naar een pagina"
 
 #. module: sign
 #: model:ir.model.fields.selection,name:sign.selection__sign_log__action__refuse
@@ -2990,13 +2985,13 @@ msgstr "Verhuur"
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_action.js:0
 msgid "Replace Document"
-msgstr ""
+msgstr "Document vervangen"
 
 #. module: sign
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_sidebar.xml:0
 msgid "Replace document"
-msgstr ""
+msgstr "Document vervangen"
 
 #. module: sign
 #: model:ir.ui.menu,name:sign.sign_reports
@@ -3672,7 +3667,7 @@ msgstr "Handtekening gestart"
 #. module: sign
 #: model:ir.model,name:sign.model_sign_template
 msgid "Signature Template"
-msgstr "Handtekeningssjabloon"
+msgstr "Handtekeningsjabloon"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_tree
@@ -3781,7 +3776,7 @@ msgstr "Ondertekenaar"
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_action.js:0
 msgid "Signer "
-msgstr ""
+msgstr "Ondertekenaar "
 
 #. module: sign
 #. odoo-javascript
@@ -4947,6 +4942,7 @@ msgstr ""
 #: code:addons/sign/models/sign_template.py:0
 msgid "You need at least one field type in order to sign a document!"
 msgstr ""
+"Je hebt minstens één veldtype nodig om een document te kunnen ondertekenen!"
 
 #. module: sign
 #. odoo-python
@@ -5344,6 +5340,17 @@ msgstr "jou"
 #: model_terms:ir.ui.view,arch_db:sign.green_report_el_pdf
 msgid "{{0}} Summary"
 msgstr "{{0}} Samenvatting"
+
+#~ msgid ""
+#~ "<span groups=\"base.group_system\">\n"
+#~ "                                    Certify your documents using a "
+#~ "provided .pfx or .p12 file.\n"
+#~ "                                </span>"
+#~ msgstr ""
+#~ "<span groups=\"base.group_system\">\n"
+#~ "                                    Certificeer je documenten met behulp "
+#~ "van een meegeleverd .pfx- of .p12-bestand.\n"
+#~ "                                </span>"
 
 #~ msgid ""
 #~ "<span class=\"badge rounded-pill text-bg-success\" title=\"Shared\" "

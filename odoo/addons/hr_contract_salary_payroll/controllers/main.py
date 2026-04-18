@@ -3,6 +3,7 @@
 from collections import defaultdict
 
 from odoo.addons.hr_contract_salary.controllers import main
+from odoo.addons.hr_contract_salary.utils.hr_version import hr_version_context
 from odoo import http, _
 from odoo.exceptions import UserError
 from odoo.http import request
@@ -153,15 +154,13 @@ class HrContractSalary(main.HrContractSalary):
     def create_new_version(self, version_vals, offer_id, benefits, no_write=False, **kw):
         new_version, version_diff = super().create_new_version(version_vals, offer_id, benefits, no_write=no_write, **kw)
         benefits_values = benefits['version']
-        request.env.flush_all()
-        with request.env.cr.savepoint(flush=False) as sp:
+        with hr_version_context(request):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             new_version.write({
                 'payroll_properties': dict(version.payroll_properties),
             })
-            request.env.flush_all()
-            sp.rollback()
+
         self._update_version_payroll_properties(new_version, benefits_values)
         return new_version, version_diff
 

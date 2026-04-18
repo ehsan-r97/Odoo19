@@ -18,8 +18,8 @@ class BankRecWidgetApplyAmountHtmlField extends Component {
 
     async switchApplyAmount(ev) {
         const root = this.env.model.root;
-        const fetchReconciledLines = async (fields = []) => {
-            return await this.orm.searchRead(
+        const fetchReconciledLines = async (fields = []) =>
+            await this.orm.searchRead(
                 "account.move.line",
                 [
                     [
@@ -30,31 +30,36 @@ class BankRecWidgetApplyAmountHtmlField extends Component {
                 ],
                 fields
             );
-        };
 
-        const fetchStatementLines = async (fields = []) => {
-            return await this.orm.searchRead(
+        const fetchStatementLines = async (fields = []) =>
+            await this.orm.searchRead(
                 "account.move.line",
                 [["move_id", "=", root.data.move_id.id]],
                 fields
             );
-        };
 
         if (ev.target.attributes.name?.value === "action_redirect_to_move") {
-            const [line] = await fetchReconciledLines(["amount_residual", "amount_residual_currency", "move_id"]);
+            const [line] = await fetchReconciledLines([
+                "amount_residual",
+                "amount_residual_currency",
+                "move_id",
+            ]);
             await this.openMove(line.move_id[0]);
         } else if (ev.target.attributes.name?.value === "apply_full_amount") {
-            const [line] = await fetchReconciledLines(["amount_currency", "balance"]);
+            const [line] = await fetchReconciledLines([
+                "amount_residual",
+                "amount_residual_currency",
+            ]);
             await root.update({
-                balance: root.data.balance-line.amount_residual,
-                amount_currency: root.data.balance-line.amount_residual_currency,
+                balance: root.data.balance - line.amount_residual,
+                amount_currency: root.data.amount_currency - line.amount_residual_currency,
             });
         } else if (ev.target.attributes.name?.value === "apply_partial_amount") {
-            const lines = await fetchStatementLines(["amount_residual", "amount_residual_currency"]);
+            const lines = await fetchStatementLines(["balance", "amount_currency"]);
             // We have all the lines of the entry, we want the amount of the suspense line
             await root.update({
-                balance: root.data.balance-lines.at(-1).amount_residual,
-                amount_currency: root.data.balance-lines.at(-1).amount_residual_currency,
+                balance: lines.at(-1).balance,
+                amount_currency: lines.at(-1).amount_currency,
             });
         }
     }

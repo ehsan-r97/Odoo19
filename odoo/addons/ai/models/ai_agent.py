@@ -532,7 +532,7 @@ class AIAgent(models.Model):
             system_messages,
             [],
             inputs=(chat_history or []) + [{'role': 'user', 'content': prompt}],
-            tools=self.topic_ids.tool_ids._get_ai_tools(),
+            tools=self.sudo().topic_ids.tool_ids._get_ai_tools(),  # sudo => internal users without admin access should be able to access tools
             temperature=TEMPERATURE_MAP[self.response_style],
         )
         if rag_context:

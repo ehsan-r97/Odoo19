@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 19:03+0000\n"
-"PO-Revision-Date: 2026-02-06 19:03+0000\n"
+"POT-Creation-Date: 2026-04-03 19:13+0000\n"
+"PO-Revision-Date: 2026-04-03 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -241,6 +241,11 @@ msgstr ""
 #. module: l10n_ch_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_1067
 msgid "(1067) Overtime after departure"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_1068
+msgid "(1068) Overtime 200%"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
@@ -899,6 +904,31 @@ msgid "(5403) General AVS Deduction in % (4)"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_5404
+msgid "(5404) General AVS Deduction in % (5)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_5405
+msgid "(5405) General AVS Deduction in % (6)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_5406
+msgid "(5406) General AVS Deduction in % (7)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_5407
+msgid "(5407) General AVS Deduction in % (8)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_5408
+msgid "(5408) General AVS Deduction in % (9)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_hr_elm_input_WT_6000
 msgid "(6000) Expenses travel, car, overnight accommodation"
 msgstr ""
@@ -981,6 +1011,31 @@ msgstr ""
 #. module: l10n_ch_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_7403
 msgid "(7403) General AVS Deduction in % Employer (4)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_7404
+msgid "(7404) General AVS Deduction in % Employer (5)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_7405
+msgid "(7405) General AVS Deduction in % Employer (6)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_7406
+msgid "(7406) General AVS Deduction in % Employer (7)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_7407
+msgid "(7407) General AVS Deduction in % Employer (8)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_7408
+msgid "(7408) General AVS Deduction in % Employer (9)"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
@@ -1622,6 +1677,14 @@ msgstr ""
 #. module: l10n_ch_hr_payroll
 #: model:ir.model.fields.selection,name:l10n_ch_hr_payroll.selection__hr_version__l10n_ch_tax_scale__a
 msgid "A - Scale for single people"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#. odoo-python
+#: code:addons/l10n_ch_hr_payroll/models/hr_payslip.py:0
+msgid ""
+"A previous payslip in the system is required for after departure payement to"
+" work."
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
@@ -3103,6 +3166,36 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_swiss_companies_without_social_insurance
+msgid "Companies Without AVS/AC Insurance"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_swiss_companies_without_lpp_insurance
+msgid "Companies Without LPP Insurance"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_swiss_companies_without_location_unit
+msgid "Companies Without Location Unit"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_swiss_companies_without_salary_certificate_profile
+msgid "Companies Without Salary Certificate Profiles"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_swiss_companies_without_compensation_fund
+msgid "Companies Without Valid Compensation Fund"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_swiss_companies_without_accident_insurance
+msgid "Companies Without Valid LAA Insurance"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
 #: model:ir.model.fields,field_description:l10n_ch_hr_payroll.field_ch_yearly_report__company_id
 #: model:ir.model.fields,field_description:l10n_ch_hr_payroll.field_l10n_ch_accident_insurance__company_id
 #: model:ir.model.fields,field_description:l10n_ch_hr_payroll.field_l10n_ch_additional_accident_insurance__company_id
@@ -4352,6 +4445,7 @@ msgid "Employee Rate (%)"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
+#: model:ir.model.fields,field_description:l10n_ch_hr_payroll.field_hr_employee__registration_number
 #: model_terms:ir.ui.view,arch_db:l10n_ch_hr_payroll.hr_employee_view_form
 msgid "Employee Reference"
 msgstr ""
@@ -4421,6 +4515,101 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ch_hr_payroll.field_hr_employee__l10n_ch_lesson_wage
 #: model:ir.model.fields,help:l10n_ch_hr_payroll.field_hr_version__l10n_ch_lesson_wage
 msgid "Employee's gross wage by lesson."
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_missing_weekly_hours_info
+msgid "Employees Missing Weekly Hours Info"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_social_insurance
+msgid "Employees Without AVS/AC Insurance"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_contract_type
+msgid "Employees Without Contract Type"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_registeration_number
+msgid "Employees Without Employee Reference"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_compensation_fund
+msgid "Employees Without Family Compensation Fund"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_first_name
+msgid "Employees Without First Name"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_laa_code
+msgid "Employees Without LAA Insurance"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_lpp_insurance
+msgid "Employees Without LPP Insurance"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_last_name
+msgid "Employees Without Last Name"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_marital_status
+msgid "Employees Without Marital Status"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_marital_from
+msgid "Employees Without Marital Status Start Date"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_country
+msgid "Employees Without Nationality(Country)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_private_city
+msgid "Employees Without Private Address City"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_private_country
+msgid "Employees Without Private Address Country"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_private_street
+msgid "Employees Without Private Address Street"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_private_zip
+msgid "Employees Without Private Address ZIP"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_canton
+msgid "Employees Without Residence Canton"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_municipality_id
+msgid "Employees Without Residence Municipality"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payroll.dashboard.warning,name:l10n_ch_hr_payroll.hr_payroll_dashboard_warning_employees_without_salary_certificate_profiles
+msgid "Employees Without Salary Certificate Profiles"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
@@ -4978,6 +5167,31 @@ msgid "General AVS Deduction in % (4)"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_5404
+msgid "General AVS Deduction in % (5)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_5405
+msgid "General AVS Deduction in % (6)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_5406
+msgid "General AVS Deduction in % (7)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_5407
+msgid "General AVS Deduction in % (8)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_5408
+msgid "General AVS Deduction in % (9)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
 #: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_7400
 msgid "General AVS Deduction in % Employer"
 msgstr ""
@@ -4995,6 +5209,31 @@ msgstr ""
 #. module: l10n_ch_hr_payroll
 #: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_7403
 msgid "General AVS Deduction in % Employer (4)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_7404
+msgid "General AVS Deduction in % Employer (5)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_7405
+msgid "General AVS Deduction in % Employer (6)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_7406
+msgid "General AVS Deduction in % Employer (7)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_7407
+msgid "General AVS Deduction in % Employer (8)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_7408
+msgid "General AVS Deduction in % Employer (9)"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
@@ -7643,12 +7882,6 @@ msgid "New OASI Split"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
-#. odoo-python
-#: code:addons/l10n_ch_hr_payroll/models/hr_payslip_run.py:0
-msgid "New Payslip"
-msgstr ""
-
-#. module: l10n_ch_hr_payroll
 #: model:ir.model.fields.selection,name:l10n_ch_hr_payroll.selection__hr_employee_is_line_correction__l10n_ch_source_tax_canton__nw
 #: model:ir.model.fields.selection,name:l10n_ch_hr_payroll.selection__hr_payslip_is_log_line__source_tax_canton__nw
 #: model:ir.model.fields.selection,name:l10n_ch_hr_payroll.selection__hr_version__l10n_ch_canton__nw
@@ -8277,6 +8510,12 @@ msgid "Overtime 150%"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
+#: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_1068
+#: model:hr.work.entry.type,name:l10n_ch_hr_payroll.l10n_ch_swissdec_overtime_200_wt
+msgid "Overtime 200%"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
 #: model:hr.salary.rule,name:l10n_ch_hr_payroll.l10n_ch_elm_rule_1067
 msgid "Overtime after departure"
 msgstr ""
@@ -8377,6 +8616,11 @@ msgstr ""
 #. module: l10n_ch_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_hours_150
 msgid "Paid Overtime Hours (150%)"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#: model:hr.payslip.input.type,name:l10n_ch_hr_payroll.l10n_ch_elm_input_WT_hours_200
+msgid "Paid Overtime Hours (200%)"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
@@ -11467,9 +11711,14 @@ msgstr ""
 
 #. module: l10n_ch_hr_payroll
 #. odoo-python
-#: code:addons/l10n_ch_hr_payroll/models/l10n_ch_declaration_salary_certificate.py:0
 #: code:addons/l10n_ch_hr_payroll/models/l10n_ch_insurance_report.py:0
-msgid "Wage_statement_%(year)s_%(name)s"
+msgid "Wage_statement_%(year)s_%(name)s_%(timestamp)s"
+msgstr ""
+
+#. module: l10n_ch_hr_payroll
+#. odoo-python
+#: code:addons/l10n_ch_hr_payroll/models/l10n_ch_declaration_salary_certificate.py:0
+msgid "Wage_statement_correction_%(year)s_%(name)s_%(timestamp)s"
 msgstr ""
 
 #. module: l10n_ch_hr_payroll
@@ -11935,12 +12184,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ch_hr_payroll/wizard/l10n_ch_tax_rate_import.py:0
 msgid "You must be logged into a Swiss company to use this feature"
-msgstr ""
-
-#. module: l10n_ch_hr_payroll
-#. odoo-python
-#: code:addons/l10n_ch_hr_payroll/models/hr_payslip_run.py:0
-msgid "You must select employee(s) version(s) to generate payslip(s)."
 msgstr ""
 
 #. module: l10n_ch_hr_payroll

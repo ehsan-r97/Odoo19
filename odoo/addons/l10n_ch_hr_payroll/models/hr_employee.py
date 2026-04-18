@@ -6,6 +6,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 
 import re
+import uuid
 
 
 class HrEmployee(models.Model):
@@ -70,6 +71,7 @@ class HrEmployee(models.Model):
     l10n_ch_has_monthly = fields.Boolean(readonly=False, related="version_id.l10n_ch_has_monthly", inherited=True, groups="hr_payroll.group_hr_payroll_user")
     l10n_ch_has_hourly = fields.Boolean(readonly=False, related="version_id.l10n_ch_has_hourly", inherited=True, groups="hr_payroll.group_hr_payroll_user")
     l10n_ch_has_lesson = fields.Boolean(readonly=False, related="version_id.l10n_ch_has_lesson", inherited=True, groups="hr_payroll.group_hr_payroll_user")
+    registration_number = fields.Char(default=lambda self: str(uuid.uuid4().hex))
 
     @api.constrains('birthday')
     def _check_birthday(self):
@@ -135,6 +137,16 @@ class HrEmployee(models.Model):
                     employee.l10n_ch_legal_last_name = last_name
                 if not employee.l10n_ch_legal_first_name:
                     employee.l10n_ch_legal_first_name = first_name
+
+    @api.depends('l10n_ch_legal_first_name', 'l10n_ch_legal_last_name')
+    def _compute_legal_name(self):
+        ch_employees = self.filtered(lambda e: e.company_id.country_code == 'CH')
+        for employee in ch_employees:
+            if employee.l10n_ch_legal_first_name and employee.l10n_ch_legal_last_name:
+                employee.legal_name = f'{employee.l10n_ch_legal_first_name} {employee.l10n_ch_legal_last_name}'
+            else:
+                employee.legal_name = employee.name
+        super(HrEmployee, self - ch_employees)._compute_legal_name()
 
     @api.model
     def _create_or_update_snapshot(self):

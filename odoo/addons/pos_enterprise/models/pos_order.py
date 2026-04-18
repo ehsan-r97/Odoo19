@@ -39,6 +39,28 @@ class PosOrder(models.Model):
 
         return data
 
+    @api.ondelete(at_uninstall=False)
+    def _notify_prep_display_on_order_delete(self):
+        prep_displays = self.env['pos.prep.display'].search([
+            '|',
+            ('pos_config_ids', '=', False),
+            ('pos_config_ids', 'in', self.config_id.ids)
+        ])
+        for prep_display in prep_displays:
+            prep_display._notify('POS_ORDER_DELETED', {'pos_order_ids': self.ids})
+
+    def action_pos_order_cancel(self):
+        orders = super().action_pos_order_cancel()
+        if not self.env.context.get('active_ids'):
+            return orders
+        # When an order is cancelled from the backend UI, ensure the preparation display
+        # is updated to reflect the cancellation
+        for order in orders['pos.order']:
+            if order['state'] != 'cancel':
+                continue
+            self.env['pos.prep.order'].process_order(order['id'], {'cancelled': True})
+        return orders
+
     def _process_preparation_changes(self, options):
         self.ensure_one()
         flag_change = False
@@ -153,6 +175,8 @@ class PosOrder(models.Model):
 
                         # Merge the two lines, so that if the quantity was changed it's also applied
                         old_quantity = quantity_data.pop(key, None)
+                        if not old_quantity:
+                            continue
                         quantity_data[key_new]["display"] += old_quantity["display"]
                         quantity_data[key_new]["order"] += old_quantity["order"]
 

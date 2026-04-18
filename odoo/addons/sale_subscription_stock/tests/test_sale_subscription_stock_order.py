@@ -868,6 +868,7 @@ class TestSubscriptionStockOnOrder(TestSubscriptionStockCommon):
             It happened when the first period picking was validated in the second period.
             Then, when you triggered the second period, it would find one picking already done,
             and skip the picking creation.
+            It also check that an user with only inventory right can validate a delivery
         """
 
         storable_product = self.env['product.product'].create({
@@ -901,7 +902,8 @@ class TestSubscriptionStockOnOrder(TestSubscriptionStockCommon):
             first_picking = sub.picking_ids
             self.assertTrue(first_picking)
             first_picking.move_ids.write({'quantity': 1, 'picked': True})
-            first_picking.button_validate()
+            inventory_user = self.env['res.users'].search([('name', '=', "Inventory User")], limit=1)
+            first_picking.with_user(inventory_user).button_validate()
             quantity_delivered = sum(sub.order_line.move_ids.mapped("quantity"))
             self.assertEqual(quantity_delivered, 1)
             # start the cron once, it will increment the next invoice date but no new picking is created

@@ -1,3 +1,4 @@
+import logging
 import re
 from collections import defaultdict
 from concurrent.futures import as_completed, ThreadPoolExecutor
@@ -8,6 +9,9 @@ from odoo import api, fields, models
 from odoo.fields import Domain
 
 from ..api import ApiError, OdooComApi, OdooDatabaseApi, _humanize_version
+
+
+_logger = logging.getLogger(__name__)
 
 
 class DatabasesSynchronizationWizard(models.TransientModel):
@@ -199,6 +203,7 @@ class DatabasesSynchronizationWizard(models.TransientModel):
                     # meaningful errors should already be in `errors`, but an unexpected error from a thread should not stop the loop
                     db_apis, ip = db_apis_by_future[future]
                     host_names = ', '.join(db_api.host for db_api in db_apis)
+                    _logger.warning('Error while fetching information from %s on %s: %s', host_names, ip, e)
                     errors += self.env._("Error while fetching information from %(host_names)s on %(ip)s: %(message)s\n",
                                          host_names=host_names, ip=ip, message=str(e))
                     continue
@@ -329,13 +334,12 @@ class DatabasesSynchronizationWizard(models.TransientModel):
 
         # sort the properties definition on the prefix of the name first, then on the string
         prefix_order = ('account_journal_type', 'account_move_type', 'account_return')
-        sortable_properties_definition = [
+        properties_definition = sorted(properties_definition, key=lambda x: (
             # index of the first matching prefix, defaulting to the end
-            (next((i for i, prefix in enumerate(prefix_order) if x['name'].startswith(prefix)), len(prefix_order)),
+            next((i for i, prefix in enumerate(prefix_order) if x['name'].startswith(prefix)), len(prefix_order)),
             # then the displayed name
-             x['string'], x)
-            for x in properties_definition]
-        properties_definition = [x[2] for x in sorted(sortable_properties_definition)]
+            x['string'],
+        ))
 
         database_kpi_base_definition_id.write({
             'properties_definition': properties_definition,

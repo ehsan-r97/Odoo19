@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-02-02 13:39+0000\n"
+"POT-Creation-Date: 2026-04-03 18:44+0000\n"
+"PO-Revision-Date: 2026-03-03 17:21+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "account_reports/ja/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: account_reports
 #. odoo-javascript
@@ -90,22 +90,16 @@ msgstr "%s選択済"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_report.py:0
+#, fuzzy
+#| msgid ""
+#| "'%s' date scope cannot be evaluated for a report used by more than one "
+#| "return type."
 msgid ""
-"'%s' date scope cannot be evaluated for a report used by more than one "
-"return type."
+"'%s' date scope cannot be evaluated for a report used by multiple return "
+"types using different periodicities."
 msgstr ""
 "複数の申告タイプで使用されるレポートには、'%s' 日付スコープを適用(期間を指定"
 "して集計)できません。"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_report.py:0
-msgid ""
-"'%s' date scope cannot be evaluated for a report which is not used by any "
-"return type."
-msgstr ""
-"申告タイプに関連付けられていないレポートでは、'%s' 日付スコープを適用(期間を"
-"指定して集計)できません。"
 
 #. module: account_reports
 #. odoo-python
@@ -496,6 +490,11 @@ msgstr "会計監査：勘定ステータス"
 #: model_terms:ir.ui.view,arch_db:account_reports.account_audit_account_balances_search_view
 msgid "Account Audit Status"
 msgstr "会計監査ステータス"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "勘定科目表テンプレート"
 
 #. module: account_reports
 #. odoo-python
@@ -919,12 +918,10 @@ msgstr "すべての確認項目と承認者がリセットされました"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid ""
-"All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
-"taxation_customs/vies\" target=\"_blank\">VIES</a>."
-msgstr ""
-"すべての顧客のVAT番号は<a href=\"https://ec.europa.eu/taxation_customs/"
-"vies\" target=\"_blank\">VIES</a>で有効です。"
+#, fuzzy
+#| msgid "All customers have a VAT number."
+msgid "All customer VAT numbers are valid under VIES."
+msgstr "すべての顧客にはVAT番号があります。"
 
 #. module: account_reports
 #. odoo-python
@@ -1032,7 +1029,7 @@ msgstr "分析グループ"
 #. odoo-javascript
 #: code:addons/account_reports/static/src/components/account_report/filters/filters.js:0
 msgid "Analytic Simulations"
-msgstr "分析シュミレーション"
+msgstr "分析シミュレーション"
 
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_analytical_review
@@ -2451,6 +2448,7 @@ msgstr "メール作成を表示"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__display_name
@@ -2523,6 +2521,14 @@ msgstr ""
 #. module: account_reports
 #: model:account.return.check.template,name:account_reports.account_return_check_template_dividend_payment_verification
 msgid "Dividend payment verification"
+msgstr ""
+
+#. module: account_reports
+#. odoo-python
+#: code:addons/account_reports/models/account_report.py:0
+msgid ""
+"Division by zero occurred while evaluating Expression: %(line_name)s > %"
+"(label)s."
 msgstr ""
 
 #. module: account_reports
@@ -2775,8 +2781,8 @@ msgid ""
 "Ensure all intercompany or internal bank transfer accounts are cleared and "
 "justified."
 msgstr ""
-"すべての企業間または社内の銀行振替勘定が清算され、根拠が明確になっていること"
-"を確認してください。"
+"すべてのグループ内取引および内部銀行振替の勘定について、処理が完了している"
+"か、または未完了の場合は理由が明確であることを確認してください。"
 
 #. module: account_reports
 #: model:account.return.check.template,description:account_reports.account_return_check_template_payables_settlement
@@ -2876,12 +2882,6 @@ msgstr "プロビジョニング通貨を除外"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Exclude any domestic or extra-EU sales from the EC Sales List."
 msgstr "EC販売リストから、国内販売およびEU域外販売は除外してください。"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Exclude any private customers."
-msgstr "個人顧客は除外してください。"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.multicurrency_revaluation_excluded
@@ -3423,6 +3423,7 @@ msgstr "IBAN"
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_cash_flow_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_change_lock_date__id
+#: model:ir.model.fields,field_description:account_reports.field_account_chart_template__id
 #: model:ir.model.fields,field_description:account_reports.field_account_customer_statement_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_expense_report_handler__id
 #: model:ir.model.fields,field_description:account_reports.field_account_deferred_report_handler__id
@@ -3917,7 +3918,7 @@ msgstr "仕訳帳:"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_kpi_provider
 msgid "KPI Provider"
-msgstr "KPIプロバイダー"
+msgstr "KPI生成元"
 
 #. module: account_reports
 #: model:account.report.line,name:account_reports.account_financial_report_liabilities_view0
@@ -4256,11 +4257,16 @@ msgstr "不明"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
+#, fuzzy
+#| msgid ""
+#| "Missing company details (like VAT number or country) can cause errors in "
+#| "your report,\n"
+#| "such as using the wrong VAT rate, wrongly exempting transactions.\n"
+#| "                "
 msgid ""
 "Missing company details (like VAT number or country) can cause errors in "
-"your report,\n"
-"such as using the wrong VAT rate, wrongly exempting transactions.\n"
-"                "
+"your report, such as using the wrong VAT rate, wrongly exempting "
+"transactions."
 msgstr ""
 "会社情報(VAT番号や国名など)が未登録の場合、レポートに誤りが生じる可能性があり"
 "ます。\n"
@@ -4674,12 +4680,6 @@ msgstr "年次締めをリセットできるのは会計管理者のみです"
 #: code:addons/account_reports/models/account_return.py:0
 msgid "Only an accounting administrator can set/unset a supervisor."
 msgstr "スーパーバイザーを設定または解除できるのは会計管理者のみです。"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Only business customers"
-msgstr "法人顧客のみ"
 
 #. module: account_reports
 #. odoo-python
@@ -5190,12 +5190,6 @@ msgid "Print & Send"
 msgstr "印刷して送信"
 
 #. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
-msgid "Private Customers"
-msgstr "一般顧客"
-
-#. module: account_reports
 #: model_terms:ir.ui.view,arch_db:account_reports.view_account_multicurrency_revaluation_wizard
 msgid ""
 "Proceed with caution as there might be an existing adjustment for this "
@@ -5562,7 +5556,7 @@ msgstr "リバースチャージ記載"
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return__generic_state_tax_report__reviewed
 #: model:ir.model.fields.selection,name:account_reports.selection__account_return_type__states_workflow__generic_state_review
 msgid "Review"
-msgstr "レビュー"
+msgstr "確認"
 
 #. module: account_reports
 #: model:account.return.check.template,description:account_reports.account_return_check_template_foreign_exchange_differences
@@ -6179,7 +6173,7 @@ msgstr "税申告/監査"
 
 #. module: account_reports
 #. odoo-python
-#: code:addons/account_reports/models/res_company.py:0
+#: code:addons/account_reports/models/account_chart_template.py:0
 #: code:addons/account_reports/models/res_users.py:0
 #: model:ir.ui.menu,name:account_reports.menu_action_account_return
 #: model_terms:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
@@ -7070,13 +7064,6 @@ msgstr "各申告には固有の確認コードのみを設定できます。"
 #. module: account_reports
 #. odoo-python
 #: code:addons/account_reports/models/account_return.py:0
-msgid "You can only revert a completed return if the previous state was new."
-msgstr ""
-"完了済みの申告を元に戻せるのは、以前のステータスが「新規」の場合のみです。"
-
-#. module: account_reports
-#. odoo-python
-#: code:addons/account_reports/models/account_return.py:0
 msgid "You can only unarchive a completed return."
 msgstr "完了済みの申告のみアーカイブ解除できます。"
 
@@ -7392,6 +7379,34 @@ msgid "⇒ Reset to Odoo’s Rate"
 msgstr "Odooのレート⇒リセット"
 
 #~ msgid ""
+#~ "'%s' date scope cannot be evaluated for a report which is not used by any "
+#~ "return type."
+#~ msgstr ""
+#~ "申告タイプに関連付けられていないレポートでは、'%s' 日付スコープを適用(期間"
+#~ "を指定して集計)できません。"
+
+#~ msgid ""
+#~ "All customer VAT numbers are valid under <a href=\"https://ec.europa.eu/"
+#~ "taxation_customs/vies\" target=\"_blank\">VIES</a>."
+#~ msgstr ""
+#~ "すべての顧客のVAT番号は<a href=\"https://ec.europa.eu/taxation_customs/"
+#~ "vies\" target=\"_blank\">VIES</a>で有効です。"
+
+#~ msgid ""
+#~ "You can only revert a completed return if the previous state was new."
+#~ msgstr ""
+#~ "完了済みの申告を元に戻せるのは、以前のステータスが「新規」の場合のみです。"
+
+#~ msgid "Exclude any private customers."
+#~ msgstr "個人顧客は除外してください。"
+
+#~ msgid "Only business customers"
+#~ msgstr "法人顧客のみ"
+
+#~ msgid "Private Customers"
+#~ msgstr "一般顧客"
+
+#~ msgid ""
 #~ "Verify that cash and card receipts recorded at period-end are actually "
 #~ "settled in the following period. Also check the correct accounting "
 #~ "treatment of Dailly* assignments, discounting operations, and factoring "
@@ -7500,9 +7515,6 @@ msgstr "Odooのレート⇒リセット"
 #~ msgstr ""
 #~ "<span class=\"o_account_reports_footnote_icons\"><i class=\"fa fa-fw fa-"
 #~ "trash-o\" role=\"img\" aria-label=\"Delete\" title=\"Delete\"/></span>"
-
-#~ msgid "Account Chart Template"
-#~ msgstr "勘定科目表テンプレート"
 
 #~ msgid "Account Report Footnote"
 #~ msgstr "アカウントレポート脚注"

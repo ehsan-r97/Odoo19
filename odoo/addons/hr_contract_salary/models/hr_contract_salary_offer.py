@@ -3,6 +3,7 @@ import uuid
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo.addons.hr_contract_salary.utils.hr_version import requires_hr_version_context
 from werkzeug.urls import url_encode
 from odoo.exceptions import ValidationError
 
@@ -91,14 +92,16 @@ class HrContractSalaryOffer(models.Model):
         compute_sudo=True,
         export_string_translation=False
     )
+    contract_type_id = fields.Many2one(related='employee_job_id.contract_type_id', string='Contract Type', readonly=True, store=False)
+    has_sign_template = fields.Boolean(compute="_compute_has_sign_template")
 
-    # DO NOT CALL THIS FUNCTION OUTSIDE OF A ROLLBACK SAVEPOINT
+    @requires_hr_version_context()
     def _get_version(self):
         self.ensure_one()
 
         # Offer for an employee
         if self.employee_id:
-            contract_template = self.contract_template_id.with_context(tracking_disable=True, salary_simulation=True)
+            contract_template = self.contract_template_id
             if contract_template:
                 if not contract_template.employee_id:
                     contract_template.write({
@@ -108,13 +111,10 @@ class HrContractSalaryOffer(models.Model):
                     })
                 return contract_template
             else:
-                return self.employee_version_id.with_context(tracking_disable=True, salary_simulation=True)
+                return self.employee_version_id
 
         # Offer for an applicant, create an employee
-        employee = self.env['hr.employee'].with_context(
-            tracking_disable=True,
-            salary_simulation=True,
-        ).with_user(SUPERUSER_ID).sudo().create({
+        employee = self.env['hr.employee'].with_user(SUPERUSER_ID).sudo().create({
             'name': self.applicant_id.partner_name if self.applicant_id else 'Simulation Employee',
             'private_phone': self.applicant_id.partner_phone if self.applicant_id else False,
             'private_email': self.applicant_id.email_from if self.applicant_id else False,
@@ -125,11 +125,18 @@ class HrContractSalaryOffer(models.Model):
             'company_id': self.company_id.id,
         })
         if self.contract_template_id:
-            employee.version_id.with_context(tracking_disable=True, salary_simulation=True).write(
+            employee.version_id.write(
                 self.env['hr.version'].get_values_from_contract_template(self.contract_template_id)
             )
-            return employee.current_version_id.with_context(tracking_disable=True, salary_simulation=True)
-        return employee.current_version_id.with_context(tracking_disable=True, salary_simulation=True)
+        return employee.current_version_id
+
+    @api.depends('contract_template_id')
+    def _compute_has_sign_template(self):
+        for offer in self:
+            if offer.employee_id:
+                offer.has_sign_template = offer.contract_template_id.contract_update_template_id
+            else:
+                offer.has_sign_template = offer.contract_template_id.sign_template_id
 
     @api.depends('contract_template_id.sign_template_id', 'contract_template_id.contract_update_template_id')
     def _compute_sign_template_id(self):
@@ -151,10 +158,10 @@ class HrContractSalaryOffer(models.Model):
         contract_template_signatories_copy.update_contract_template_id = False
         return [(5, 0, 0)] + [(6, 0, contract_template_signatories_copy.ids)]
 
-    @api.depends('sign_template_id', 'contract_template_id')
+    @api.depends('sign_template_id', 'contract_template_id', 'has_sign_template')
     def _compute_sign_template_signatories_ids(self):
         for offer in self:
-            if offer.contract_template_id:
+            if offer.contract_template_id and offer.has_sign_template:
                 offer.sign_template_signatories_ids = offer._copy_contract_template_signatories()
             else:
                 offer.sign_template_signatories_ids = self.env['hr.contract.signatory'].create_empty_signatories(offer.sign_template_id)
@@ -271,7 +278,7 @@ class HrContractSalaryOffer(models.Model):
         }
 
     def action_refuse_offer(self, message=None, refusal_reason=None):
-        self.applicant_id.unlink_archived_versions()
+        self.unlink_archived_version_offer()
         if not message:
             message = _("%s manually set the Offer to Refused", self.env.user.name)
         self.write({
@@ -294,7 +301,16 @@ class HrContractSalaryOffer(models.Model):
         }
 
     def unlink(self):
-        self.applicant_id.unlink_archived_versions()
+        self.unlink_archived_version_offer()
+        # Delete the employee if it is archived and the number of offers of an
+        # applicant to delete is equal to the number of offers linked to that applicant
+        offers_with_archived_employee = self.filtered(lambda o: not o.applicant_id.employee_id.active)
+        offers_by_applicant = offers_with_archived_employee.grouped('applicant_id')
+        employee_to_unlink = self.env['hr.employee']
+        for applicant, offers in offers_by_applicant.items():
+            if len(offers) == applicant.salary_offers_count:
+                employee_to_unlink |= applicant.employee_id
+        employee_to_unlink.unlink()
         return super().unlink()
 
     def _cron_update_state(self):
@@ -397,3 +413,12 @@ class HrContractSalaryOffer(models.Model):
                 raise ValidationError(
                     self.env._("An offer must be linked to either an applicant or an employee.")
                 )
+
+    def unlink_archived_version_offer(self):
+        archived_versions = self.env['hr.version'].search([
+            ('originated_offer_id', 'in', self.ids),
+            ('active', '=', False)
+        ])
+        if archived_versions:
+            archived_versions.sign_request_ids.write({'state': 'canceled', 'active': False})
+            archived_versions.unlink()

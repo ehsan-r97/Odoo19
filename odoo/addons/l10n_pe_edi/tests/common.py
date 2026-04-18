@@ -65,7 +65,8 @@ class TestPeEdiCommon(AccountEdiTestCommon):
         cls.national_bank_account = cls.env['res.partner.bank'].create({
             'acc_number': 'CUENTAPRUEBA',
             'bank_id': cls.national_bank.id,
-            'partner_id': cls.company_data['company'].partner_id.id
+            'partner_id': cls.company_data['company'].partner_id.id,
+            'allow_out_payment': True,
         })
         cls.company_data['company'].partner_id.write({
             'vat': "20557912879",

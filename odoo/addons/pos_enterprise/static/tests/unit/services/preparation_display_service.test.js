@@ -278,3 +278,39 @@ test("filteredOrders", async () => {
     await store.data.initData();
     expect(store.filteredOrders.length).toBe(0);
 });
+
+test("[removeOrdersByPosOrderIds] removes POS order and related preparation records", async () => {
+    const store = await setupPosPrepDisplayEnv();
+    const models = store.data.models;
+    await createPrepDisplayTicket(store);
+    const posOrder = models["pos.order"].getFirst();
+
+    expect(models["pos.order"].length).toBe(1);
+    expect(models["pos.prep.order"].length).toBe(1);
+    expect(models["pos.prep.line"].length).toBe(2);
+    expect(models["pos.prep.state"].length).toBe(2);
+
+    store.removeOrdersByPosOrderIds([posOrder.id]);
+    expect(models["pos.order"].length).toBe(0);
+    expect(models["pos.prep.order"].length).toBe(0);
+    expect(models["pos.prep.line"].length).toBe(0);
+    expect(models["pos.prep.state"].length).toBe(0);
+});
+
+test("moveAllOrdersToNextStage -> when order not in lastStage", async () => {
+    const store = await setupPosPrepDisplayEnv();
+    await createPrepDisplayTicket(store);
+    await store.moveAllOrdersToNextStage();
+    await store.data.initData();
+    const states = store.data.models["pos.prep.state"].getAll();
+    expect(states[0].stage_id.id).toBe(2);
+});
+
+test("moveAllOrdersToNextStage -> when order is in lastStage", async () => {
+    const store = await setupPosPrepDisplayEnv();
+    await createPrepDisplayTicket(store);
+    const orders = store.filteredOrders;
+    orders[0].stage = store.lastStage;
+    await store.moveAllOrdersToNextStage();
+    expect(orders[0].states.every((s) => s.todo === false)).toBe(true);
+});

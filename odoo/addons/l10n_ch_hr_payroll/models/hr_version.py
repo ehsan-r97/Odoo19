@@ -184,7 +184,7 @@ class HrVersion(models.Model):
     ], default='otherOrNone', string="Religious Denomination", groups="hr_payroll.group_hr_payroll_user", tracking=True)
     l10n_ch_church_tax = fields.Boolean(string="Swiss Church Tax", groups="hr_payroll.group_hr_payroll_user", tracking=True)
     marital = fields.Selection(selection='_get_marital_status_selection')
-    l10n_ch_marital_from = fields.Date(string="Marital Status Start Date", groups="hr.group_hr_user", tracking=True)
+    l10n_ch_marital_from = fields.Date(string="Marital Status Start Date", groups="hr.group_hr_user", tracking=True, compute="_compute_marital_from", store=True, readonly=False)
     l10n_ch_spouse_sv_as_number = fields.Char(string="Spouse SV-AS-Number", groups="hr.group_hr_user", tracking=True)
     l10n_ch_spouse_work_canton = fields.Selection(string="Spouse Work Canton", selection=CANTONS_WITH_EX, groups="hr.group_hr_user", tracking=True)
     l10n_ch_spouse_work_start_date = fields.Date(string="Spouse Work Start Date", groups="hr.group_hr_user", tracking=True)
@@ -472,7 +472,7 @@ class HrVersion(models.Model):
 
     def action_view_wages(self):
         self.ensure_one()
-        action = self.env.ref('l10n_ch_hr_payroll.action_l10n_ch_hr_contract_wage').read()[0]
+        action = self.env['ir.actions.act_window']._for_xml_id('l10n_ch_hr_payroll.action_l10n_ch_hr_contract_wage')
         action['domain'] = [('version_id', '=', self.id),
                             ('date_start', '!=', False)]
         action['context'] = {
@@ -581,3 +581,9 @@ class HrVersion(models.Model):
                 "l10n_ch_yearly_paid_public_holidays",
             ]
         return whitelist_fields
+
+    @api.depends('employee_id.birthday')
+    def _compute_marital_from(self):
+        for record in self:
+            if not record.l10n_ch_marital_from and record.employee_id.birthday:
+                record.l10n_ch_marital_from = record.employee_id.birthday

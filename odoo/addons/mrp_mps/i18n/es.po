@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-01-27 22:47+0000\n"
+"PO-Revision-Date: 2026-02-14 10:01+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/mrp_mps/"
 "es/>\n"
@@ -385,19 +385,19 @@ msgstr "Previsto"
 #. odoo-javascript
 #: code:addons/mrp_mps/static/src/components/line.xml:0
 msgid "Forecasted Demand"
-msgstr "Demanda pronosticada"
+msgstr "Demanda prevista"
 
 #. module: mrp_mps
 #. odoo-javascript
 #: code:addons/mrp_mps/static/src/components/line.xml:0
 #: code:addons/mrp_mps/static/src/search/group_menu.xml:0
 msgid "Forecasted Stock"
-msgstr "Stock pronosticado"
+msgstr "Stock previsto"
 
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_production_schedule__forecast_ids
 msgid "Forecasted quantity at date"
-msgstr "Cantidad pronosticada hasta la fecha"
+msgstr "Cantidad prevista hasta la fecha"
 
 #. module: mrp_mps
 #: model:ir.model.fields,field_description:mrp_mps.field_mrp_bom__id
@@ -939,7 +939,7 @@ msgstr "Inicio del inventario"
 #. module: mrp_mps
 #: model:ir.model,name:mrp_mps.model_stock_rule
 msgid "Stock Rule"
-msgstr "Regla de inventario"
+msgstr "Regla de stock"
 
 #. module: mrp_mps
 #. odoo-javascript
@@ -978,26 +978,26 @@ msgid ""
 "The forecasted demand to fulfill the needs in components of the "
 "Manufacturing Orders."
 msgstr ""
-"La demanda pronosticada para satisfacer las necesidades de los componentes "
-"de las órdenes de fabricación."
+"La demanda prevista para satisfacer las necesidades de los componentes de "
+"las órdenes de fabricación."
 
 #. module: mrp_mps
 #. odoo-javascript
 #: code:addons/mrp_mps/static/src/components/line.xml:0
 msgid "The forecasted demand. This value has to be entered manually."
-msgstr "La demanda pronosticada. Este valor debe ingresarse manualmente."
+msgstr "La demanda prevista. Este valor debe introducirse manualmente."
 
 #. module: mrp_mps
 #. odoo-javascript
 #: code:addons/mrp_mps/static/src/components/line.xml:0
 msgid "The forecasted quantity in stock at the beginning of the period."
-msgstr "La cantidad pronosticada en stock al inicio del periodo."
+msgstr "La cantidad prevista en stock al inicio del período."
 
 #. module: mrp_mps
 #. odoo-javascript
 #: code:addons/mrp_mps/static/src/components/line.xml:0
 msgid "The forecasted quantity in stock at the end of the period."
-msgstr "La cantidad pronosticada en stock al final del periodo."
+msgstr "La cantidad prevista en stock al inicio del período."
 
 #. module: mrp_mps
 #. odoo-javascript

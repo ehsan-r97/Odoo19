@@ -581,8 +581,8 @@ class AccountEdiFormat(models.Model):
         company = move.company_id
         journal = move.journal_id
         now = fields.Datetime.now()
-        oldest_date = now - timedelta(days=5)
-        newest_date = now + timedelta(days=10)
+        oldest_date = now - timedelta(days=6)
+        newest_date = now + timedelta(days=6)
         if not company.sudo().l10n_co_edi_username or not company.sudo().l10n_co_edi_password or not company.l10n_co_edi_company or \
            not company.sudo().l10n_co_edi_account:
             edi_result.append(_("Carvajal credentials are not set on the company, please go to Accounting Settings and set the credentials."))
@@ -601,7 +601,7 @@ class AccountEdiFormat(models.Model):
                 any(l.product_id and not l.product_id.l10n_co_edi_customs_code for l in move.invoice_line_ids):
             edi_result.append(_("Every exportation product must have a customs code."))
         elif move.invoice_date and not (oldest_date <= fields.Datetime.to_datetime(move.invoice_date) <= newest_date):
-            move.message_post(body=_('The issue date can not be older than 5 days or more than 5 days in the future'))
+            move.message_post(body=_('The issue date can not be older than 6 days or more than 6 days in the future.'))
         elif any(l.product_id and not l.product_id.default_code and \
                  not l.product_id.barcode and not l.product_id.unspsc_code_id for l in move.invoice_line_ids):
             edi_result.append(_("Every product on a line should at least have a product code (barcode, internal, UNSPSC) set."))

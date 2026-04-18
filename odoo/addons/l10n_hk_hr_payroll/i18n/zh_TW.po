@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 19:07+0000\n"
-"PO-Revision-Date: 2026-02-07 09:51+0000\n"
+"PO-Revision-Date: 2026-02-12 19:41+0000\n"
 "Last-Translator: \"Tony Ng (ngto)\" <ngto@odoo.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
 "projects/odoo-19-l10n/l10n_hk_hr_payroll/zh_Hant/>\n"
@@ -712,7 +712,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.hr_contract_template_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.view_employee_form
 msgid "<span>/ month</span>"
-msgstr "<span>/ 月</span>"
+msgstr "<span>/ 每月</span>"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.report_ir56e
@@ -722,7 +722,7 @@ msgstr ""
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.res_config_settings_view_form
 msgid "<span>HKD / month</span>"
-msgstr ""
+msgstr "<span>港元 / 每月</span>"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.report_ir56b
@@ -1021,7 +1021,7 @@ msgstr "銀行"
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.res_config_settings_view_form
 msgid "Bank Account"
-msgstr "銀行帳戶"
+msgstr "銀行賬戶"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_res_bank__l10n_hk_bank_code
@@ -1047,13 +1047,13 @@ msgstr "基本薪金"
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_hr_payslip_run_hsbc_autopay_wizard__batch_type
 msgid "Batch Type"
-msgstr "批式"
+msgstr "批次類型"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.hr_contract_template_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.view_employee_form
 msgid "Benefits"
-msgstr "優點"
+msgstr "福利"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.report_ir56b
@@ -1291,7 +1291,7 @@ msgstr ""
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.report_ir56g
 msgid "Date:"
-msgstr "日期:"
+msgstr "日期："
 
 #. module: l10n_hk_hr_payroll
 #: model:hr.departure.reason,name:l10n_hk_hr_payroll.hr_departure_reason_death
@@ -1333,7 +1333,7 @@ msgstr "扣除"
 #. module: l10n_hk_hr_payroll
 #: model:ir.model,name:l10n_hk_hr_payroll.model_hr_departure_reason
 msgid "Departure Reason"
-msgstr "出發原因"
+msgstr "離開原因"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56b__designation_of_signer
@@ -1457,7 +1457,7 @@ msgstr ""
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.report_ir56b
 msgid "Education Benefits"
-msgstr ""
+msgstr "教育福利"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56b__lines_count
@@ -1556,7 +1556,7 @@ msgstr "結束日期"
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56g__end_month
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ird__end_month
 msgid "End Month"
-msgstr ""
+msgstr "結束月份"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56b__end_period
@@ -1615,7 +1615,7 @@ msgstr "開支發還"
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields.selection,name:l10n_hk_hr_payroll.selection__l10n_hk_rental__state__close
 msgid "Expired"
-msgstr "到期"
+msgstr "已過期"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,help:l10n_hk_hr_payroll.field_hr_payslip_run__l10n_hk_autopay_export_first_batch
@@ -1632,7 +1632,7 @@ msgstr ""
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.l10n_hk_ird_view_form
 msgid "Extra"
-msgstr "額外的"
+msgstr "額外"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.ir56f_xml_report
@@ -1816,7 +1816,7 @@ msgstr ""
 #. module: l10n_hk_hr_payroll
 #: model:ir.model,name:l10n_hk_hr_payroll.model_hr_work_entry_type
 msgid "HR Work Entry Type"
-msgstr "HR工時紀錄類型"
+msgstr "HR 工作記項類型"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_hr_payslip_run__l10n_hk_autopay_export_first_batch
@@ -2207,7 +2207,7 @@ msgstr ""
 #. module: l10n_hk_hr_payroll
 #: model:hr.payslip.input.type,name:l10n_hk_hr_payroll.input_lieu_of_notice_period
 msgid "Lieu of Notice Period (Months)"
-msgstr ""
+msgstr "代通知期（個月）"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_manulife_mpf__line_ids
@@ -2325,12 +2325,12 @@ msgstr "五月"
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_manulife_mpf__month
 msgid "Month"
-msgstr "月"
+msgstr "月份"
 
 #. module: l10n_hk_hr_payroll
 #: model:hr.salary.rule,name:l10n_hk_hr_payroll.cap57_employees_salary_monthly_end_autopay
 msgid "Monthly End Autopay"
-msgstr ""
+msgstr "每月底自動轉賬"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.report_ir56e
@@ -2535,12 +2535,12 @@ msgstr "其他"
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56g_line__other_reason_departure
 msgid "Other Reason of Departure"
-msgstr ""
+msgstr "其他離開原因"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.view_l10n_hk_ir56g_line_form
 msgid "Other reason for departure"
-msgstr ""
+msgstr "離開的其他原因"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields.selection,name:l10n_hk_hr_payroll.selection__hr_departure_reason__l10n_hk_ir56f_code__5
@@ -2762,17 +2762,17 @@ msgstr ""
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.view_l10n_hk_ir56g_line_form
 msgid "Reason for departure"
-msgstr ""
+msgstr "離開原因"
 
 #. module: l10n_hk_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_hk_hr_payroll.report_ir56g
 msgid "Reason for departure (Please ✓):"
-msgstr ""
+msgstr "離開原因（請 ✓）："
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56g_line__reason_departure
 msgid "Reason of Departure"
-msgstr ""
+msgstr "離開原因"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56g_line__reason_no_money_payable
@@ -3083,7 +3083,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_hk_hr_payroll/models/hr_payslip.py:0
 msgid "Some bank accounts (%s) don't have a bank account name."
-msgstr ""
+msgstr "部份銀行賬戶沒有銀行賬戶名稱：%s。"
 
 #. module: l10n_hk_hr_payroll
 #. odoo-python
@@ -3138,7 +3138,7 @@ msgstr "開始日期"
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56g__start_month
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ird__start_month
 msgid "Start Month"
-msgstr ""
+msgstr "開始月份"
 
 #. module: l10n_hk_hr_payroll
 #: model:ir.model.fields,field_description:l10n_hk_hr_payroll.field_l10n_hk_ir56b__start_period

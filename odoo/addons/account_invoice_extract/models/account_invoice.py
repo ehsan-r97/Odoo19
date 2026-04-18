@@ -25,7 +25,7 @@ class AccountMove(models.Model):
     @api.depends('state')
     def _compute_is_in_extractable_state(self):
         for record in self:
-            record.is_in_extractable_state = record.state == 'draft' and record.is_invoice()
+            record.is_in_extractable_state = record.state == 'draft' and record.is_invoice(include_receipts=True)
 
     @api.depends(
         'state',
@@ -40,7 +40,7 @@ class AccountMove(models.Model):
                 record.state == 'draft' and
                 (
                     (record.is_purchase_document(include_receipts=True) and record.company_id.extract_in_invoice_digitalization_mode != 'no_send') or
-                    (record.is_sale_document() and record.company_id.extract_out_invoice_digitalization_mode != 'no_send')
+                    (record.is_sale_document(include_receipts=True) and record.company_id.extract_out_invoice_digitalization_mode != 'no_send')
                 )
             )
 
@@ -62,7 +62,7 @@ class AccountMove(models.Model):
 
                 if move_form.is_purchase_document(include_receipts=True):
                     move_form.ref = False
-                elif move_form.is_sale_document() and move_form.quick_edit_mode:
+                elif move_form.is_sale_document(include_receipts=True) and move_form.quick_edit_mode:
                     move_form.name = False
 
                 move_form.payment_reference = False
@@ -139,14 +139,14 @@ class AccountMove(models.Model):
             'user_company_VAT': self.company_id.vat,
             'user_company_name': self.company_id.name,
             'user_company_country_code': self.company_id.country_id.code,
-            'perspective': 'supplier' if self.is_sale_document() else 'client',
+            'perspective': 'supplier' if self.is_sale_document(include_receipts=True) else 'client',
         })
         return user_infos
 
     def _upload_to_extract(self):
         """ Call parent method _upload_to_extract only if self is an invoice. """
         self.ensure_one()
-        if self.is_invoice():
+        if self.is_invoice(include_receipts=True):
             super()._upload_to_extract()
 
     def _get_validation(self, field):
@@ -694,7 +694,7 @@ class AccountMove(models.Model):
         client_ocr = self._get_ocr_selected_value(ocr_results, 'client', "")
         total_tax_amount_ocr = self._get_ocr_selected_value(ocr_results, 'total_tax_amount', 0.0)
 
-        self.extract_partner_name = client_ocr if self.is_sale_document() else supplier_ocr
+        self.extract_partner_name = client_ocr if self.is_sale_document(include_receipts=True) else supplier_ocr
 
         with self._get_edi_creation() as move_form:
             if not move_form.partner_id:
@@ -702,22 +702,17 @@ class AccountMove(models.Model):
                 if partner_id:
                     move_form.partner_id = partner_id
                     if created and iban_ocr and not move_form.partner_bank_id and self.is_purchase_document(include_receipts=True):
-                        bank_account = self.env['res.partner.bank'].search([
-                            *self.env['res.partner.bank']._check_company_domain(self.company_id),
-                            ('acc_number', '=ilike', iban_ocr),
-                        ])
-                        if bank_account:
-                            if bank_account.partner_id == move_form.partner_id.id:
-                                move_form.partner_bank_id = bank_account
-                        else:
-                            bank_vals = self._get_bank_account_vals(iban_ocr, SWIFT_code_ocr)
-                            bank_vals['partner_id'] = move_form.partner_id.id
-                            move_form.partner_bank_id = self.with_context(clean_context(self.env.context)).env['res.partner.bank'].create(bank_vals)
+                        move_form.partner_bank_id = self.env['res.partner.bank']._find_or_create_bank_account(
+                            account_number=iban_ocr,
+                            partner=move_form.partner_id,
+                            company=self.company_id,
+                            extra_create_vals=self._get_bank_account_vals(iban_ocr, SWIFT_code_ocr),
+                        )
 
             if qr_bill_ocr:
                 qr_content_list = qr_bill_ocr.splitlines()
                 # Supplier and client sections have an offset of 16
-                index_offset = 16 if self.is_sale_document() else 0
+                index_offset = 16 if self.is_sale_document(include_receipts=True) else 0
                 if not move_form.partner_id:
                     partner_vals = {
                         'name': qr_content_list[5 + index_offset],
@@ -744,13 +739,16 @@ class AccountMove(models.Model):
 
                     if self.is_purchase_document(include_receipts=True):
                         iban = qr_content_list[3]
-                        if iban and not self.env['res.partner.bank'].search_count([('acc_number', '=ilike', iban)], limit=1):
-                            move_form.partner_bank_id = self.with_context(clean_context(self.env.context)).env['res.partner.bank'].create({
-                                'acc_number': iban,
-                                'company_id': move_form.company_id.id,
-                                'currency_id': move_form.currency_id.id,
-                                'partner_id': move_form.partner_id.id,
-                            })
+                        if iban:
+                            move_form.partner_bank_id = self.env['res.partner.bank']._find_or_create_bank_account(
+                                account_number=iban,
+                                partner=move_form.partner_id,
+                                company=move_form.company_id,
+                                extra_create_vals={
+                                    'company_id': move_form.company_id.id,
+                                    'currency_id': move_form.currency_id.id,
+                                },
+                            )
 
             due_date_move_form = move_form.invoice_date_due  # remember the due_date, as it could be modified by the onchange() of invoice_date
             context_create_date = fields.Date.context_today(self, self.create_date)
@@ -766,7 +764,7 @@ class AccountMove(models.Model):
             if self.is_purchase_document(include_receipts=True) and not move_form.ref:
                 move_form.ref = invoice_id_ocr
 
-            if self.is_sale_document() and self.quick_edit_mode:
+            if self.is_sale_document(include_receipts=True) and self.quick_edit_mode:
                 move_form.name = invoice_id_ocr
 
             if payment_ref_ocr and not move_form.payment_reference:

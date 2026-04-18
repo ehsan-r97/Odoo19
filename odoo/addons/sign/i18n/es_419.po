@@ -4,15 +4,15 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025, 2026.
-# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025.
+# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2026-02-04 22:39+0000\n"
+"POT-Creation-Date: 2026-02-20 18:41+0000\n"
+"PO-Revision-Date: 2026-03-14 09:40+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/sign/es_419/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_res_partner__signature_count
@@ -357,6 +357,9 @@ msgid ""
 "                                    Shared\n"
 "                                </span>"
 msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\" title=\"Compartido\">\n"
+"                                    Compartido\n"
+"                                </span>"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
@@ -398,19 +401,6 @@ msgstr "<span class=\"text-muted\">No disponible</span>"
 msgid "<span class=\"text-nowrap\">Add certificate on each page</span>"
 msgstr ""
 "<span class=\"text-nowrap\">Agrega un certificado en cada página</span>"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
-msgid ""
-"<span groups=\"base.group_system\">\n"
-"                                    Certify your documents using a "
-"provided .pfx or .p12 file.\n"
-"                                </span>"
-msgstr ""
-"<span groups=\"base.group_system\">\n"
-"                                    Certifica tus documentos con el "
-"archivo .pfx o .p12 proporcionado.\n"
-"                                </span>"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_kanban
@@ -978,6 +968,11 @@ msgstr "Certificado de conclusión <br/>"
 #: code:addons/sign/models/sign_request.py:0
 msgid "Certificate of completion - %s.pdf"
 msgstr "Certificado de conclusión - %s.pdf"
+
+#. module: sign
+#: model_terms:ir.ui.view,arch_db:sign.res_config_settings_view_form
+msgid "Certify your documents using a provided .pfx or .p12 file."
+msgstr "Certifica tus documentos con un archivo .pfx o .p12."
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_item_role__change_authorized
@@ -2917,7 +2912,7 @@ msgstr "Enlace de redireccionamiento"
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_view_form
 msgid "Redirect signers to a page after signing"
-msgstr ""
+msgstr "Redireccionar a los signatarios a una página después de firmar"
 
 #. module: sign
 #: model:ir.model.fields.selection,name:sign.selection__sign_log__action__refuse
@@ -3349,7 +3344,7 @@ msgstr "Mostrar todos los registros cuya próxima fecha de actividad ya pasó."
 #: model_terms:ir.ui.view,arch_db:sign.sign_portal_my_requests
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_view_tree
 msgid "Sign"
-msgstr "Firma electrónica"
+msgstr "Firmar"
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_view_activity
@@ -4929,7 +4924,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/sign/models/sign_template.py:0
 msgid "You need at least one field type in order to sign a document!"
-msgstr ""
+msgstr "Necesitas al menos un tipo de campo para firmar un documento."
 
 #. module: sign
 #. odoo-python
@@ -5327,6 +5322,17 @@ msgstr "usted"
 #: model_terms:ir.ui.view,arch_db:sign.green_report_el_pdf
 msgid "{{0}} Summary"
 msgstr "{{0}} Resumen"
+
+#~ msgid ""
+#~ "<span groups=\"base.group_system\">\n"
+#~ "                                    Certify your documents using a "
+#~ "provided .pfx or .p12 file.\n"
+#~ "                                </span>"
+#~ msgstr ""
+#~ "<span groups=\"base.group_system\">\n"
+#~ "                                    Certifica tus documentos con el "
+#~ "archivo .pfx o .p12 proporcionado.\n"
+#~ "                                </span>"
 
 #~ msgid ""
 #~ "<span class=\"badge rounded-pill text-bg-success\" title=\"Shared\" "

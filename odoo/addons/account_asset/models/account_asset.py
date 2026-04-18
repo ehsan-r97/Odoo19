@@ -202,7 +202,7 @@ class AccountAsset(models.Model):
     def _compute_disposal_date(self):
         for asset in self:
             if asset.state == 'close':
-                dates = asset.depreciation_move_ids.filtered(lambda m: m.date).mapped('date')
+                dates = asset.depreciation_move_ids.filtered(lambda m: m.date and m.state != 'cancel').mapped('date')
                 asset.disposal_date = dates and max(dates)
             else:
                 asset.disposal_date = False
@@ -318,13 +318,22 @@ class AccountAsset(models.Model):
         'depreciation_move_ids.reversal_move_ids'
     )
     def _compute_value_residual(self):
+        grouped_moves = self.env['account.move']._read_group(
+            domain=[('asset_id', 'in', self.ids), ('state', '=', 'posted')],
+            groupby=['asset_id'],
+            aggregates=['depreciation_value:sum'],
+        )
+        depreciation_sum_by_asset = {
+            asset.id: total
+            for asset, total in grouped_moves
+        }
         for record in self:
-            posted_depreciation_moves = record.depreciation_move_ids.filtered(lambda mv: mv.state == 'posted')
+            asset_depreciation = depreciation_sum_by_asset.get(record.id, 0.0)
             record.value_residual = (
                 record.original_value
                 - record.salvage_value
                 - record.already_depreciated_amount_import
-                - sum(posted_depreciation_moves.mapped('depreciation_value'))
+                - asset_depreciation
             )
 
     @api.depends('value_residual', 'salvage_value', 'children_ids.book_value')

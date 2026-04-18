@@ -1,4 +1,3 @@
-from itertools import chain
 from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
@@ -18,7 +17,7 @@ class AccountReturnType(models.Model):
             previous_period_start, previous_period_end = ec_sales_return_type._get_period_boundaries(main_company, fields.Date.context_today(self) - relativedelta(months=months_offset))
             company_ids = self.env['account.return'].sudo()._get_company_ids(main_company, tax_unit, ec_sales_return_type.report_id)
             ec_sales_list_tags_info = self.env['l10n_nl_reports.ec.sales.report.handler']._get_tax_tags_for_nl_sales_report()
-            ec_sales_list_tag_ids = list(chain(*ec_sales_list_tags_info.values()))
+            ec_sales_list_tag_ids = [x for k, v in ec_sales_list_tags_info.items() if k in ('goods', 'services', 'triangular') for x in v]
 
             need_ec_sales_list = bool(self.env['account.move.line'].search_count([
                 ('tax_tag_ids', 'in', ec_sales_list_tag_ids),
@@ -35,6 +34,13 @@ class AccountReturnType(models.Model):
 
 class AccountReturn(models.Model):
     _inherit = 'account.return'
+
+    def action_submit(self):
+        self._check_all_branches_allowed()
+        if self.type_external_id == 'l10n_nl_reports.nl_tax_return_type':
+            options = self._get_closing_report_options()
+            return self.env['l10n_nl_reports.tax.report.handler'].open_xbrl_wizard(options)
+        return super().action_submit()
 
     def _evaluate_deadline(self, company, return_type, return_type_external_id, date_from, date_to):
         months_per_period = return_type._get_periodicity_months_delay(company)

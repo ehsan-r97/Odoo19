@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-01-13 21:58+0000\n"
+"POT-Creation-Date: 2026-02-13 18:41+0000\n"
+"PO-Revision-Date: 2026-03-04 11:27+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "mrp_workorder/fi/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: mrp_workorder
 #. odoo-python
@@ -245,6 +245,12 @@ msgstr "Saatavuus"
 #: code:addons/mrp_workorder/static/src/mrp_display/mrp_display.xml:0
 msgid "Back"
 msgstr "Takaisin"
+
+#. module: mrp_workorder
+#. odoo-javascript
+#: code:addons/mrp_workorder/static/src/components/product_catalog/kanban_controller.js:0
+msgid "Back to ShopFloor"
+msgstr "Takaisin Valmistusketjuun"
 
 #. module: mrp_workorder
 #: model:ir.model.fields,field_description:mrp_workorder.field_quality_check__component_barcode
@@ -727,7 +733,7 @@ msgstr "Käynnissä"
 #. odoo-javascript
 #: code:addons/mrp_workorder/static/src/mrp_display/employees_panel.xml:0
 msgid "Inactive"
-msgstr "Passiivinen"
+msgstr "Epäaktiivinen"
 
 #. module: mrp_workorder
 #. odoo-javascript
@@ -1538,7 +1544,7 @@ msgstr "Varastosiirto"
 #. module: mrp_workorder
 #: model:ir.model,name:mrp_workorder.model_stock_rule
 msgid "Stock Rule"
-msgstr ""
+msgstr "Varastosääntö"
 
 #. module: mrp_workorder
 #: model:product.template,name:mrp_workorder.product_template_stool

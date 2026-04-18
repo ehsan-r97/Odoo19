@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
 "PO-Revision-Date: 2025-12-06 10:11+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
@@ -328,6 +328,12 @@ msgstr ""
 "                            Económica Europea; o"
 
 #. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+msgid "A partner cannot have transactions in different currencies."
+msgstr ""
+
+#. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
 msgid ""
 "According to laws related to anti money laundering, the notary must identify "
@@ -450,6 +456,11 @@ msgstr "Comprador"
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__ceo
 msgid "CEO"
 msgstr "Director general"
+
+#. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_transaction__can_change_currency
+msgid "Can Change Currency"
+msgstr ""
 
 #. module: equity
 #. odoo-python
@@ -1989,6 +2000,18 @@ msgid ""
 msgstr ""
 "Puedes eliminar a cualquier accionista que tenga menos del 25% de las "
 "acciones o derechos de voto."
+
+#. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+#, fuzzy
+#| msgid "Cannot change security class type because it has linked transactions"
+msgid ""
+"You cannot change the equity currency because this partner already has "
+"existing transactions."
+msgstr ""
+"No es posible cambiar el tipo de clase de valores porque tiene transacciones "
+"vinculadas"
 
 #. module: equity
 #. odoo-javascript

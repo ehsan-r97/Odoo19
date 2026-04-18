@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:45+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-02-13 18:42+0000\n"
+"PO-Revision-Date: 2026-03-27 06:27+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/ai/ja/>"
 "\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
@@ -498,15 +498,16 @@ msgstr ""
 "\n"
 "            プロンプト内<session_info_context>に提供されているのは、有効な検"
 "索ファセットを含む現在のビュー情報です。\n"
-"            ファセットとは `OR`で結合されたフィルタのグループ、グループ化（gr"
-"oupby）のグループ、または `OR`で結合された検索語句のグループのことです。\n"
+"            ファセットとは `OR`で結合されたフィルタのグループ、グループ化"
+"（groupby）のグループ、または `OR`で結合された検索語句のグループのことで"
+"す。\n"
 "\n"
 "            **パラメータの理解**:\n"
 "            - `remove_facets` - ファセットを削除すると、フィルタ/グループ化/"
 "検索語句のグループ全体が削除されます。フィルタまたは検索ファセットを削除する"
 "ことで、制約が緩和されます。\n"
-"            - `toggle_filters` - フィルタをトグルすると、有効なフィルタファセ"
-"ットからフィルタが追加または削除されます。\n"
+"            - `toggle_filters` - フィルタをトグルすると、有効なフィルタファ"
+"セットからフィルタが追加または削除されます。\n"
 "            - `toggle_groupbys` - フィルターをトグルすると、有効なフィルター"
 "ファセットからフィルターが追加または削除されます。\n"
 "            - `apply_searches` - 検索を適用すると、同じフィールドを含む有効な"
@@ -518,17 +519,17 @@ msgstr ""
 "            - `mode` - グラフビューのみ：これはチャートの種類です。現在のグラ"
 "フビューでチャートタイプを変更するには \"line\"(折れ線)、\"bar\" (棒)、"
 "\"pie\"(円)の中から選択します。\n"
-"            - `order` - グラフビューのみ：順序を指定すると、現在のグラフビュ"
-"ーの結果の並び順が変更されます。\n"
+"            - `order` - グラフビューのみ：順序を指定すると、現在のグラフ"
+"ビューの結果の並び順が変更されます。\n"
 "            - `stacked` - グラフビューのみ：スタックを指定すると、現在のグラ"
 "フビューの結果の積み重ね表示が変更されます。\n"
 "            - `cumulated` - グラフビューのみ：累積を指定すると、現在のグラフ"
 "ビューの結果の累積表示が変更されます。\n"
 "            - `custom_domain` - 検索ビューの要素だけでは必要なドメインを表現"
 "できない場合、JSON 文字列としてカスタムドメインを指定することができます。\n"
-"            - `switch_view_type` - ビュータイプの切り替えを行うと、現在のビュ"
-"ーが指定されたタイプに変更されます。現在のビュー情報にある利用可能なビュータ"
-"イプから選択します。\n"
+"            - `switch_view_type` - ビュータイプの切り替えを行うと、現在の"
+"ビューが指定されたタイプに変更されます。現在のビュー情報にある利用可能な"
+"ビュータイプから選択します。\n"
 "        "
 
 #. module: ai
@@ -1064,6 +1065,7 @@ msgstr "ディスカッションチャンネル"
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__display_name
 #: model:ir.model.fields,field_description:ai.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:ai.field_ir_http__display_name
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_composer_mixin__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_render_mixin__display_name
 #: model:ir.model.fields,field_description:ai.field_mail_template__display_name
@@ -1162,6 +1164,16 @@ msgid "Field Selector"
 msgstr "フィールドセレクタ"
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__ttype
+msgid "Field Type"
+msgstr ""
+
+#. module: ai
+#: model:ir.model,name:ai.model_ir_model_fields
+msgid "Fields"
+msgstr ""
+
+#. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__type__binary
 msgid "File"
 msgstr "ファイル"
@@ -1219,6 +1231,7 @@ msgstr "こんにちは、ご用件を教えてください。"
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__id
 #: model:ir.model.fields,field_description:ai.field_ir_attachment__id
 #: model:ir.model.fields,field_description:ai.field_ir_http__id
+#: model:ir.model.fields,field_description:ai.field_ir_model_fields__id
 #: model:ir.model.fields,field_description:ai.field_mail_composer_mixin__id
 #: model:ir.model.fields,field_description:ai.field_mail_render_mixin__id
 #: model:ir.model.fields,field_description:ai.field_mail_template__id
@@ -1370,7 +1383,7 @@ msgstr "最終更新日"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_chat_launcher_service.js:0
 msgid "Log Note"
-msgstr "メモを記録"
+msgstr "ログメモ"
 
 #. module: ai
 #. odoo-javascript
@@ -2084,6 +2097,11 @@ msgstr "を実行しました。"
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "fa-hashtag"
 msgstr "fa-hashtag"
+
+#. module: ai
+#: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
+msgid "vector"
+msgstr ""
 
 #~ msgid "An error occurred while generating the AI response."
 #~ msgstr "AI応答生成中にエラーが発生しました。"

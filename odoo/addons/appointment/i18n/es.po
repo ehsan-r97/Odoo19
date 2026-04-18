@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 18:43+0000\n"
-"PO-Revision-Date: 2026-02-04 16:39+0000\n"
+"POT-Creation-Date: 2026-04-03 18:43+0000\n"
+"PO-Revision-Date: 2026-02-28 09:53+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/"
 "appointment/es/>\n"
@@ -95,6 +95,8 @@ msgid ""
 "%(capacity)d seats are missing to be able to book the %(appointment_name)s: %"
 "(event_name)s (%(event_id)s)"
 msgstr ""
+"Faltan %(capacity)d sitios para poder reservar %(appointment_name)s: %"
+"(event_name)s%(event_id)s"
 
 #. module: appointment
 #. odoo-python
@@ -118,7 +120,7 @@ msgstr "%s - Vamos a reunirnos"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_form_gantt_booking
 msgid "'e.g. \"John Doe - Tennis Court Booking\""
-msgstr ""
+msgstr "p. ej., «Juan Pérez - Reserva de la pista de tenis»"
 
 #. module: appointment
 #. odoo-javascript
@@ -168,6 +170,287 @@ msgstr ""
 
 #. module: appointment
 #: model:mail.template,body_html:appointment.attendee_invitation_mail_template
+#, fuzzy
+#| msgid ""
+#| "<div style=\"font-size: 13px; color: #374151;\">\n"
+#| "    <t t-set=\"customer\" t-value=\" "
+#| "object.event_id.find_partner_customer()\"/>\n"
+#| "    <t t-set=\"target_responsible\" t-value=\"object.partner_id == "
+#| "object.event_id.partner_id\"/>\n"
+#| "    <t t-set=\"target_customer\" t-value=\"object.partner_id == "
+#| "customer\"/>\n"
+#| "    <t t-set=\"recurrent\" t-value=\"object.recurrence_id and not "
+#| "ctx.get('calendar_template_ignore_recurrence')\"/>\n"
+#| "\n"
+#| "    <h1 style=\"font-size: 18px; font-weight: bold; color: #374151; "
+#| "margin-bottom: 28px;\">\n"
+#| "        Invitation\n"
+#| "    </h1>\n"
+#| "    <p style=\"margin: 0;\">\n"
+#| "        <span style=\"display: block; margin-bottom: 8px;\">Hello <t t-"
+#| "out=\"object.common_name or ''\">Wood Corner</t>,</span>\n"
+#| "\n"
+#| "        <t t-if=\"target_customer\">\n"
+#| "            <t t-if=\"not "
+#| "object.event_id.appointment_type_id.is_always_confirm\">\n"
+#| "                <t t-if=\"object.event_id.appointment_status == "
+#| "'booked'\">\n"
+#| "                    We're happy to let you know your booking <strong t-"
+#| "out=\"object.event_id.appointment_type_id.name or ''\">Schedule a Demo</"
+#| "strong><t t-if=\"object.event_id.appointment_type_id.category not in "
+#| "['custom', 'anytime'] and "
+#| "object.event_id.appointment_type_id.schedule_based_on == 'users'\"> with "
+#| "<t t-out=\"object.event_id.user_id.name or ''\">Ready Mat</t></t> has "
+#| "been confirmed.<br/>\n"
+#| "                </t>\n"
+#| "                <t t-elif=\"object.event_id.appointment_status == "
+#| "'request'\">\n"
+#| "                    We've got your booking <strong t-"
+#| "out=\"object.event_id.appointment_type_id.name or ''\">Schedule a Demo</"
+#| "strong><t t-if=\"object.event_id.appointment_type_id.category not in "
+#| "['custom', 'anytime'] and "
+#| "object.event_id.appointment_type_id.schedule_based_on == 'users'\"> with "
+#| "<t t-out=\"object.event_id.user_id.name or ''\">Ready Mat</t></t>.<br/>\n"
+#| "                    We'll notify you once it's confirmed.\n"
+#| "                </t>\n"
+#| "            </t>\n"
+#| "            <t t-else=\"\">\n"
+#| "                Your appointment <strong t-"
+#| "out=\"object.event_id.appointment_type_id.name or ''\">Schedule a Demo</"
+#| "strong> <t t-if=\"object.event_id.appointment_type_id.category not in "
+#| "['custom', 'anytime'] and "
+#| "object.event_id.appointment_type_id.schedule_based_on == 'users'\"> with "
+#| "<t t-out=\"object.event_id.user_id.name or ''\">Ready Mat</t></t> has "
+#| "been booked.\n"
+#| "            </t>\n"
+#| "        </t>\n"
+#| "        <t t-elif=\"target_responsible\">\n"
+#| "            <t t-if=\"customer\">\n"
+#| "                <t t-out=\"customer.name or ''\"/> scheduled the "
+#| "following appointment <strong t-"
+#| "out=\"object.event_id.appointment_type_id.name or ''\">Schedule a Demo</"
+#| "strong> with you.\n"
+#| "                <t t-if=\"object.event_id.appointment_type_id and "
+#| "object.event_id.appointment_status == 'request'\">\n"
+#| "                    It is awaiting confirmation.\n"
+#| "                </t>\n"
+#| "            </t>\n"
+#| "            <t t-else=\"\">\n"
+#| "                Your appointment <strong t-"
+#| "out=\"object.event_id.appointment_type_id.name or ''\">Schedule a Demo</"
+#| "strong> has been booked.\n"
+#| "            </t>\n"
+#| "        </t>\n"
+#| "        <t t-else=\"\">\n"
+#| "            You have been invited to the following appointment <strong t-"
+#| "out=\"object.event_id.appointment_type_id.name or ''\">Schedule a Demo</"
+#| "strong>.\n"
+#| "        </t>\n"
+#| "    </p>\n"
+#| "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
+#| "        <t t-if=\"object.state != 'accepted'\">\n"
+#| "            <a t-attf-href=\"/calendar/meeting/accept?"
+#| "token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
+#| "style=\"display: inline-block; padding: 7px 14px; color: "
+#| "{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: "
+#| "none; background-color: {{user.company_id.email_secondary_color or "
+#| "'#875A7B'}}; border-radius: 3px\">\n"
+#| "                Accept</a>\n"
+#| "            <a t-attf-href=\"/calendar/meeting/decline?"
+#| "token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
+#| "style=\"display: inline-block; margin-left: 6px; padding: 7px 14px; "
+#| "color: {{user.company_id.email_primary_color or '#FFFFFF'}}; text-"
+#| "decoration: none; background-color: "
+#| "{{user.company_id.email_secondary_color or '#875A7B'}}; border-radius: "
+#| "3px\">\n"
+#| "                Decline</a>\n"
+#| "        </t>\n"
+#| "        <a t-if=\"not target_responsible and not target_customer\" t-attf-"
+#| "href=\"/calendar/meeting/view?token={{object.access_token}}"
+#| "&amp;id={{object.event_id.id}}\" style=\"display: inline-block; margin-"
+#| "left: 12px; padding: 5px 10px; color: #111827; text-decoration: none; "
+#| "background-color: #E7E9ED; border-radius: 3px; border-radius: 3px\">View</"
+#| "a>\n"
+#| "        <a t-elif=\"not target_customer\" t-attf-href=\"/mail/view?"
+#| "model=calendar.event&amp;res_id={{object.event_id.id}}\" t-attf-"
+#| "style=\"display: inline-block; margin-left: 12px; padding: 5px 10px; "
+#| "color: #111827; text-decoration: none; background-color: #E7E9ED; border-"
+#| "radius: 3px; border-radius: 3px\">View</a>\n"
+#| "    </div>\n"
+#| "    <div style=\"margin: 16px 0 0;\">\n"
+#| "        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-"
+#| "weight: bold; color: {{user.company_id.email_secondary_color or "
+#| "'#875A7B'}};\">Details</h2>\n"
+#| "        <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" "
+#| "style=\"font-size: 13px; color: #374151;\">\n"
+#| "            <tr>\n"
+#| "                <td style=\"width: 100px; color: #676F7B;\">Date &amp; "
+#| "Time</td>\n"
+#| "                <td style=\"font-weight: bold;\">\n"
+#| "                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+#| "tz=object.mail_tz if not object.event_id.allday else None, "
+#| "dt_format='EEEE', lang_code=object.env.lang) or ''\">Tuesday</t>\n"
+#| "                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+#| "tz=object.mail_tz if not object.event_id.allday else None, dt_format='d', "
+#| "lang_code=object.env.lang) or ''\">4</t>\n"
+#| "                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+#| "tz=object.mail_tz if not object.event_id.allday else None, "
+#| "dt_format='MMMM y', lang_code=object.env.lang) or ''\">May 2021</t>\n"
+#| "                    <t t-if=\"not object.event_id.allday\">\n"
+#| "                        <t t-"
+#| "out=\"format_time(time=object.event_id.start, tz=object.mail_tz, "
+#| "time_format='short', lang_code=object.env.lang) or ''\">11:00 AM</t>\n"
+#| "                        <t t-if=\"not "
+#| "object.event_id.appointment_type_id.hide_timezone and object.mail_tz\">\n"
+#| "                            <span style=\"font-size: 11px; font-weight: "
+#| "normal;\">\n"
+#| "                                (<t t-out=\"object.mail_tz or ''\">Europe/"
+#| "Brussels</t>)\n"
+#| "                            </span>\n"
+#| "                        </t>\n"
+#| "                    </t>\n"
+#| "                </td>\n"
+#| "            </tr>\n"
+#| "            <tr t-if=\"recurrent\">\n"
+#| "                <td style=\"width: 100px; padding-top: 6px; color: "
+#| "#676F7B;\">When</td>\n"
+#| "                <td style=\"padding-top: 6px;\"><t t-"
+#| "out=\"object.recurrence_id.name or ''\">Every 1 Weeks, for 3 events</t></"
+#| "td>\n"
+#| "            </tr>\n"
+#| "            <tr t-if=\"not "
+#| "object.event_id.appointment_type_id.hide_duration and not "
+#| "object.event_id.allday and object.event_id.duration\">\n"
+#| "                <td style=\"width: 100px; padding-top: 6px; color: "
+#| "#676F7B;\">Duration</td>\n"
+#| "                <td style=\"padding-top: 6px;\"><t t-out=\"('%dH%02d' % "
+#| "(object.event_id.duration,round(object.event_id.duration*60)%60)) or "
+#| "''\">0H30</t></td>\n"
+#| "            </tr>\n"
+#| "            <tr t-if=\"object.event_id.location\">\n"
+#| "                <td style=\"width: 100px; padding-top: 6px; color: "
+#| "#676F7B; vertical-align: top;\">Location</td>\n"
+#| "                <td style=\"padding-top: 6px;\">\n"
+#| "                    <t t-out=\"object.event_id.location or "
+#| "''\">Bruxelles</t>\n"
+#| "                    <a target=\"_blank\" t-if=\"object.event_id.location !"
+#| "= object.event_id.appointment_type_id.location_id.name\" t-attf-"
+#| "href=\"http://maps.google.com/maps?"
+#| "oi=map&amp;q={{object.event_id.location}}\" style=\"margin-left: 12px; "
+#| "font-size: 12px; color: #008f8c; text-decoration: underline;\">View Map</"
+#| "a>\n"
+#| "                </td>\n"
+#| "            </tr>\n"
+#| "            <tr t-"
+#| "if=\"object.event_id.appointment_type_id.manage_capacity\">\n"
+#| "                <td style=\"width: 100px; padding-top: 6px; color: "
+#| "#676F7B;\">For</td>\n"
+#| "                <td style=\"padding-top: 6px;\"><t t-"
+#| "out=\"object.event_id.total_capacity_reserved\"/> people</td>\n"
+#| "            </tr>\n"
+#| "            <tr t-if=\"not "
+#| "object.event_id.appointment_type_id.is_auto_assign and "
+#| "object.event_id.appointment_resource_ids\">\n"
+#| "                <td style=\"width: 100px; padding-top: 6px; color: "
+#| "#676F7B; vertical-align: top;\">Resources</td>\n"
+#| "                <td style=\"padding-top: 6px;\">\n"
+#| "                    <ul style=\"padding: 0 15px;\">\n"
+#| "                        <li t-"
+#| "foreach=\"object.event_id.appointment_resource_ids\" t-as=\"resource\">\n"
+#| "                            <span style=\"margin-left:5px\" t-"
+#| "out=\"resource.name or ''\">Table 1</span>\n"
+#| "                        </li>\n"
+#| "                    </ul>\n"
+#| "                </td>\n"
+#| "            </tr>\n"
+#| "            <tr t-if=\"object.event_id.videocall_redirection\">\n"
+#| "                <td style=\"width: 100px; padding-top: 6px; color: "
+#| "#676F7B;\">\n"
+#| "                    <t t-if=\"object.event_id.videocall_source == "
+#| "'discuss'\">Join with</t>\n"
+#| "                    <t t-else=\"\">Join</t>\n"
+#| "                </td>\n"
+#| "                <td style=\"padding-top: 6px;\">\n"
+#| "                    <a t-attf-"
+#| "href=\"{{ object.event_id.videocall_redirection }}\" target=\"_blank\" "
+#| "style=\"color: #008f8c;\">\n"
+#| "                        <t t-if=\"object.event_id.videocall_source == "
+#| "'discuss'\">Odoo Discuss</t>\n"
+#| "                        <t t-else=\"\">Video meeting</t>\n"
+#| "                    </a>\n"
+#| "                </td>\n"
+#| "            </tr>\n"
+#| "        </table>\n"
+#| "    </div>\n"
+#| "    <div style=\"margin: 32px 0 0;\">\n"
+#| "        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-"
+#| "weight: bold; color: {{user.company_id.email_secondary_color or "
+#| "'#875A7B'}};\">Attendees</h2>\n"
+#| "        <div t-foreach=\"object.event_id.attendee_ids\" t-as=\"attendee\" "
+#| "style=\"margin-bottom: 5px;\">\n"
+#| "            <img t-if=\"attendee.state\" t-attf-src=\"/calendar/static/"
+#| "src/img/state_{{ attendee.state }}.png\" style=\"border:0; width: 15px; "
+#| "height: 15px; vertical-align: text-bottom;\"/>\n"
+#| "            <t t-if=\"attendee != object\">\n"
+#| "                <span style=\"margin-left: 5px\" t-"
+#| "out=\"attendee.common_name or ''\">Mitchell Admin</span>\n"
+#| "            </t>\n"
+#| "            <t t-else=\"\">\n"
+#| "                <span style=\"margin-left:5px\">You</span>\n"
+#| "            </t>\n"
+#| "        </div>\n"
+#| "    </div>\n"
+#| "    <div t-if=\"not is_html_empty(object.event_id.description)\" "
+#| "style=\"margin: 32px 0 0;\">\n"
+#| "        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-"
+#| "weight: bold; color: {{user.company_id.email_secondary_color or "
+#| "'#875A7B'}};\">Description of the event</h2>\n"
+#| "        <div t-out=\"object.event_id.description\"/>\n"
+#| "    </div>\n"
+#| "    <div t-if=\"target_customer\" style=\"margin: 32px 0 0;\">\n"
+#| "        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-"
+#| "weight: bold; color: {{user.company_id.email_secondary_color or "
+#| "'#875A7B'}};\">Make change to this event</h2>\n"
+#| "        <a t-attf-href=\"/calendar/meeting/view?"
+#| "token={{object.access_token}}&amp;id={{object.event_id.id}}\" "
+#| "style=\"color: color: #008f8c; text-decoration: underline;\">Reschedule</"
+#| "a>\n"
+#| "    </div>\n"
+#| "    <t t-set=\"upcoming_appointments\" t-"
+#| "value=\"(object.event_id.appointment_booker_id.upcoming_appointment_ids - "
+#| "object.event_id).sorted('start')\"/>\n"
+#| "    <div t-if=\"upcoming_appointments\" style=\"margin: 32px 0 0;\">\n"
+#| "        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-"
+#| "weight: bold; color: {{user.company_id.email_secondary_color or "
+#| "'#875A7B'}};\">Your Other Upcoming Appointment(s)</h2>\n"
+#| "        <ul style=\"margin: 6px 0 0; padding: 0 18px;\">\n"
+#| "            <li style=\"margin-top: 6px;\" t-"
+#| "foreach=\"upcoming_appointments\" t-as=\"upcoming_appointment\">\n"
+#| "                <span t-"
+#| "out=\"upcoming_appointment.appointment_type_id.name or ''\">Technical "
+#| "Demo</span>\n"
+#| "                <span style=\"margin: 0 10px;\">-</span>\n"
+#| "                <span t-out=\"upcoming_appointment.start or ''\" t-"
+#| "options=\"{&quot;widget&quot;: &quot;datetime&quot;, &quot;format&quot;: "
+#| "&quot;medium&quot;, &quot;tz_name&quot;: object.mail_tz}\" style=\"font-"
+#| "weight: bold;\">June 20th, 15:00</span>\n"
+#| "                <a t-attf-href=\"/calendar/view/"
+#| "#{upcoming_appointment.access_token}?partner_id=#{appointment_booker_id}"
+#| "\" target=\"_blank\" style=\"margin-left: 10px; font-size: 12px; color: "
+#| "#008f8c; text-decoration: underline;\">View Details</a>\n"
+#| "            </li>\n"
+#| "        </ul>\n"
+#| "    </div>\n"
+#| "    <p style=\"margin: 32px 0 0;\">\n"
+#| "        Thank you!\n"
+#| "        <t t-if=\"object.event_id.user_id.signature\">\n"
+#| "            <span style=\"display: block; margin-top: 8px;\"><t t-"
+#| "out=\"object.event_id.user_id.signature or ''\">Mitchell Admin</t></"
+#| "span>\n"
+#| "        </t>\n"
+#| "    </p>\n"
+#| "</div>\n"
+#| "            "
 msgid ""
 "<div style=\"font-size: 13px; color: #374151;\">\n"
 "    <t t-set=\"customer\" t-value=\" object.event_id.find_partner_customer()"
@@ -243,22 +526,6 @@ msgid ""
 "        </t>\n"
 "    </p>\n"
 "    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
-"        <t t-if=\"object.state != 'accepted'\">\n"
-"            <a t-attf-href=\"/calendar/meeting/accept?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Accept</a>\n"
-"            <a t-attf-href=\"/calendar/meeting/decline?"
-"token={{object.access_token}}&amp;id={{object.event_id.id}}\" t-attf-"
-"style=\"display: inline-block; margin-left: 6px; padding: 7px 14px; color: "
-"{{user.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: none; "
-"background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; "
-"border-radius: 3px\">\n"
-"                Decline</a>\n"
-"        </t>\n"
 "        <a t-if=\"not target_responsible and not target_customer\" t-attf-"
 "href=\"/calendar/meeting/view?token={{object.access_token}}"
 "&amp;id={{object.event_id.id}}\" style=\"display: inline-block; margin-left: "
@@ -1435,8 +1702,8 @@ msgstr ""
 msgid ""
 "<i class=\"fa fa-video-camera text-400 me-1\" title=\"Video Call URL\"/>"
 msgstr ""
-"<i class=\"fa fa-video-camera text-400 me-1\" title="
-"\"URL de la videollamada\"/>"
+"<i class=\"fa fa-video-camera text-400 me-1\" title=\"URL de la "
+"videollamada\"/>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
@@ -1525,12 +1792,13 @@ msgid ""
 "                    </span>"
 msgstr ""
 "<span class=\"me-1\">Los siguientes\n"
-"                        <span invisible=\"not unavailable_partner_ids\""
-">participantes</span>\n"
-"                        <span invisible="
-"\"not unavailable_partner_ids or not unavailable_resource_ids\">/</span>\n"
-"                        <span invisible=\"not unavailable_resource_ids\""
-">recursos</span> no están disponibles en la hora seleccionada\n"
+"                        <span invisible=\"not "
+"unavailable_partner_ids\">participantes</span>\n"
+"                        <span invisible=\"not unavailable_partner_ids or not "
+"unavailable_resource_ids\">/</span>\n"
+"                        <span invisible=\"not "
+"unavailable_resource_ids\">recursos</span> no están disponibles en la hora "
+"seleccionada\n"
 "                    </span>"
 
 #. module: appointment
@@ -1620,7 +1888,7 @@ msgstr "<span>horas</span>"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "<span>seats max</span>"
-msgstr ""
+msgstr "<span>asientos máx.</span>"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_info
@@ -1703,6 +1971,11 @@ msgstr ""
 "de finalización."
 
 #. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+msgid "Accept"
+msgstr ""
+
+#. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_calendar_event__access_token
 msgid "Access Token"
 msgstr "Token de acceso"
@@ -1738,7 +2011,7 @@ msgstr "Estado de la actividad"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Icono de tipo de actvidad"
+msgstr "Icono de tipo de actividad"
 
 #. module: appointment
 #. odoo-javascript
@@ -2185,6 +2458,12 @@ msgid ""
 "            Requested appointments are still considered as reserved for the "
 "slots availability"
 msgstr ""
+"Confirma las citas de forma automática al crearlas, hasta el porcentaje "
+"indicado de la capacidad total reservada.\n"
+"            Si no está seleccionada esta opción, las citas se crearán como "
+"solicitudes y será necesario confirmarlas manualmente.\n"
+"            Las citas solicitadas se consideran como reservadas para la "
+"disponibilidad de las franjas horarias"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__slot_ids
@@ -2241,7 +2520,7 @@ msgstr "Imagen de fondo"
 #. odoo-javascript
 #: code:addons/appointment/static/src/fields/badge_selection_icon_mapping_field.js:0
 msgid "Badges with Icon for Selection Field"
-msgstr ""
+msgstr "Insignias con icono para el campo de selección"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__base_book_url
@@ -2334,6 +2613,9 @@ msgid ""
 "        reserved user/resource capacity exceeds this percentage of total "
 "capacity."
 msgstr ""
+"Las reservas no se confirmarán automáticamente una vez que la\n"
+"        capacidad total de usuarios/recursos reservada supere este "
+"porcentaje de la capacidad total."
 
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_type__assignment_method__manual
@@ -2467,7 +2749,7 @@ msgstr "Entrada registrada"
 #. odoo-javascript
 #: code:addons/appointment/static/src/components/appointment_template_picker_dialog/appointment_template_picker_dialog.xml:0
 msgid "Choose an appointment preset"
-msgstr ""
+msgstr "Elige un ajuste predefinido de cita"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointments_list_layout
@@ -2547,7 +2829,7 @@ msgstr "Mensaje de confirmación"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Confirmation Page"
-msgstr ""
+msgstr "Página de confirmación"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
@@ -2642,6 +2924,7 @@ msgstr "Crear un recurso de cita"
 msgid ""
 "Create questions your attendees can answer when booking their appointments."
 msgstr ""
+"Crea preguntas que los asistentes puedan responder al reservar sus citas."
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__slot_creation_interval
@@ -2711,12 +2994,19 @@ msgstr "Fecha &amp; hora"
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_type__category__punctual
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_search
 msgid "Date-limited"
-msgstr ""
+msgstr "Con fecha límite"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
 msgid "Dates"
 msgstr "Fechas"
+
+#. module: appointment
+#: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
+#, fuzzy
+#| msgid "Declined"
+msgid "Decline"
+msgstr "Rechazado"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
@@ -2848,6 +3138,8 @@ msgstr "Mostrar imágenes"
 #: model:ir.model.fields,help:appointment.field_appointment_type__show_avatars
 msgid "Display user or resource images across the entire booking flow."
 msgstr ""
+"Mostrar imágenes de usuarios o recursos a lo largo de todo el proceso de "
+"reserva."
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__category_time_display
@@ -2857,7 +3149,7 @@ msgstr "Campos de tiempo de categoría mostrados"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_form
 msgid "Displayed when the field is empty"
-msgstr ""
+msgstr "Se muestra cuando el campo está vacío"
 
 #. module: appointment
 #. odoo-python
@@ -2896,7 +3188,7 @@ msgstr "Correo electrónico*"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Emails & SMS"
-msgstr ""
+msgstr "Correos electrónicos y SMS"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_manage_leaves__leave_end_dt
@@ -2958,7 +3250,7 @@ msgstr "Flexible"
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_type__category__custom
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_search
 msgid "Flexible Schedule"
-msgstr ""
+msgstr "Horario flexible"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.portal_my_home_appointment
@@ -3059,6 +3351,8 @@ msgid ""
 "How users and resources will be assigned to the meetings that customers book "
 "on your website."
 msgstr ""
+"Cómo se asignarán los usuarios y los recursos a las reuniones que los "
+"clientes reserven en tu sitio web."
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_answer__id
@@ -3092,7 +3386,7 @@ msgstr "Icono para indicar una actividad de excepción."
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_invite__identical_config_id
 msgid "Identical Config"
-msgstr ""
+msgstr "Configuración idéntica"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__message_needaction
@@ -3206,7 +3500,7 @@ msgstr "Imagen 512"
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_question__is_default
 msgid "Include by default in new appointment types."
-msgstr ""
+msgstr "Incluir por defecto en los nuevos tipos de citas."
 
 #. module: appointment
 #. odoo-javascript
@@ -3233,7 +3527,7 @@ msgstr "Mensaje de introducción"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Introduction Page"
-msgstr ""
+msgstr "Página de introducción"
 
 #. module: appointment
 #. odoo-javascript
@@ -3261,7 +3555,7 @@ msgstr "Invitación a {{ object.event_id.name }}"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__is_always_confirm
 msgid "Is Always Confirm"
-msgstr ""
+msgstr "Siempre está confirmado"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__message_is_follower
@@ -3473,7 +3767,7 @@ msgstr "URL de redirección de la reunión"
 #. odoo-python
 #: code:addons/appointment/controllers/calendar_view.py:0
 msgid "Meeting with %(name)s"
-msgstr ""
+msgstr "Reunión con %(name)s"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_kanban
@@ -3519,7 +3813,7 @@ msgstr "Mi calendario"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_search
 msgid "My Calendar Link"
-msgstr ""
+msgstr "Mi enlace al calendario"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_search
@@ -3622,7 +3916,7 @@ msgstr "Ninguno"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_search
 msgid "Not Reusable"
-msgstr ""
+msgstr "No reutilizable"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_calendar_event__alarm_ids
@@ -3665,7 +3959,7 @@ msgstr "Odoo Conversaciones"
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_type__category_time_display__punctual_fields
 msgid "On specific dates"
-msgstr ""
+msgstr "En fechas específicas"
 
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_slot__slot_type__unique
@@ -3706,7 +4000,7 @@ msgstr ""
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_invite_view_form
 msgid "Oops! The extension \""
-msgstr ""
+msgstr "¡Vaya! La extensión \""
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_validated
@@ -3972,7 +4266,7 @@ msgstr "Restringir a usuarios"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_search
 msgid "Reusable"
-msgstr ""
+msgstr "Reutilizable"
 
 #. module: appointment
 #. odoo-javascript
@@ -4103,7 +4397,7 @@ msgstr "Seleccionar una hora"
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__is_date_first
 msgid "Select date and time first"
-msgstr ""
+msgstr "Selecciona primero la fecha y la hora"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_answer_input__value_answer_id
@@ -4244,7 +4538,7 @@ msgstr "Breve descripción del tipo de cita."
 #. odoo-python
 #: code:addons/appointment/controllers/appointment.py:0
 msgid "Some required answers are missing in the form."
-msgstr ""
+msgstr "Faltan algunas respuestas obligatorias en el formulario."
 
 #. module: appointment
 #. odoo-javascript
@@ -4550,6 +4844,8 @@ msgstr ""
 #: model:ir.model.constraint,message:appointment.constraint_appointment_slot_check_start_and_end_datetimes
 msgid "The unique slot end datetime must be later than the start datetime."
 msgstr ""
+"La fecha y hora de finalización de la franja única debe ser posterior a la "
+"fecha y hora de inicio."
 
 #. module: appointment
 #. odoo-javascript
@@ -4635,12 +4931,12 @@ msgstr "Esta es una vista previa del formulario para la cita del cliente."
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_form
 msgid "This question is used by"
-msgstr ""
+msgstr "Esta pregunta la utiliza"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_question__extra_comment
 msgid "This will appear below the question in the appointment form."
-msgstr ""
+msgstr "Esto aparecerá debajo de la pregunta en el formulario de cita."
 
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_slot__weekday__4
@@ -4790,6 +5086,21 @@ msgid ""
 "            - Calendar Link: the user will create and share to another user "
 "an appointment type covering all their time slots"
 msgstr ""
+"Se utiliza para definir la categoría de este tipo de cita.\n"
+"\n"
+"        Puede ser una de las siguientes:\n"
+"\n"
+"            - Horario semanal: es la categoría predeterminada, franjas "
+"horarias semanales recurrentes. Accesible desde el sitio web.\n"
+"\n"
+"            - Con fecha límite: franjas horarias regulares limitadas entre "
+"dos fechas y horas. Accesible desde el sitio web.\n"
+"\n"
+"             - Horario flexible: el usuario creará y compartirá con otro "
+"usuario un tipo de cita personalizada con franjas horarias seleccionadas.\n"
+"\n"
+"             - Enlace al calendario: el usuario creará y compartirá con otro "
+"usuario un tipo de cita que cubra todas sus franjas horarias"
 
 #. module: appointment
 #: model:res.groups,name:appointment.group_appointment_user
@@ -4799,7 +5110,7 @@ msgstr "Usuario"
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_type__select_first__user_resource
 msgid "User / Resource"
-msgstr ""
+msgstr "Usuario / Recurso"
 
 #. module: appointment
 #: model:ir.model.fields,field_description:appointment.field_appointment_type__user_capacity
@@ -4827,7 +5138,7 @@ msgstr "Enlace de la videollamada"
 #. module: appointment
 #: model:ir.model,name:appointment.model_ir_ui_view
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_info
@@ -4868,12 +5179,12 @@ msgstr "Semanalmente"
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_type__category__recurring
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_search
 msgid "Weekly Schedule"
-msgstr ""
+msgstr "Horario semanal"
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_type__select_first
 msgid "What is selected first by the customer when booking an appointment."
-msgstr ""
+msgstr "Lo primero que selecciona el cliente al reservar una cita."
 
 #. module: appointment
 #: model:ir.model.fields,help:appointment.field_appointment_question__is_reusable
@@ -4881,6 +5192,8 @@ msgid ""
 "Will appear in the list of available questions when adding one in any "
 "appointment. Always true for default questions."
 msgstr ""
+"Aparecerá en la lista de preguntas disponibles al añadir una en cualquier "
+"cita. Siempre verdadero para las preguntas predeterminadas."
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.staff_user_select
@@ -4890,7 +5203,7 @@ msgstr "Con"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "Within availabilities,"
-msgstr ""
+msgstr "Dentro de la disponibilidad,"
 
 #. module: appointment
 #: model:ir.model.fields.selection,name:appointment.selection__appointment_type__category_time_display__recurring_fields
@@ -4934,7 +5247,7 @@ msgstr "Su elección"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_form
 msgid "appointments"
-msgstr ""
+msgstr "citas"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_info
@@ -4959,7 +5272,7 @@ msgstr "días,"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_question_view_form
 msgid "e.g. \"Anything else we should know?\""
-msgstr ""
+msgstr "p. ej.,: «¿Hay algo más que debamos saber?»"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
@@ -4982,7 +5295,7 @@ msgstr "p. ej. «¡Gracias por confiar en nosotros, ¡nos vemos pronto!»"
 #. module: appointment
 #: model:appointment.question,placeholder:appointment.appointment_question_phone
 msgid "e.g. +1 555-555-5555"
-msgstr ""
+msgstr "p. ej., +1 555-555-5555"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_manage_leaves_view_form
@@ -5035,7 +5348,7 @@ msgstr "p. ej. john.smith@example.com"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.calendar_event_view_gantt_kanban_popover
 msgid "guests"
-msgstr ""
+msgstr "invitados"
 
 #. module: appointment
 #. odoo-javascript
@@ -5084,7 +5397,7 @@ msgstr "personas"
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form
 msgid "seats max"
-msgstr ""
+msgstr "asientos máximo"
 
 #. module: appointment
 #: model_terms:ir.ui.view,arch_db:appointment.appointment_type_view_form

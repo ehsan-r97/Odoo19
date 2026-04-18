@@ -196,7 +196,17 @@ patch(PosStore.prototype, {
             );
             const result = await response.json();
             if (!response.ok) {
-                const errorCode = await this.handleRequestError(result, order, retryCount);
+                let errorCode;
+                try {
+                    errorCode = await this.handleRequestError(result, order, retryCount);
+                } catch {
+                    // Non-retryable error (e.g. revision conflict, terminal state mismatch).
+                    // For API v2, GET the current transaction state and recover if possible.
+                    if (this.isUsingApiV2()) {
+                        return await this._handleTransactionStateConflict(payload, data, order);
+                    }
+                    throw result;
+                }
                 if (errorCode === "retry") {
                     return await this.transactionCall(payload, data, order, retryCount + 1);
                 }
@@ -208,6 +218,52 @@ patch(PosStore.prototype, {
             logPosMessage("Store", "transactionCall", "Error", CONSOLE_COLOR, [error]);
             return Promise.reject(error);
         }
+    },
+    /**
+     * Called when a PUT to Fiskaly fails with a non-retryable error (revision conflict or
+     * "transaction already CANCELLED/FINISHED"). GETs the actual transaction state and resolves
+     * the conflict based on what we were trying to do (data.state) vs what Fiskaly has:
+     *
+     * - Cancelling a transaction that is already CANCELLED → ignore, nothing to do
+     * - Finishing a transaction that is already FINISHED → return the existing data so the
+     *   caller can update the order's TSS info
+     * - Finishing a transaction that is CANCELLED (cancelled externally, e.g. by another session
+     *   closing) → create a fresh transaction and finish it
+     */
+    async _handleTransactionStateConflict(payload, data, order) {
+        const txId = payload.split("?")[0];
+        try {
+            const token = this.getApiToken();
+            const response = await fetch(`${this.getApiUrl()}/tss/${this.getTssId()}/tx/${txId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                method: "GET",
+            });
+            if (response.ok) {
+                const tx = await response.json();
+                if (data.state === "CANCELLED" && tx.state === "CANCELLED") {
+                    return tx;
+                }
+                if (data.state === "FINISHED") {
+                    if (tx.state === "FINISHED") {
+                        return tx;
+                    }
+                    if (tx.state === "CANCELLED") {
+                        await this.createTransaction(order);
+                        return await this.transactionCall(
+                            `${order.l10n_de_fiskaly_transaction_uuid}?tx_revision=2`,
+                            data,
+                            order
+                        );
+                    }
+                }
+            }
+        } catch {
+            // GET failed — fall through and reject
+        }
+        return Promise.reject(data);
     },
     async handleRequestError(result, order, retryCount) {
         if (result.status_code === 401) {

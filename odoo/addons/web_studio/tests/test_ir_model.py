@@ -95,6 +95,14 @@ class TestStudioIrModel(TransactionCase):
         self.assertIn('x_studio_partner_id', sms_suggested_recipients,
                       'custom partner field should be included in sms communications')
 
+        self.assertTrue(model.is_mail_activity)
+        # resist to field name changes across versions
+        self.assertTrue("activity_user_id" in self.env[model.model]._fields)
+        got_views = self.env[model.model].get_views([(False, "search")])
+        search_view = etree.fromstring(got_views["views"]["search"]["arch"])
+        filter_my_activities = search_view.xpath("//filter[@name='filter_activities_my']")[0]
+        self.assertEqual(filter_my_activities.get("domain"), "[['activity_user_id', '=', uid]]")
+
     def test_02_model_option_active(self):
         """Test that the `active` behaviour is set up correctly."""
         model_options = ['use_active', 'use_mail']

@@ -291,8 +291,7 @@ export class DocumentsSearchModel extends SearchModel {
     }
 
     /**
-     * @override Force specific ordering in RECENT and TRASH
-     * and use write_date desc as default otherwise.
+     * @override Force specific ordering in RECENT and TRASH.
      */
     get orderBy() {
         if (this.sections.get(1).activeValueId === "TRASH") {
@@ -308,11 +307,7 @@ export class DocumentsSearchModel extends SearchModel {
                 { name: "write_date", asc: false },
             ];
         }
-        const orderBy = super.orderBy;
-        if (!orderBy.length) {
-            orderBy.push({ name: "create_date", asc: false });
-        }
-        return orderBy;
+        return super.orderBy;
     }
 
     get groupBy() {
@@ -347,9 +342,9 @@ export class DocumentsSearchModel extends SearchModel {
         }
         if (
             !this.documentService.initData.folder_id &&
-            this._context.documents_init_folder_id !== undefined
+            this.context.documents_init_folder_id !== undefined
         ) {
-            category.activeValueId = this._context.documents_init_folder_id || false;
+            category.activeValueId = this.context.documents_init_folder_id || false;
             return;
         }
         // If not set in context, or set to an unknown value, set active value

@@ -4,13 +4,14 @@
 #
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2025-11-17 03:45+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-27 18:05+0000\n"
+"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "databases/sv/>\n"
 "Language: sv\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: databases
 #. odoo-python
@@ -43,13 +44,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:databases.edit_project
 #: model_terms:ir.ui.view,arch_db:databases.project_project_view_form_simplified_template
 msgid "<span>Draft Journal Entries</span>"
-msgstr ""
+msgstr "<span>Utkast till bokföringsposter</span>"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.edit_project
 #: model_terms:ir.ui.view,arch_db:databases.project_project_view_form_simplified_template
 msgid "<span>Tax Returns</span>"
-msgstr ""
+msgstr "<span>Skattedeklarationer</span>"
 
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
@@ -90,7 +91,7 @@ msgstr ""
 #. module: databases
 #: model_terms:ir.ui.view,arch_db:databases.databases_manage_users_wizard_view_form
 msgid "Close"
-msgstr "Nära"
+msgstr "Stäng"
 
 #. module: databases
 #: model:ir.model,name:databases.model_res_config_settings
@@ -129,7 +130,7 @@ msgstr "Skapad av"
 #: model:ir.model.fields,field_description:databases.field_databases_synchronization_wizard__create_date
 #: model:ir.model.fields,field_description:databases.field_databases_user__create_date
 msgid "Created on"
-msgstr "Skapad på"
+msgstr "Skapad den"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__database_ids
@@ -229,7 +230,7 @@ msgstr ""
 #: model:res.groups.privilege,name:databases.res_groups_privilege_databases
 #: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
 msgid "Databases"
-msgstr ""
+msgstr "Databaser"
 
 #. module: databases
 #: model:ir.actions.server,name:databases.ir_cron_synchronize_databases_with_odoocom_ir_actions_server
@@ -271,7 +272,7 @@ msgstr "Utkast"
 #. odoo-javascript
 #: code:addons/databases/static/src/views/databases_project_list/databases_project_list_renderer.js:0
 msgid "Draft entries in journal %(journal_name)s"
-msgstr ""
+msgstr "Skapa utkast i verifikationsserie %(journal_name)s"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__error_message
@@ -340,7 +341,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:databases.field_project_project__database_fetch_draft_entries
 #: model:ir.model.fields,field_description:databases.field_project_template_create_wizard__database_fetch_draft_entries
 msgid "Fetch Draft Journal Entries"
-msgstr ""
+msgstr "Hämta utkast till verifikationsserier"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_project_project__database_fetch_tax_returns
@@ -656,7 +657,7 @@ msgstr "Inställningar"
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__state
 msgid "State"
-msgstr "Stat"
+msgstr "Status"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__summary_message

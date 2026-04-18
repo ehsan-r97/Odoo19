@@ -249,9 +249,9 @@ class AccountReturn(models.Model):
             ('l10n_in_gst_efiling_feature', '=', True),
         ])
         for company in companies:
-            # If token is just refresh in last 30 min then no need to refresh it again
+            # Tokens expiring in 6 minutes then refresh it.
             if company._is_l10n_in_gstr_token_valid() and (
-                company.l10n_in_gstr_gst_token_validity - fields.Datetime.now()) > timedelta(minutes=30):
+                company.l10n_in_gstr_gst_token_validity - fields.Datetime.now()) <= timedelta(minutes=6):
                 response = self._l10n_in_refresh_gstr_token_request(company)
                 if response.get('error'):
                     message = ''.join([
@@ -263,6 +263,9 @@ class AccountReturn(models.Model):
                     "l10n_in_gstr_gst_token": response.get('txn'),
                     "l10n_in_gstr_gst_token_validity": fields.Datetime.now() + timedelta(hours=6)
                 })
+        # trigger token refresh cron before expired
+        if self.company_id.l10n_in_gstr_gst_token:
+            self.env.ref("l10n_in_reports.ir_cron_auto_refresh_gst_token")._trigger(fields.Datetime.now() + timedelta(hours=5, minutes=54))
 
     def _get_l10n_in_error_level(self, error_codes):
         warning_codes = {
@@ -1812,8 +1815,7 @@ class AccountReturn(models.Model):
                 '&', ("company_id", "in", self.company_ids.ids or self.company_id.ids),
                 '|',
                     '&', ("state", "=", "posted"),
-                        '&', ("l10n_in_gst_treatment", "not in", ('composition', 'unregistered', 'consumer')),
-                            ("line_ids.tax_ids", "!=", False),
+                         ("l10n_in_gst_treatment", "not in", ('composition', 'unregistered', 'consumer')),
                     '&', ("state", "in", ["draft", "cancel"]),
                         ("l10n_in_irn_number", "!=", False),
             ]
@@ -1828,8 +1830,7 @@ class AccountReturn(models.Model):
                     ("move_type", "in", AccountMove.get_purchase_types()),
                     "|",
                         ("state", "in", ["draft", "cancel"]),
-                        '&', '&', '&', ("state", "=", "posted"),
-                            ("line_ids.tax_ids", "!=", False),
+                        '&', '&', ("state", "=", "posted"),
                             ("l10n_in_gstr2b_reconciliation_status", "not in", ('matched', 'partially_matched', 'manually_matched')),
                             ("l10n_in_gst_treatment", "not in", ('composition', 'unregistered', 'consumer')),
                 ]
@@ -1841,7 +1842,12 @@ class AccountReturn(models.Model):
                 else:
                     late_bill_domain += [("ref", "=", late_bill.get('bill_number'))]
                 to_match_bills += AccountMove.search(late_bill_domain)
+            filtered_to_match_bills = AccountMove
             for bill in to_match_bills:
+                # There is no tax mins bill from unregistered and consumer so no need to match
+                # If set this in domain then it will impact the performance because of tax_ids is m2m field, so put this condition here
+                if bill.state == 'posted' and not bill.line_ids.tax_ids:
+                    continue
                 bill_type = 'bill'
                 amount = bill.amount_total
                 # For SEZ and overseas amount get from Goverment is amount_untaxed
@@ -1856,7 +1862,8 @@ class AccountReturn(models.Model):
                 for matching_key in matching_keys:
                     matching_dict.setdefault(matching_key, AccountMove)
                     matching_dict[matching_key] += bill
-            return to_match_bills, matching_dict
+                filtered_to_match_bills += bill
+            return filtered_to_match_bills, matching_dict
 
         def get_streamline_bills_from_json(json_payload):
             vals_list = []

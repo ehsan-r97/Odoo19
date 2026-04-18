@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-02 17:31+0000\n"
+"PO-Revision-Date: 2026-02-14 10:02+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
 "Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/voip/es/>"
 "\n"
@@ -486,7 +486,7 @@ msgstr "Contacto"
 #. module: voip
 #: model_terms:ir.ui.view,arch_db:voip.voip_call_view_form
 msgid "Contact Avatar"
-msgstr ""
+msgstr "Avatar del contacto"
 
 #. module: voip
 #. odoo-javascript
@@ -550,7 +550,7 @@ msgstr "Fecha"
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_settings__how_to_call_on_mobile
 msgid "Default phone app"
-msgstr ""
+msgstr "Aplicación del teléfono predeterminada"
 
 #. module: voip
 #. odoo-javascript
@@ -573,13 +573,13 @@ msgstr "Modo de demostración"
 #. odoo-javascript
 #: code:addons/voip/static/src/core/session.js:0
 msgid "Demo call"
-msgstr ""
+msgstr "Llamada de demostración"
 
 #. module: voip
 #. odoo-javascript
 #: code:addons/voip/static/src/softphone/transfer_confirmation.xml:0
 msgid "Direct transfer"
-msgstr ""
+msgstr "Transferencia directa"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_call__direction
@@ -691,7 +691,7 @@ msgstr "Terminó inesperadamente"
 #. odoo-javascript
 #: code:addons/voip/static/src/softphone/in_call_view.js:0
 msgid "Enforced by admin"
-msgstr ""
+msgstr "Impuesto por el administrador"
 
 #. module: voip
 #. odoo-javascript
@@ -767,6 +767,8 @@ msgstr "Forzar para todos los usuarios"
 #: model:ir.model.fields.selection,name:voip.selection__voip_provider__recording_policy_option__always
 msgid "Force recording of all calls. Users can't disable it."
 msgstr ""
+"Forzar la grabación de todas las llamadas. Los usuarios no pueden desactivar "
+"esta función."
 
 #. module: voip
 #. odoo-javascript
@@ -790,7 +792,7 @@ msgstr "Ocultar"
 #. odoo-javascript
 #: code:addons/voip/static/src/web/voip_systray_item.js:0
 msgid "Hide Softphone"
-msgstr ""
+msgstr "Ocultar softphone"
 
 #. module: voip
 #: model:ir.actions.act_window,name:voip.voip_call_action_history
@@ -842,6 +844,8 @@ msgstr "Si está marcada, algunos mensajes tienen error de envío."
 #: model:ir.model.fields,help:voip.field_res_users_settings__do_not_disturb_until_dt
 msgid "If set, Odoo Phone will be in Do Not Disturb mode until this time."
 msgstr ""
+"Si se configura, el teléfono de Odoo estará en modo «No molestar» hasta esa "
+"hora."
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_call__image_1920
@@ -920,6 +924,9 @@ msgid ""
 "have your administrator verify that the media type is correctly set to SRTP-"
 "DTLS."
 msgstr ""
+"Es posible que el servidor no esté utilizando el tipo de medio correcto. "
+"Pídele a tu administrador que compruebe que el tipo de medio está "
+"correctamente configurado como SRTP-DTLS."
 
 #. module: voip
 #. odoo-javascript
@@ -1116,7 +1123,7 @@ msgstr "Número de mensajes con error de envío"
 #. module: voip
 #: model:ir.model.fields.selection,name:voip.selection__res_users_settings__how_to_call_on_mobile__voip
 msgid "Odoo Phone"
-msgstr ""
+msgstr "Teléfono de Odoo"
 
 #. module: voip
 #: model:res.groups,name:voip.group_voip_officer
@@ -1159,6 +1166,7 @@ msgstr "Abrir registro relacionado"
 #: model_terms:ir.actions.act_window,help:voip.voip_call_view
 msgid "Open the softphone in the systray at the top to make your first call."
 msgstr ""
+"Abre el softphone en la parte superior para realizar tu primera llamada."
 
 #. module: voip
 #: model:ir.model.fields.selection,name:voip.selection__voip_call__direction__outgoing
@@ -1204,7 +1212,7 @@ msgstr "Teléfono"
 #. module: voip
 #: model:ir.model,name:voip.model_voip_country_code_mixin
 msgid "Phone Country Mixin"
-msgstr ""
+msgstr "Mixin de país telefónico"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_call__phone_number
@@ -1460,13 +1468,13 @@ msgstr "Debe llamar desde otro dispositivo"
 #. odoo-javascript
 #: code:addons/voip/static/src/web/voip_systray_item.js:0
 msgid "Show Softphone"
-msgstr ""
+msgstr "Mostrar softphone"
 
 #. module: voip
 #. odoo-javascript
 #: code:addons/voip/static/src/widgets/simple_datetime_field.js:0
 msgid "Simple Date & Time"
-msgstr ""
+msgstr "Fecha y hora simples"
 
 #. module: voip
 #. odoo-python
@@ -1494,6 +1502,9 @@ msgid ""
 "preferred device (your desk phone or cell phone) and then connect you to the "
 "recipient."
 msgstr ""
+"Especifica un número de teléfono para que, al realizar una llamada desde el "
+"teléfono de Odoo, suene en tu dispositivo preferido (teléfono fijo o móvil) "
+"y, a continuación, te conecte con el destinatario."
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_call__start_date
@@ -1530,6 +1541,9 @@ msgid ""
 "The DTLS fingerprint and/or setup is missing from the SDP. Please have your "
 "administrator verify that the PBX is configured to use SRTP-DTLS."
 msgstr ""
+"Falta la huella digital y/o la configuración DTLS en el SDP. Pídele a tu "
+"administrador que compruebe que la centralita está configurada para utilizar "
+"SRTP-DTLS."
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_voip_provider__pbx_ip
@@ -1555,6 +1569,10 @@ msgid ""
 "verify the websocket server URL in the VoIP Provider Settings. If the "
 "problem persists, this is probably an issue with the server."
 msgstr ""
+"El error podría proceder de la capa de transporte. Pídele al administrador "
+"que compruebe la URL del servidor websocket en la configuración del "
+"proveedor de VoIP. Si el problema persiste, probablemente se trate de un "
+"error del servidor."
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_voip_call__activity_name
@@ -1613,6 +1631,10 @@ msgid ""
 "that you are reaching the right server (PBX server IP in the VoIP Provider "
 "Settings) and that the credentials in your user preferences are correct."
 msgstr ""
+"El servidor no ha podido autenticarte. Pídele al administrador que compruebe "
+"si se está conectando al servidor correcto "
+"(IP del servidor PBX en la configuración del proveedor de VoIP) y si las "
+"credenciales de sus preferencias de usuario son correctas."
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_voip_call__call_count
@@ -1627,6 +1649,9 @@ msgid ""
 "incorrect. Please have an administrator check the websocket server URL in "
 "the VoIP Provider Settings."
 msgstr ""
+"No se ha podido iniciar el agente de usuario. Es posible que la URL del "
+"servidor websocket sea incorrecta. Pídele al administrador que compruebe la "
+"URL del servidor websocket en la configuración del proveedor de VoIP."
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_settings__voip_username
@@ -1716,13 +1741,13 @@ msgstr "URL de la imagen estática de la bandera"
 #. odoo-javascript
 #: code:addons/voip/static/src/mobile/call_method_selection_dialog.xml:0
 msgid "Use Odoo Phone"
-msgstr ""
+msgstr "Utilizar el teléfono de Odoo"
 
 #. module: voip
 #. odoo-javascript
 #: code:addons/voip/static/src/mobile/call_method_selection_dialog.xml:0
 msgid "Use phone's default app"
-msgstr ""
+msgstr "Utiliza la aplicación predeterminada del teléfono"
 
 #. module: voip
 #: model:ir.model,name:voip.model_res_users
@@ -1897,12 +1922,12 @@ msgstr ""
 #. module: voip
 #: model:res.groups,comment:voip.group_voip_officer
 msgid "can view and report on all calls."
-msgstr ""
+msgstr "puede ver e informar sobre todas las llamadas."
 
 #. module: voip
 #: model:res.groups,comment:voip.group_voip_admin
 msgid "can view, report, and manage call settings."
-msgstr ""
+msgstr "puede ver, informar y gestionar la configuración de las llamadas."
 
 #. module: voip
 #: model_terms:ir.ui.view,arch_db:voip.voip_call_view_form

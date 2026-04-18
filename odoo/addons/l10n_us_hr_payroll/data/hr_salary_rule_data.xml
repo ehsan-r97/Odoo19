@@ -37,6 +37,34 @@ result = payslip.paid_amount
         <field name="struct_id" ref="l10n_us_hr_payroll.hr_payroll_structure_us_employee_salary"/>
     </record>
 
+    <record id="l10n_us_hr_payroll_structure_us_employee_qualified_overtime" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_us_hr_payroll.hr_payroll_reference_value"/>
+        <field name="name">Qualified Overtime</field>
+        <field name="sequence">5</field>
+        <field name="code">QAOT</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+year_payslips = version.env['hr.payslip'].search([
+    ('employee_id', '=', employee.id),
+    ('state', 'in', ['validated', 'paid']),
+    ('date_from', '&gt;=', payslip.date_from + relativedelta(day=1, month=1)),
+    ('date_to', '&lt;=', payslip.date_from + relativedelta(days=-1)),
+    ('company_id', '=', version.company_id.id),
+])
+overtime_sum = year_payslips._get_line_values(['QAOT'], compute_sum=True)['QAOT']['sum']['total']
+result = 'OVERTIME' in worked_days and overtime_sum &lt; payslip._rule_parameter('l10n_us_qualified_overtime_deduction_cap')[employee.l10n_us_filing_status]</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+overtime_cap = payslip._rule_parameter('l10n_us_qualified_overtime_deduction_cap')[employee.l10n_us_filing_status]
+current_overtime_amount = worked_days['OVERTIME'].amount/3
+if overtime_sum + current_overtime_amount &gt;= overtime_cap:
+    current_overtime_amount = overtime_cap - overtime_sum
+result = current_overtime_amount
+        </field>
+        <field name="struct_id" ref="hr_payroll_structure_us_employee_salary"/>
+    </record>
+
     <record id="l10n_us_employee_salary_bonus" model="hr.salary.rule">
         <field name="name">Bonus</field>
         <field name="code">BONUS</field>

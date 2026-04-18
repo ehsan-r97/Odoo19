@@ -183,8 +183,8 @@ export class QualityCheck extends MrpWorkorder {
             };
         }
         this.dialog.add(MrpWorksheetDialog, {
-            worksheetText: this.check.note,
             worksheetData,
+            record: this.props.record,
         });
     }
 }

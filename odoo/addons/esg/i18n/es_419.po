@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
 "PO-Revision-Date: 2026-01-16 20:31+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
@@ -125,9 +125,15 @@ msgid "Activity Flow"
 msgstr "Flujo de la actividad"
 
 #. module: esg
-#: model:ir.model,name:esg.model_esg_activity_type
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor_line__activity_type_id
 msgid "Activity Type"
+msgstr "Tipo de actividad"
+
+#. module: esg
+#: model:ir.model,name:esg.model_esg_activity_type
+#, fuzzy
+#| msgid "Activity Type"
+msgid "Activity Type ESG"
 msgstr "Tipo de actividad"
 
 #. module: esg
@@ -388,8 +394,8 @@ msgstr ""
 "Cambiar el tipo de cuenta a uno que no sea %(valid_account_type_names)s "
 "restablecerá todos los factores de emisión vinculados a los asientos "
 "contables que usen esta cuenta.\n"
-"También eliminará todas las líneas de asignación ESG vinculadas a esa cuenta."
-"\n"
+"También eliminará todas las líneas de asignación ESG vinculadas a esa "
+"cuenta.\n"
 "¿De verdad quieres continuar?"
 
 #. module: esg

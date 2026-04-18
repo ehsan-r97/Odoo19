@@ -794,7 +794,7 @@ class AccountJournal(models.Model):
                         to_add['amount'] = to_add.get('amount', 0) + line['amount']
                     else:
                         line_data = {
-                            'payment_ref': structured_com or line.get('communication', '') or '/',
+                            'payment_ref': " ".join((structured_com or line.get('communication', '') or '/').split()),  # To avoid space in the middle or start/end
                             'transaction_details': transaction_details,
                             'transaction_type': parse_operation(line['transaction_type'], line['transaction_family'], line['transaction_code'], line['transaction_category']),
                             'date': line['entryDate'],
@@ -829,7 +829,9 @@ class AccountJournal(models.Model):
         result = []
         for acc_number, statements in itertools.groupby(sorted(file_statements, key=lambda k: k['acc_number']), key=lambda k: k['acc_number']):
             statements = list(statements)
-            ret_statements = self._get_coda_final_statements(statements)
+            ret_statements = []
+            if not self.env.context.get("ignore_statements"):
+                ret_statements = self._get_coda_final_statements(statements)
 
             # Order the transactions according the newly created statements to ensure valid balances.
             line_sequence = 1

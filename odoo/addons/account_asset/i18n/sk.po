@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2026-01-23 22:04+0000\n"
+"PO-Revision-Date: 2026-03-03 17:23+0000\n"
 "Last-Translator: Tomáš Píšek <Tomas.Pisek@seznam.cz>\n"
 "Language-Team: Slovak <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/sk/>\n"
@@ -21,9 +21,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
-">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && "
+"n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -609,7 +609,7 @@ msgstr "Zrušiť"
 #. module: account_asset
 #: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
 msgid "Cancel Asset"
-msgstr "Zrušiť majetok"
+msgstr "Zrušiť odpisovanie"
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__state__cancelled
@@ -953,7 +953,7 @@ msgstr "Vyradiť"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__distribution_analytic_account_ids
 msgid "Distribution Analytic Account"
-msgstr "Distribučný analytický účet"
+msgstr "Priradenie analytického účtu"
 
 #. module: account_asset
 #: model:ir.actions.server,name:account_asset.action_server_download_asset_template
@@ -1004,6 +1004,11 @@ msgid ""
 "align with tax requirements (e.g. linear depreciation, pro rata temporis "
 "application, no double declining for tax purposes)."
 msgstr ""
+"Zabezpečte súlad s miestnymi daňovými predpismi o odpisovaní.\n"
+"Overte, či metódy odpisovania, doba odpisovania a dátumy začiatku "
+"odpisovania zodpovedajú daňovým požiadavkám (napr. lineárne odpisovanie, "
+"uplatnenie metódy pro rata temporis, žiadne dvojité zníženie odpisov na "
+"daňové účely)."
 
 #. module: account_asset
 #. odoo-python
@@ -1351,7 +1356,7 @@ msgstr "Upraviť odpis"
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_monitoring_of_depreciation
 msgid "Monitoring of Depreciation "
-msgstr ""
+msgstr "Monitorovanie odpisov "
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__method_period__1
@@ -1846,7 +1851,7 @@ msgid ""
 msgstr ""
 "Na účet %(exp_acc)s bolo pripísaných %(exp_delta)s, zatiaľ čo z účtu %"
 "(dep_acc)s bolo odpočítaných %(dep_delta)s. To zodpovedá %(move_count)s "
-"zrušeným %(word)s:"
+"zrušenému(-ným) %(word)s:"
 
 #. module: account_asset
 #. odoo-python
@@ -2042,7 +2047,7 @@ msgstr "Viditeľné pre všetkých"
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__warning_count_assets
 msgid "Warning Count Assets"
-msgstr ""
+msgstr "Počet aktív v upozorneniach"
 
 #. module: account_asset
 #. odoo-python
@@ -2301,13 +2306,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "entries"
-msgstr "záznamy"
+msgstr "záznamom"
 
 #. module: account_asset
 #. odoo-python
 #: code:addons/account_asset/models/account_asset.py:0
 msgid "entry"
-msgstr "záznam"
+msgstr "záznamu"
 
 #. module: account_asset
 #. odoo-python

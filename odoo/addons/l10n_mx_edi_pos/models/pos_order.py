@@ -2,6 +2,7 @@
 from odoo import _, api, models, fields, Command
 from odoo.addons.l10n_mx_edi.models.l10n_mx_edi_document import CANCELLATION_REASON_SELECTION, CFDI_DATE_FORMAT, USAGE_SELECTION
 from odoo.exceptions import UserError, ValidationError
+from datetime import datetime
 
 
 class PosOrder(models.Model):
@@ -776,9 +777,18 @@ class PosOrder(models.Model):
                 key=lambda x: x[0],
             )
             Document._add_payment_policy_cfdi_values(cfdi_values, payment_method=biggest_used_payment_method)
+
+            # Periodicity.
+            document_dates = []
+            for order in orders:
+                order_cfdi_values = dict(cfdi_values)
+                Document._add_date_cfdi_values(order_cfdi_values, order.date_order, journal=order.sale_journal)
+                document_dates.append(datetime.strptime(order_cfdi_values['fecha'], CFDI_DATE_FORMAT).date())
+
             Document._add_global_invoice_cfdi_values(
                 cfdi_values,
                 base_lines,
+                document_date=max(document_dates),
                 periodicity=periodicity,
                 origin=origin,
             )

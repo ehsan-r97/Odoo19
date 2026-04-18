@@ -121,7 +121,7 @@ class StockMove(models.Model):
     def action_add_from_quant(self, quant_id):
         self._add_from_quant(self.env['stock.quant'].browse(quant_id))
 
-        if self.product_id.tracking != 'none' and not self.picking_type_prefill_shop_floor_lots:
+        if self.product_id.tracking != 'none' and (not self.picking_type_prefill_shop_floor_lots or self.byproduct_id):
             self.move_line_ids.filtered(lambda ml: not ml.picked).unlink()
 
         if self.check_id:

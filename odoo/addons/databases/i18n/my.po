@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:41+0000\n"
-"PO-Revision-Date: 2026-02-04 09:29+0000\n"
+"PO-Revision-Date: 2026-02-28 10:04+0000\n"
 "Last-Translator: Oakarmin Iron <oakarminiron@gmail.com>\n"
 "Language-Team: Burmese <https://translate.odoo.com/projects/odoo-19/"
 "databases/my/>\n"
@@ -230,7 +230,7 @@ msgstr ""
 #: model:res.groups.privilege,name:databases.res_groups_privilege_databases
 #: model_terms:ir.ui.view,arch_db:databases.res_config_settings_view_form
 msgid "Databases"
-msgstr ""
+msgstr "ဒေတာဘေ့စ်များ"
 
 #. module: databases
 #: model:ir.actions.server,name:databases.ir_cron_synchronize_databases_with_odoocom_ir_actions_server
@@ -657,7 +657,7 @@ msgstr "အပြင်အဆင်များ"
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__state
 msgid "State"
-msgstr "ပြည်နယ်"
+msgstr "အခြေအနေ"
 
 #. module: databases
 #: model:ir.model.fields,field_description:databases.field_databases_manage_users_wizard__summary_message
@@ -682,7 +682,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:databases.edit_project
 #: model_terms:ir.ui.view,arch_db:databases.view_databases_list
 msgid "Synchronize"
-msgstr ""
+msgstr "စင်ခရိုနုဇ်"
 
 #. module: databases
 #: model:ir.actions.server,name:databases.action_synchronize_all_databases

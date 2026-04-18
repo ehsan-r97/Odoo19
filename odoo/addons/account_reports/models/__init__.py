@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from . import res_partner
@@ -38,3 +37,4 @@ from . import mail_tracking_value
 from . import account_audit_account_status
 from . import kpi_provider
 from . import ir_module
+from . import account_chart_template

@@ -8,13 +8,13 @@
 # Luca Carlo, 2023
 # Sergio Zanchetta <primes2h@gmail.com>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Marianna Ciofani (cima)" <cima@odoo.com>, 2025.
+# "Marianna Ciofani (cima)" <cima@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:42+0000\n"
-"PO-Revision-Date: 2025-10-24 11:22+0000\n"
+"PO-Revision-Date: 2026-02-14 09:53+0000\n"
 "Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
 "account_asset/it/>\n"
@@ -22,9 +22,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == "
-"0) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0)"
+" ? 1 : 2);\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: account_asset
 #: model:ir.model.fields,field_description:account_asset.field_account_asset__total_depreciation_entries_count
@@ -1022,6 +1022,12 @@ msgid ""
 "align with tax requirements (e.g. linear depreciation, pro rata temporis "
 "application, no double declining for tax purposes)."
 msgstr ""
+"Garantisci la conformità alle norme fiscali locali in materia di "
+"ammortamento.\n"
+"Verifica che i metodi di ammortamento, il periodo di ammortamento e le date "
+"di inizio siano in linea con i requisiti fiscali (ad esempio, ammortamento "
+"lineare, applicazione pro rata temporis, nessun doppio declino ai fini "
+"fiscali)."
 
 #. module: account_asset
 #. odoo-python
@@ -1371,7 +1377,7 @@ msgstr "Modifica ammortamento"
 #. module: account_asset
 #: model:account.return.check.template,name:account_asset.account_return_check_template_monitoring_of_depreciation
 msgid "Monitoring of Depreciation "
-msgstr ""
+msgstr "Monitoraggio dell'ammortamento "
 
 #. module: account_asset
 #: model:ir.model.fields.selection,name:account_asset.selection__account_asset__method_period__1

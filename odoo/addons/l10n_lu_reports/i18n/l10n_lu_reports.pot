@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 19:08+0000\n"
-"PO-Revision-Date: 2025-12-30 19:08+0000\n"
+"POT-Creation-Date: 2026-02-20 19:06+0000\n"
+"PO-Revision-Date: 2026-02-20 19:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -355,11 +355,6 @@ msgid "FAIA"
 msgstr ""
 
 #. module: l10n_lu_reports
-#: model:ir.model,name:l10n_lu_reports.model_account_general_ledger_report_handler
-msgid "FEC Report Custom Handler"
-msgstr ""
-
-#. module: l10n_lu_reports
 #. odoo-python
 #: code:addons/l10n_lu_reports/models/l10n_lu_annual_tax_report.py:0
 msgid ""
@@ -631,6 +626,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_lu_reports/models/account_financial_report.py:0
 msgid "Please set valid eCDF Prefix for your company."
+msgstr ""
+
+#. module: l10n_lu_reports
+#: model:ir.model,name:l10n_lu_reports.model_account_general_ledger_report_handler
+msgid "Polish JPK KR PD Custom Handler"
 msgstr ""
 
 #. module: l10n_lu_reports

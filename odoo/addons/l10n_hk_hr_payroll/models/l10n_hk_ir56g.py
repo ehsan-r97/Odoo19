@@ -76,7 +76,7 @@ class L10n_HkIr56g(models.Model):
                 'AmtOfBpEtc': int(mapped_total['BACKPAY']),
                 'NatureOtherRAP1': 'Internet Allowance' if int(mapped_total['ALW.INT']) else '',
                 'AmtOfOtherRAP1': int(mapped_total['ALW.INT']),
-                'TotalIncome': int(mapped_total['MPF_GROSS']),
+                'TotalIncome': int(mapped_total['MPF_GROSS'] - mapped_total['HRA']),
                 'PlaceOfResInd': int(bool(rental_ids)),
                 'AddrOfPlace1': '',
                 'NatureOfPlace1': '',
@@ -122,7 +122,7 @@ class L10n_HkIr56g(models.Model):
 
         total_data = {
             'NoRecordBatch': '{:05}'.format(sheets_count),
-            'TotIncomeBatch': int(sum(all_line_values['MPF_GROSS'][p.id]['total'] for p in all_payslips)),
+            'TotIncomeBatch': int(sum(ed['TotalIncome'] for ed in employees_data)),
         }
 
         return {'data': report_info, 'employees_data': employees_data, 'total_data': total_data}

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:46+0000\n"
+"POT-Creation-Date: 2026-04-03 18:48+0000\n"
 "PO-Revision-Date: 2025-11-08 19:44+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Ukrainian <https://translate.odoo.com/projects/odoo-19/"
@@ -61,6 +61,13 @@ msgstr "<strong>Запланована дата:</strong>"
 #: model:ir.model.fields,field_description:project_enterprise.field_project_task__allocated_hours
 msgid "Allocated Time"
 msgstr "Розподілений час"
+
+#. module: project_enterprise
+#: model:ir.model.fields,field_description:project_enterprise.field_res_users__task_ids
+#, fuzzy
+#| msgid "Unassigned Tasks"
+msgid "Assigned Tasks"
+msgstr "Непризначені завдання"
 
 #. module: project_enterprise
 #: model:ir.model.fields,field_description:project_enterprise.field_project_task__user_ids
@@ -452,9 +459,6 @@ msgstr ""
 
 #~ msgid "Task confirm schedule line wizard"
 #~ msgstr "Майстер рядка розкладу підтвердження завдання"
-
-#~ msgid "Unassigned Tasks"
-#~ msgstr "Непризначені завдання"
 
 #~ msgid "User Names"
 #~ msgstr "Імена користувачів"

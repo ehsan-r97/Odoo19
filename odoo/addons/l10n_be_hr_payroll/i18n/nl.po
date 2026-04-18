@@ -10,13 +10,14 @@
 #
 # Bren Driesen <brdri@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 19:02+0000\n"
-"PO-Revision-Date: 2025-11-15 22:50+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"POT-Creation-Date: 2026-02-13 19:00+0000\n"
+"PO-Revision-Date: 2026-02-11 19:42+0000\n"
+"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19-l10n/"
 "l10n_be_hr_payroll/nl/>\n"
 "Language: nl\n"
@@ -24,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields,help:l10n_be_hr_payroll.field_hr_payslip_employee_depature_holiday_attests__net_n
@@ -138,6 +139,13 @@ msgstr ""
 #: code:addons/l10n_be_hr_payroll/models/l10n_be_individual_account.py:0
 msgid "%(employee_name)s-individual-account-%(year)s"
 msgstr "%(employee_name)s-individuele-rekening-%(year)s"
+
+#. module: l10n_be_hr_payroll
+#. odoo-python
+#: code:addons/l10n_be_hr_payroll/wizard/l10n_be_social_balance_sheet.py:0
+#: code:addons/l10n_be_hr_payroll/wizard/l10n_be_social_security_certificate.py:0
+msgid "%(established_date)s at %(established_time)s"
+msgstr ""
 
 #. module: l10n_be_hr_payroll
 #. odoo-python
@@ -313,6 +321,8 @@ msgid ""
 "* specific remuneration paid in 2025 for specific services performed in "
 "2023, 2022, 2021 and/or 2020"
 msgstr ""
+"* bepaalde bezoldigingen betaald in 2025 voor specifieke prestaties geleverd "
+"in 2023, 2022, 2021 en/of 2020"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -657,7 +667,7 @@ msgstr "1° - die in aanmerking komen voor de begrenzing tot 180 uren"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "1° Awarded in 2025"
-msgstr ""
+msgstr "1° Toegekend in 2025"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -682,16 +692,18 @@ msgid ""
 "2) Overtime hours worked and paid between 01.07.2023 and 31.12.2023 included "
 "and paid in 2025"
 msgstr ""
+"2) Overuren gepresteerd van 01.07.2023 tot en met 31.12.2023 en betaald in "
+"2025"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "2) Overtime hours worked and paid in 2025"
-msgstr ""
+msgstr "2) Overuren gepresteerd en betaald in 2025"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "2) Overtime hours worked in 2024 and paid in 2025"
-msgstr ""
+msgstr "2) Overuren gepresteerd in 2024 en betaald in 2025"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_individual_account
@@ -988,7 +1000,7 @@ msgstr "2de"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "2° - which are taken into consideration for the limit up to 280 hours"
-msgstr ""
+msgstr "2° - die in aanmerking komen voor de begrenzing tot 280 uren"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1003,7 +1015,7 @@ msgstr "2° Achterstallen"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "2° Awarded before 2025"
-msgstr ""
+msgstr "2° Toegekend vóór 2025"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields,help:l10n_be_hr_payroll.field_res_company__dmfa_employer_class
@@ -1020,12 +1032,12 @@ msgstr "305"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "306"
-msgstr ""
+msgstr "306"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "307"
-msgstr ""
+msgstr "307"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1610,6 +1622,9 @@ msgid ""
 "flexi-job carried out by a non-pensioner which is taken into account for the "
 "exemption</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">20. Voor vrijstelling in "
+"aanmerking komende bezoldigingen uit een flexi-job uitgeoefend door een niet-"
+"gepensioneerde</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1618,6 +1633,9 @@ msgid ""
 "volunteer firefighters, volunteer ambulance drivers and volunteer civil "
 "protection officers who are eligible for exemption</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">21. Voor vrijstelling in "
+"aanmerking komende vergoedingen van vrijwillige brandweerlieden, vrijwillige "
+"ambulanciers en vrijwilligers van de civiele bescherming</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1625,6 +1643,8 @@ msgid ""
 "<span class=\"text-start text-uppercase fw-bold\">22. Withholding Taxes</"
 "span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">22. Bedrijfsvoorheffing</"
+"span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1632,6 +1652,8 @@ msgid ""
 "<span class=\"text-start text-uppercase fw-bold\">23. Special contributions "
 "for social security</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">23. Bijzondere bijdrage "
+"voor de sociale zekerheid</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1639,12 +1661,14 @@ msgid ""
 "<span class=\"text-start text-uppercase fw-bold\">24. Public sector staff "
 "without an employment contract</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">24. Overheidspersoneel "
+"zonder arbeidsovereenkomst</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid ""
 "<span class=\"text-start text-uppercase fw-bold\">25. Employment bonus</span>"
-msgstr ""
+msgstr "<span class=\"text-start text-uppercase fw-bold\">25. Werkbonus</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1652,6 +1676,8 @@ msgid ""
 "<span class=\"text-start text-uppercase fw-bold\">26. Miscellaneous "
 "information</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">26. Diverse inlichtingen</"
+"span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1659,6 +1685,8 @@ msgid ""
 "<span class=\"text-start text-uppercase fw-bold\">27. Remuneration and other "
 "benefits received from a related foreign company</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">27. Bezoldigingen en "
+"andere voordelen ontvangen van een buitenlandse verbonden vennootschap</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1667,6 +1695,9 @@ msgid ""
 "worker in agriculture and horticulture subject to professional withholding "
 "tax who provided a residence certificate</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">28. Niet-inwoner werkzaam "
+"als seizoensarbeider in de land- en tuinbouw onderworpen aan de bevrijdende "
+"bedrijfsvoorheffing die een woonplaatsverklaring heeft bezorgd</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1674,6 +1705,9 @@ msgid ""
 "<span class=\"text-start text-uppercase fw-bold\">29. Special tax regimes "
 "for inpatriate taxpayers and inpatriate researchers</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">29. Bijzondere "
+"belastingstelsels voor ingekomen belastingplichtigen en ingekomen "
+"onderzoekers</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -1682,6 +1716,9 @@ msgid ""
 "awarded for services carried out within the framework of association "
 "activities after exceeding an hourly limit</span>"
 msgstr ""
+"<span class=\"text-start text-uppercase fw-bold\">30. Beloningen betaald of "
+"toegekend voor prestaties in het kader van verenigingsactiviteiten na "
+"overschrijding van een uurgrens</span>"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -8786,7 +8823,7 @@ msgstr ""
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "Number of kilometers"
-msgstr ""
+msgstr "Aantal km"
 
 #. module: l10n_be_hr_payroll
 #: model:ir.model.fields,help:l10n_be_hr_payroll.field_l10n_be_dmfa__message_needaction_counter
@@ -13500,7 +13537,7 @@ msgstr "a) Vervroegd vakantiegeld (ander dan bedoeld onder 11b en 12b):"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "a) Employer-specific expenses"
-msgstr "a) Eigen kosten voor de werkgever"
+msgstr "a) Eigen kosten van de werkgever"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_273S
@@ -13525,7 +13562,7 @@ msgstr "a) Gelegenheidswerknemer in de horecasector"
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "a) Provided in 2025 as part of the relaunch:"
-msgstr ""
+msgstr "a) In 2025 gepresteerd in het kader van de relance:"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -13578,6 +13615,8 @@ msgid ""
 "b) Amount recognized as an expense in 2025 if this amount does not "
 "correspond to the amount indicated in section 4.a:"
 msgstr ""
+"b) Bedrag dat in kosten is geboekt in 2025 indien dat bedrag niet "
+"overeenstemt met het in rubriek 4.a. ingevulde bedrag:"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_45
@@ -13586,6 +13625,9 @@ msgid ""
 "correspond to the total of the amounts indicated in sections 5.a.1) and "
 "5.a.2):"
 msgstr ""
+"b) Bedrag dat in kosten is geboekt in 2025 indien dat bedrag niet "
+"overeenstemt met het totaal van de in de rubrieken 5.a.1) en 5.a.2) "
+"ingevulde bedragen:"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -13641,7 +13683,7 @@ msgstr ""
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
 msgid "b) Provided in 2024 as part of the relaunch:"
-msgstr ""
+msgstr "b) In 2024 gepresteerd in het kader van de relance:"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10
@@ -13733,6 +13775,8 @@ msgid ""
 "c) Voluntary overtime worked between 01.07.2023 and 31.12.2023 included as "
 "part of the relaunch:"
 msgstr ""
+"c) Vrijwillige overuren van 01.07.2023 tot en met 31.12.2023 gepresteerd in "
+"het kader van de relance:"
 
 #. module: l10n_be_hr_payroll
 #: model_terms:ir.ui.view,arch_db:l10n_be_hr_payroll.report_281_10

@@ -165,6 +165,11 @@ registry.category("web_tour.tours").add("PreparationDisplayPaymentNotCancelDispl
             FloorScreen.clickTable("5"),
             ProductScreen.clickOrderline("Coca-Cola", "2"),
             ProductScreen.clickNumpad("1"),
+            Order.hasLine({
+                productName: "Coca-Cola",
+                quantity: 1,
+                withClass: ":eq(0)",
+            }),
             ProductScreen.clickOrderButton(),
             FloorScreen.clickTable("5"),
             ProductScreen.clickPayButton(),
@@ -177,10 +182,7 @@ registry.category("web_tour.tours").add("PreparationDisplayPaymentNotCancelDispl
 function clickOrderButton() {
     return [
         ProductScreen.clickOrderButton(),
-        {
-            trigger: ".oe_status .fa.fa-spin",
-        },
-        Chrome.isSynced(),
+        Chrome.waitRequest(),
         ProductScreen.orderlinesHaveNoChange(),
     ].flat();
 }

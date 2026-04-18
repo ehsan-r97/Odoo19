@@ -3,6 +3,7 @@
 from datetime import date
 
 import odoo.tests
+from odoo.addons.hr_contract_salary.utils.hr_version import HR_VERSION_CTX_KEY
 from odoo.addons.hr_contract_salary.tests.test_salary_package import TestSalaryPackageItems
 
 
@@ -22,7 +23,15 @@ class TestEmployeePartTimeMB(TestSalaryPackageItems):
         self.assertEqual(active_version.l10n_be_mobility_budget_amount, 12399.71)
         self.assertEqual(active_version.l10n_be_wage_with_mobility_budget, 4058.46)
         # Make part time simulation
-        active_version.with_context(simulation_working_schedule=50)._generate_salary_simulation_payslip()
+        active_version.with_context(
+            # add the ctx key manually, as test is running in a savepoint, can't use the ctx manager
+            **{
+                HR_VERSION_CTX_KEY: True,
+                'salary_simulation': True,
+                'tracking_disable': True,
+                'simulation_working_schedule': 50,
+            }
+        )._generate_salary_simulation_payslip()
         self.assertEqual(active_version.wage_with_holidays, 2377.35)
         self.assertEqual(active_version.l10n_be_wage_with_mobility_budget, 1666.69)
         # Should not change the mobility budget

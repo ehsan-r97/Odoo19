@@ -144,7 +144,8 @@ class PosSession(models.Model):
             # so if - is in name or reason direct spiltting won't work
             move_parts = cash_move['name'].removeprefix(self.name).split('-')
             move_type, statement_type, move_reason = move_parts[1], move_parts[2], "-".join(move_parts[3:])
-            statements.append({"type": statement_type.capitalize(), "name": f"Cash {move_type} - {move_reason}"[:40], "amounts_per_vat_id": [self._get_vat_details(5, cash_move['amount'], cash_move['amount'])]})
+            statement_type = (statement_type[0].upper() + statement_type[1:]) if statement_type else ''
+            statements.append({"type": statement_type, "name": f"Cash {move_type} - {move_reason}"[:40], "amounts_per_vat_id": [self._get_vat_details(5, cash_move['amount'], cash_move['amount'])]})
         for case_type, vat_summaries in summary.items():
             statements.append({"type": case_type, "amounts_per_vat_id": vat_summaries})
         return statements
@@ -173,8 +174,8 @@ class PosSession(models.Model):
                     "buyer_export_id": f"{o.partner_id.id}",
                     "type": "Kunde" if company.id != o.partner_id.company_id.id else "Mitarbeiter",
                     "address": {
-                        "street": o.partner_id.street[:60] or 'N/A',  # minimum 1 character required
-                        "postal_code": o.partner_id.zip[:10] or 'N/A',  # minimum 1 character required
+                        "street": (o.partner_id.street or 'N/A')[:60],  # minimum 1 character required
+                        "postal_code": (o.partner_id.zip or 'N/A')[:10],  # minimum 1 character required
                         "country_code": COUNTRY_CODE_MAP.get(o.partner_id.country_id.code) or "DEU",
                     },
                 }

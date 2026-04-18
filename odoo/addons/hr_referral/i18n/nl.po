@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-01-07 18:04+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
+"PO-Revision-Date: 2026-03-17 15:12+0000\n"
+"Last-Translator: Bren Driesen <brdri@odoo.com>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/"
 "hr_referral/nl/>\n"
 "Language: nl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: hr_referral
 #. odoo-python
@@ -67,7 +67,7 @@ msgid ""
 msgstr ""
 ".\n"
 "Als je iemand kent die geschikt zou zijn voor deze functie, deel deze link "
-"dan met hem of haar:"
+"dan met die persoon:"
 
 #. module: hr_referral
 #: model_terms:ir.ui.view,arch_db:hr_referral.referral_email_body_template
@@ -1289,7 +1289,7 @@ msgstr "Ons bedrijf is op zoek naar een"
 #: model_terms:ir.ui.view,arch_db:hr_referral.hr_referral_view_form_reward_purchase_dialog
 #: model_terms:ir.ui.view,arch_db:hr_referral.view_hr_referral_reward_kanban
 msgid "Point icon"
-msgstr "Punt pictogram"
+msgstr "Punt icoon"
 
 #. module: hr_referral
 #: model:ir.actions.act_window,name:hr_referral.action_hr_referral_points
@@ -1325,7 +1325,7 @@ msgstr "Ontvangen punten"
 #. module: hr_referral
 #: model_terms:ir.ui.view,arch_db:hr_referral.view_hr_job_employee_referral_kanban
 msgid "Points icon"
-msgstr "Punten pictogram"
+msgstr "Punten icoon"
 
 #. module: hr_referral
 #: model:ir.model,name:hr_referral.model_hr_referral_points
@@ -2085,9 +2085,9 @@ msgid ""
 "                If you know someone who would be a great fit for this "
 "position, please share this link with them:"
 msgstr ""
-"positie.\n"
+".\n"
 "                Als je iemand kent die geschikt zou zijn voor deze functie, "
-"deel deze link dan met hem of haar:"
+"deel deze link dan met die persoon:"
 
 #. module: hr_referral
 #. odoo-javascript

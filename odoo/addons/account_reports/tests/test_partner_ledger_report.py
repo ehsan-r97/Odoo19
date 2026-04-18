@@ -858,3 +858,32 @@ class TestPartnerLedgerReport(TestAccountReportsCommon):
             ],
             options_partner,
         )
+
+    def test_partner_ledger_without_filter_partner(self):
+        """"Test opening the partner ledger report when filter_partner is disabled."""
+        self.report.filter_partner = False
+        options = self._generate_options(
+            self.report, '2019-03-01', '2019-03-31',
+            default_options={'unfold_all': True}
+        )
+        self.assertNotIn('partner_ids', options)
+
+        report_lines = self.report._get_lines(options)
+        self.assertLinesValues(
+            report_lines,
+            #   Name                                    Debit           Credit          Balance
+            [   0,                                      6,              7,              9],
+            [
+                ('partner_a',                         0.0,            0.0,        20150.0),
+                ('Initial Balance',                    '',             '',        20150.0),
+                ('Total partner_a',                   0.0,            0.0,        20150.0),
+                ('partner_b',                         0.0,            0.0,         1200.0),
+                ('Initial Balance',                    '',             '',         1200.0),
+                ('Total partner_b',                   0.0,            0.0,         1200.0),
+                ('partner_c',                         0.0,            0.0,       -21350.0),
+                ('Initial Balance',                    '',             '',       -21350.0),
+                ('Total partner_c',                   0.0,            0.0,       -21350.0),
+                ('Total',                             0.0,            0.0,            0.0),
+            ],
+            options,
+        )

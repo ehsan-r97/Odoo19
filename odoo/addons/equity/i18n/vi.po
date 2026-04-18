@@ -2,15 +2,15 @@
 # This file contains the translation of the following modules:
 # * equity
 #
-# "Thi Huong Nguyen (thng)" <thng@odoo.com>, 2025.
+# "Thi Huong Nguyen (thng)" <thng@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Odoo Translation Bot <c3p@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:41+0000\n"
-"PO-Revision-Date: 2025-12-24 08:44+0000\n"
+"POT-Creation-Date: 2026-04-03 18:42+0000\n"
+"PO-Revision-Date: 2026-04-04 10:51+0000\n"
 "Last-Translator: \"Thi Huong Nguyen (thng)\" <thng@odoo.com>\n"
 "Language-Team: Vietnamese <https://translate.odoo.com/projects/odoo-19/"
 "equity/vi/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__securities
@@ -325,6 +325,12 @@ msgstr ""
 "Khu vực Kinh tế Châu Âu; hoặc"
 
 #. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+msgid "A partner cannot have transactions in different currencies."
+msgstr ""
+
+#. module: equity
 #: model_terms:ir.ui.view,arch_db:equity.equity_ubo_report
 msgid ""
 "According to laws related to anti money laundering, the notary must identify "
@@ -447,6 +453,11 @@ msgstr "Bên mua"
 #: model:ir.model.fields.selection,name:equity.selection__equity_ubo__auth_rep_role__ceo
 msgid "CEO"
 msgstr "CEO"
+
+#. module: equity
+#: model:ir.model.fields,field_description:equity.field_equity_transaction__can_change_currency
+msgid "Can Change Currency"
+msgstr ""
 
 #. module: equity
 #. odoo-python
@@ -619,7 +630,7 @@ msgstr "Tiền tệ"
 #. module: equity
 #: model:ir.ui.menu,name:equity.menu_equity_dashboard
 msgid "Dashboard"
-msgstr "Bảng điều khiển"
+msgstr "Báo cáo tổng quan"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__date
@@ -793,7 +804,7 @@ msgstr "Miễn trừ việc xác định chủ sở hữu thực sự"
 #. odoo-python
 #: code:addons/equity/models/equity_transaction.py:0
 msgid "Exercise transactions must have a destination 'Share' class"
-msgstr "Các giao dịch tập thể phải có lớp đích là 'Share'"
+msgstr "Các giao dịch tập thể phải có lớp đích là 'Chia sẻ'"
 
 #. module: equity
 #: model:ir.model.fields,field_description:equity.field_equity_transaction__expiration_date
@@ -1338,7 +1349,7 @@ msgid ""
 "Only %(subscriber_options)s %(security_class_name)s options available for "
 "exercise"
 msgstr ""
-"Chỉ có các tùy chọn %(subscriber_options)s %(security_class_name)s  có thể "
+"Chỉ có các tùy chọn %(subscriber_options)s %(security_class_name)s có thể "
 "được thực hiện"
 
 #. module: equity
@@ -1972,6 +1983,16 @@ msgid ""
 msgstr ""
 "Bạn có thể loại bỏ bất kỳ cổ đông nào sở hữu dưới 25% số cổ phần hoặc quyền "
 "biểu quyết."
+
+#. module: equity
+#. odoo-python
+#: code:addons/equity/models/equity_transaction.py:0
+#, fuzzy
+#| msgid "Cannot change security class type because it has linked transactions"
+msgid ""
+"You cannot change the equity currency because this partner already has "
+"existing transactions."
+msgstr "Không thể thay đổi loại lớp bảo mật vì nó có các giao dịch liên kết"
 
 #. module: equity
 #. odoo-javascript
