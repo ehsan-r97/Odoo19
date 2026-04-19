@@ -1,0 +1,36 @@
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: unknown option 'https' in the config file at /home/odoo19/odoo19/odoo.conf, option stored as-is, without parsing 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: unknown option 'log_rotate' in the config file at /home/odoo19/odoo19/odoo.conf, option stored as-is, without parsing 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: unknown option 'longpolling_port' in the config file at /home/odoo19/odoo19/odoo.conf, option stored as-is, without parsing 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: option smtp_user reads 'False' in the config file at /home/odoo19/odoo19/odoo.conf but isn't a boolean option, skip 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: option smtp_password reads 'False' in the config file at /home/odoo19/odoo19/odoo.conf but isn't a boolean option, skip 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: option email_from reads 'False' in the config file at /home/odoo19/odoo19/odoo.conf but isn't a boolean option, skip 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: unknown option 'wkhtmltopdf_path' in the config file at /home/odoo19/odoo19/odoo.conf, option stored as-is, without parsing 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: unknown option 'demo' in the config file at /home/odoo19/odoo19/odoo.conf, option stored as-is, without parsing 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: unknown option 'osv_memory_age_limit' in the config file at /home/odoo19/odoo19/odoo.conf, option stored as-is, without parsing 
+2026-04-19 13:25:19,552 9252 WARNING ? odoo.tools.config: unknown option 'translate_modules' in the config file at /home/odoo19/odoo19/odoo.conf, option stored as-is, without parsing 
+2026-04-19 13:25:19,552 9252 INFO ? odoo: Odoo version 19.0+e-20260409 
+2026-04-19 13:25:19,553 9252 INFO ? odoo: Using configuration file at /home/odoo19/odoo19/odoo.conf 
+2026-04-19 13:25:19,553 9252 INFO ? odoo: addons paths: _NamespacePath(['/home/odoo19/odoo19/odoo/addons', '/home/odoo19/odoo19/filestore/addons/19.0', '/home/odoo19/odoo19/custom_addons']) 
+2026-04-19 13:25:19,553 9252 INFO ? odoo: database: odoo19@localhost:5432 
+2026-04-19 13:25:21,876 9252 INFO ? odoo.service.server: HTTP service (werkzeug) running on EhsanDEV.localdomain:8069 
+2026-04-19 13:25:21,971 9252 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-04-19 13:25:21,973 9252 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-04-19 13:25:22,139 9252 INFO odoo19 odoo.modules.loading: loading 21 modules... 
+2026-04-19 13:25:23,106 9252 INFO odoo19 odoo.modules.loading: 21 modules loaded in 0.97s, 0 queries (+0 extra) 
+2026-04-19 13:25:23,131 9252 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-04-19 13:25:23,149 9252 INFO odoo19 odoo.registry: Registry loaded in 1.272s 
+2026-04-19 13:26:23,247 9252 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-04-19 13:26:23,800 9252 INFO odoo19 odoo.addons.base.models.ir_attachment: filestore gc 2 checked, 0 removed 
+2026-04-19 13:26:23,831 9252 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 1 entries 
+2026-04-19 13:26:24,324 9252 INFO odoo19 odoo.addons.base.models.res_users: GC'd 0 user log entries 
+2026-04-19 13:26:24,415 9252 INFO odoo19 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries 
+2026-04-19 13:26:24,567 9252 INFO odoo19 odoo.models.unlink: User #1 deleted base.language.install records with IDs: [1] 
+2026-04-19 13:26:24,793 9252 INFO odoo19 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index 
+2026-04-19 13:26:24,888 9252 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-04-19 13:26:24,985 9252 INFO odoo19 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries 
+2026-04-19 13:26:25,185 9252 INFO odoo19 odoo.models.unlink: User #1 deleted res.config.settings records with IDs: [1, 2, 3, 4] 
+2026-04-19 13:26:25,263 9252 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 44; remaining 0; duration 2.02s) 
+2026-04-19 13:26:28,194 9252 INFO odoo19 odoo.service.server: Initiating shutdown 
+2026-04-19 13:26:28,194 9252 INFO odoo19 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-04-19 13:26:28,464 9252 INFO odoo19 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 5 connections  
+2026-04-19 13:26:28,465 9252 INFO ? odoo.service.server: cron0 max age (0s) reached, releasing connection. 
