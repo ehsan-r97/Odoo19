@@ -2,7 +2,7 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="3.12 WSL (odoo19): (/home/odoo19/odoo19/venv/bin/python3.12)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="3.12 WSL (odoo19): (/home/odoo19/odoo19/venv/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
@@ -12,7 +12,7 @@
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/odoo/addons/l10n_uk_hmrc/templates" />
+        <option value="$MODULE_DIR$/custom_addons/server-tools-19.0/upgrade_analysis/templates" />
       </list>
     </option>
   </component>

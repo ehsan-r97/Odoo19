@@ -1,0 +1,47 @@
+.o_calendar_renderer .fc {
+    direction: rtl;
+}
+
+.o_calendar_renderer .fc .fc-toolbar {
+    gap: 0.5rem;
+}
+
+.o_shamsi_day_number {
+    font-weight: 700;
+}
+
+.o_calendar_renderer .fc .o_shamsi_header_cushion {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    line-height: 1.1;
+}
+
+.o_calendar_renderer .fc .o_shamsi_weekday {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.o_calendar_renderer .fc .o_shamsi_header_day {
+    font-size: 1.3rem;
+    font-weight: 500;
+    min-width: 1.6rem;
+    text-align: center;
+}
+
+.o_calendar_renderer .fc .o_shamsi_today .o_shamsi_header_day {
+    background: #d14343;
+    color: #fff;
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input.o_shamsi_applied {
+    direction: ltr;
+    text-align: right;
+}
