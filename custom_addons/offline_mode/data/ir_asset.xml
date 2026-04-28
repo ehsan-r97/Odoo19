@@ -1,0 +1,9 @@
+<odoo>
+    <record id="offline_mode_primary_variables_scss" model="ir.asset">
+        <field name="name">Offline Mode Font Override</field>
+        <field name="bundle">web._assets_primary_variables</field>
+        <field name="directive">append</field>
+        <field name="path">offline_mode/static/src/scss/primary_variables.scss</field>
+        <field name="sequence" eval="99"/>
+    </record>
+</odoo>
