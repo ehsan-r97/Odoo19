@@ -1,0 +1,18 @@
+[project]
+name = "odoo-addons-oca-community-data-files"
+version = "19.0.20260427.0"
+dependencies = [
+    "odoo-addon-account_payment_unece==19.0.*",
+    "odoo-addon-account_tax_unece==19.0.*",
+    "odoo-addon-base_bank_from_iban==19.0.*",
+    "odoo-addon-base_iso3166==19.0.*",
+    "odoo-addon-base_unece==19.0.*",
+    "odoo-addon-l10n_eu_product_adr==19.0.*",
+    "odoo-addon-l10n_eu_product_adr_dangerous_goods==19.0.*",
+    "odoo-addon-uom_unece==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]

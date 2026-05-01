@@ -1,0 +1,14 @@
+[project]
+name = "odoo-addons-oca-intrastat-extrastat"
+version = "19.0.20260120.0"
+dependencies = [
+    "odoo-addon-intrastat_base==19.0.*",
+    "odoo-addon-product_harmonized_system==19.0.*",
+    "odoo-addon-product_harmonized_system_delivery==19.0.*",
+    "odoo-addon-product_harmonized_system_stock==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]

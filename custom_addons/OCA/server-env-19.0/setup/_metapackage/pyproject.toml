@@ -1,0 +1,13 @@
+[project]
+name = "odoo-addons-oca-server-env"
+version = "19.0.20260312.0"
+dependencies = [
+    "odoo-addon-mail_environment==19.0.*",
+    "odoo-addon-server_environment==19.0.*",
+    "odoo-addon-server_environment_ir_config_parameter==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]

@@ -1,0 +1,13 @@
+[project]
+name = "odoo-addons-oca-web-api"
+version = "19.0.20260420.0"
+dependencies = [
+    "odoo-addon-endpoint_route_handler==19.0.*",
+    "odoo-addon-webservice==19.0.*",
+    "odoo-addon-webservice_server_env==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]

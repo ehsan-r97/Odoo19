@@ -1,0 +1,21 @@
+[project]
+name = "odoo-addons-oca-fleet"
+version = "19.0.20260330.1"
+dependencies = [
+    "odoo-addon-fleet_vehicle_calendar_year==19.0.*",
+    "odoo-addon-fleet_vehicle_category==19.0.*",
+    "odoo-addon-fleet_vehicle_configuration==19.0.*",
+    "odoo-addon-fleet_vehicle_fuel_capacity==19.0.*",
+    "odoo-addon-fleet_vehicle_fuel_type_ethanol==19.0.*",
+    "odoo-addon-fleet_vehicle_history_date_end==19.0.*",
+    "odoo-addon-fleet_vehicle_inspection==19.0.*",
+    "odoo-addon-fleet_vehicle_purchase==19.0.*",
+    "odoo-addon-fleet_vehicle_service_activity==19.0.*",
+    "odoo-addon-fleet_vehicle_service_kanban==19.0.*",
+    "odoo-addon-fleet_vehicle_service_services==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]

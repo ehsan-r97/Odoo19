@@ -1,0 +1,19 @@
+[project]
+name = "odoo-addons-oca-mail"
+version = "19.0.20260416.1"
+dependencies = [
+    "odoo-addon-mail_activity_board==19.0.*",
+    "odoo-addon-mail_activity_reminder==19.0.*",
+    "odoo-addon-mail_message_search==19.0.*",
+    "odoo-addon-mail_optional_autofollow==19.0.*",
+    "odoo-addon-mail_outbound_static==19.0.*",
+    "odoo-addon-mail_partner_opt_out==19.0.*",
+    "odoo-addon-mail_post_defer==19.0.*",
+    "odoo-addon-mail_restrict_send_button==19.0.*",
+    "odoo-addon-mail_send_confirmation==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]
