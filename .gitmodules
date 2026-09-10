@@ -1,0 +1,3 @@
+[submodule "custom_addons/l10_ir"]
+	path = custom_addons/l10_ir
+	url = https://github.com/ehsan-r97/Odoo19Custom_Addons.git
