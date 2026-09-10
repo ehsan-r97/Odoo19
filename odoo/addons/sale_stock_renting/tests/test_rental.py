@@ -4,7 +4,6 @@ from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
 from freezegun import freeze_time
-from unittest import skip
 
 from odoo.fields import Command, Date, Datetime
 from odoo.tests import Form, tagged
@@ -140,7 +139,6 @@ class TestRentalWizard(TestRentalCommon):
 
         self.assertEqual(self.product_id._get_unavailable_lots(from_date, to_date), lot1 + lot3)
 
-    @skip('Temporary to fast merge new valuation')
     def test_rental_product_flow(self):
 
         self.assertEqual(
@@ -189,7 +187,7 @@ class TestRentalWizard(TestRentalCommon):
 
         """ In company stock valuation """
         self.assertEqual(
-            self.product_id.quantity_svl,
+            self.product_id._with_valuation_context().qty_available,
             4
         )
 
@@ -235,7 +233,7 @@ class TestRentalWizard(TestRentalCommon):
 
         """ In company stock valuation """
         self.assertEqual(
-            self.product_id.quantity_svl,
+            self.product_id._with_valuation_context().qty_available,
             4
         )
 
@@ -780,6 +778,40 @@ class TestRentalWizard(TestRentalCommon):
         })
         self.assertEqual(so2.order_line.virtual_available_at_date, 6.0)
 
+    def test_return_after_partial_return_without_backorder(self):
+        """
+        Ensure a rental return can still be processed after a partial return without backorder.
+        """
+        self.env['res.config.settings'].create({'group_rental_stock_picking': True}).execute()
+        so = self.env['sale.order'].create({
+            'partner_id': self.cust1.id,
+            'order_line': [Command.create({
+                'product_id': self.tracked_product_id.id,
+                'product_uom_qty': 3.0,
+                'is_rental': True,
+            })],
+        })
+        so.action_confirm()
+
+        delivery = Form.from_action(self.env, so.action_open_pickup()).save()
+        delivery.button_validate()
+
+        receipt = Form.from_action(self.env, so.action_open_return()).save()
+        receipt.move_ids.quantity = 1
+        Form.from_action(self.env, receipt.button_validate()).save().process_cancel_backorder()
+
+        self._return_so(so)
+        self.assertEqual(so.order_line.qty_returned, 3)
+
+        returned_lots = so.order_line.returned_lot_ids
+        returned_quants = self.env['stock.quant'].browse(
+            returned_lots.quant_ids.filtered(lambda q: q.quantity == 1).ids
+        )
+        self.assertRecordValues(returned_quants, [
+            {'lot_id': lot.id, 'location_id': self.warehouse_id.lot_stock_id.id}
+            for lot in returned_lots
+        ])
+
     @freeze_time('2020-01-01')
     def test_reschedule_rental_order_with_rental_transfers(self):
         """
@@ -1114,6 +1146,23 @@ class TestRentalPicking(TestRentalCommon):
         self.assertEqual(self.lot_id2.quant_ids.filtered(lambda q: q.quantity == 1).location_id, self.warehouse_id.lot_stock_id)
         self.assertEqual(self.lot_id3.quant_ids.filtered(lambda q: q.quantity == 1).location_id, self.warehouse_id.lot_stock_id)
 
+    def test_rental_location_not_overwritten_on_partner_change(self):
+        """Changing the partner on a rental outgoing picking should not reset its destination location."""
+        other_partner = self.env['res.partner'].create({
+            'name': 'The other one',
+            'email': 'other@one.example.com',
+        })
+        rental_order = self.sale_order_id.copy()
+        rental_order.order_line.write({'product_uom_qty': 3, 'is_rental': True})
+        rental_order.action_confirm()
+        outgoing_picking = rental_order.picking_ids.filtered(lambda p: p.picking_type_code == 'outgoing')
+        self.assertEqual(outgoing_picking.state, 'assigned')
+        self.assertEqual(outgoing_picking.location_dest_id, self.env.company.rental_loc_id)
+
+        outgoing_picking.partner_id = other_partner
+        self.assertEqual(outgoing_picking.state, 'assigned')
+        self.assertEqual(outgoing_picking.location_dest_id, self.env.company.rental_loc_id)
+
     def test_late_fee(self):
         rental_order_1 = self.sale_order_id.copy()
         rental_order_1.order_line.write({'product_uom_qty': 1, 'is_rental': True})
@@ -1332,29 +1381,40 @@ class TestRentalPicking(TestRentalCommon):
 
     def test_rental_transfer_custom_route(self):
         """
-        Check that custom rental routes are used if set on the orde line.
+        Check that custom rental routes are used if set on the orde line
+        and that the return is generated with the default route if not applicable.
         """
-        # Enable rental transfers -> nrachive rental route
+        # Enable rental transfers -> unrachive rental route
         self.env['res.config.settings'].write({
             "group_rental_stock_picking": True,
         })
         warehouse = self.warehouse_id
         warehouse_rental_route = self.env.ref('sale_stock_renting.route_rental')
+        mto_route = self.env.ref('stock.route_warehouse0_mto')
+        mto_route.active = True
+        mto_route.rule_ids.procure_method = 'mts_else_mto'
         custom_rental_route = warehouse_rental_route.copy()
         custom_rental_route.sale_selectable = True
-        custom_location = self.env['stock.location'].create({
-            'name': 'Lovely location',
-            'location_id': warehouse.lot_stock_id.id,
-        })
+        custom_location, custom_rental_location = self.env['stock.location'].create([
+            {
+                'name': 'Lovely location',
+                'location_id': warehouse.lot_stock_id.id,
+            },
+            {
+                'name': 'Lovely rental location',
+                'location_id': warehouse.company_id.rental_loc_id.id,
+            },
+        ])
+        custom_rental_route.rule_ids.filtered(lambda rule: rule.company_id == warehouse.company_id).location_src_id = custom_rental_location
         self.env['stock.rule'].create({
-                'name': 'Custom rental delivery',
-                'route_id': custom_rental_route.id,
-                'location_dest_id': warehouse.company_id.rental_loc_id.id,
-                'location_src_id': custom_location.id,
-                'action': 'pull',
-                'procure_method': 'make_to_stock',
-                'picking_type_id': warehouse.out_type_id.id,
-            })
+            'name': 'Custom rental delivery',
+            'route_id': custom_rental_route.id,
+            'location_dest_id': warehouse.company_id.rental_loc_id.id,
+            'location_src_id': custom_location.id,
+            'action': 'pull',
+            'procure_method': 'make_to_stock',
+            'picking_type_id': warehouse.out_type_id.id,
+        })
         rental_order = self.sale_order_id.copy()
         rental_order.order_line.product_id.rent_ok = True
         rental_order.order_line.write({'product_uom_qty': 1, 'is_rental': True, 'route_ids': [Command.link(custom_rental_route.id)]})
@@ -1365,12 +1425,30 @@ class TestRentalPicking(TestRentalCommon):
         self.assertRecordValues(picking_out.move_ids, [{
             'location_id': custom_location.id,
             'location_dest_id': warehouse.company_id.rental_loc_id.id,
-            'route_ids': custom_rental_route.ids,
+            'route_ids': [custom_rental_route.id, warehouse_rental_route.id],
+        }])
+        self.assertRecordValues(picking_in.move_ids, [{
+            'location_id': custom_rental_location.id,
+            'location_dest_id': warehouse.lot_stock_id.id,
+            'route_ids': [custom_rental_route.id, warehouse_rental_route.id],
+        }])
+
+        # The mtso route does not provide rules for the return but should generate it nonetheless
+        rental_order_mtso = self.sale_order_id.copy()
+        rental_order_mtso.order_line.write({'product_uom_qty': 1, 'is_rental': True, 'route_ids': [Command.set(mto_route.ids)]})
+        rental_order_mtso.action_confirm()
+        picking_out = rental_order_mtso.picking_ids.filtered(lambda p: p.picking_type_code == 'outgoing')
+        picking_in = rental_order_mtso.picking_ids - picking_out
+        self.assertEqual([len(picking_out), len(picking_in)], [1, 1])
+        self.assertRecordValues(picking_out.move_ids, [{
+            'location_id': warehouse.lot_stock_id.id,
+            'location_dest_id': warehouse.company_id.rental_loc_id.id,
+            'route_ids': [mto_route.id, warehouse_rental_route.id],
         }])
         self.assertRecordValues(picking_in.move_ids, [{
             'location_id': warehouse.company_id.rental_loc_id.id,
             'location_dest_id': warehouse.lot_stock_id.id,
-            'route_ids': custom_rental_route.ids,
+            'route_ids': [mto_route.id, warehouse_rental_route.id],
         }])
 
     def _test_rental_order_with_mixed_lines(self, rental_first=True):

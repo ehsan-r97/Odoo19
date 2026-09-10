@@ -231,3 +231,54 @@ class TestSelfOrderController(SelfOrderCommonTest):
         self.assertIn(stva_categ.id, loaded_category_ids, "The category linked to the printer should be loaded")
         self.assertNotIn(lowe_categ.id, loaded_category_ids, "The category not linked to any printer should not be loaded")
         self.start_tour(self_route, "test_preparation_categories_are_loaded")
+
+    def test_generate_return_values_includes_payment_method(self):
+        self.pos_config.write({
+            'self_ordering_mode': 'mobile',
+            'self_ordering_pay_after': 'each',
+        })
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.pos_config.current_session_id.set_opening_control(0, '')
+
+        payment_method = self.pos_config.payment_method_ids[0]
+        order, _ = self.create_backend_pos_order({
+            'line_data': [{'qty': 1, 'price_unit': 2.2, 'product_id': self.cola.id}],
+            'payment_data': [{'payment_method_id': payment_method.id}],
+        })
+
+        params = {
+            'access_token': self.pos_config.access_token,
+            'order_access_tokens': [{
+                'access_token': order.access_token,
+            }],
+        }
+        data = self.make_request_to_controller('/pos-self-order/get-user-data', params)
+
+        self.assertIn('pos.payment.method', data)
+        returned_pm_ids = {pm['id'] for pm in data['pos.payment.method']}
+        self.assertIn(payment_method.id, returned_pm_ids)
+
+    def test_config_session_loaded_fields(self):
+        self.pos_config.write({
+            'use_presets': False,
+            'self_ordering_mode': 'mobile',
+            'self_ordering_pay_after': 'each',
+        })
+
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.pos_config.current_session_id.set_opening_control(0, "")
+        data = self.make_request_to_controller('/pos-self/data/' + str(self.pos_config.id), {})
+
+        self.assertEqual(len(data['pos.config']), 1)
+        config_data = data['pos.config'][0]
+        self.assertEqual(config_data['id'], self.pos_config.id)
+        self.assertEqual(config_data['self_ordering_mode'], 'mobile')
+        self.assertTrue(len(config_data['_self_ordering_image_home_ids']) > 1)
+        self.assertFalse(config_data.get('access_token'))
+        self.assertFalse(config_data.get('self_ordering_url'))
+
+        self.assertEqual(len(data['pos.session']), 1)
+        session_data = data['pos.session'][0]
+        self.assertEqual(session_data['id'], self.pos_config.current_session_id.id)
+        self.assertEqual(session_data['state'], 'opened')
+        self.assertFalse(config_data.get('access_token'))

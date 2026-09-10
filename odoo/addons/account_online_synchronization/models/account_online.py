@@ -20,6 +20,8 @@ from odoo.addons.account_online_synchronization.models.odoofin_auth import OdooF
 from odoo.tools.misc import format_amount, format_date, get_lang
 from odoo.tools import _, LazyTranslate
 
+NON_BLOCKING_ERROR = 'non_blocking_error'
+
 _lt = LazyTranslate(__name__)
 _logger = logging.getLogger(__name__)
 pattern = re.compile("^[a-z0-9-_]+$")
@@ -224,7 +226,7 @@ class AccountOnlineAccount(models.Model):
 
     def _retrieve_transactions(self, date=None, transactions_type='posted'):
         last_stmt_line = self.env['account.bank.statement.line'].search([
-                ('date', '<=', self.last_sync or fields.Date().today()),
+                ('date', '<=', date or self.last_sync or fields.Date().today()),
                 ('online_transaction_identifier', '!=', False),
                 ('journal_id', 'in', self.journal_ids.ids),
                 ('online_account_id', '=', self.id)
@@ -664,7 +666,10 @@ class AccountOnlineLink(models.Model):
             error_details = error.get('data')
             subject = error.get('message')
             message = error_details.get('message')
-            state = error_details.get('odoofin_state') or 'error'
+            state = error_details.get('odoofin_state')
+            if state is None:
+                # None blocking errors must not change the connection state, anything else is a real error
+                state = self.state if error_details.get('exception_type') == NON_BLOCKING_ERROR else 'error'
             ctx = self.env.context.copy()
             ctx['error_reference'] = error_details.get('error_reference')
             ctx['provider_type'] = error_details.get('provider_type')
@@ -960,6 +965,10 @@ class AccountOnlineLink(models.Model):
             # Avoid an infinite "expired synchro" if the provider
             # doesn't send us a new consent expiring date
             self.expiring_synchronization_date = None
+
+    @api.model
+    def _get_institution_data(self):
+        return self._fetch_odoo_fin('/proxy/v1/get_user_institution_data')
 
     def _update_connection_status(self):
         self.ensure_one()

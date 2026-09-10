@@ -115,7 +115,7 @@ class AccountMove(models.Model):
     l10n_mx_edi_cfdi_origin = fields.Char(
         string="CFDI Origin",
         copy=False,
-        index='btree_not_null',
+        index='trigram',
         help="In some cases like payments, credit notes, debit notes, invoices re-signed or invoices that are redone "
              "due to payment in advance will need this field filled, the format is:\n"
              "Origin Type|UUID1, UUID2, ...., UUIDn.\n"
@@ -254,6 +254,14 @@ class AccountMove(models.Model):
         self.ensure_one()
         return self._l10n_mx_edi_is_cfdi_document() and self.is_invoice()
 
+    def _l10n_mx_edi_is_cfdi_bill(self):
+        """ Helper to know if the current account.move is vendor bill or not.
+
+        :return: True if the account.move is a vendor bill, False otherwise.
+        """
+        self.ensure_one()
+        return self._l10n_mx_edi_is_cfdi_document() and self.is_purchase_document(include_receipts=True)
+
     def _l10n_mx_edi_is_cfdi_payment(self):
         """ Helper to know if the current account.move is a payment or not.
 
@@ -282,9 +290,15 @@ class AccountMove(models.Model):
         xml_node = self.env['l10n_mx_edi.addenda']._get_decoded_xml_node(decoded_data)
         addition_values = {'record': self}
         addition_title = 'Complemento' if xml_node == 'complemento' else 'Addenda'
+        cfdi_node = etree.fromstring(cfdi_str)
+        # Verify if the Addenda node has already been added,
+        # if the node exists it is removed to avoid duplicating it in the CFDI.
+        if addition_title == 'Addenda':
+            existing_addenda = cfdi_node.find("{*}Addenda")
+            if existing_addenda is not None:
+                cfdi_node.remove(existing_addenda)
 
         # Create new Comprobante node with the new namespaces required for the addendas
-        cfdi_node = etree.fromstring(cfdi_str)
         new_cfdi_node = etree.Element(
             _tag=cfdi_node.tag,
             attrib=cfdi_node.attrib,
@@ -527,7 +541,7 @@ class AccountMove(models.Model):
                  'l10n_mx_edi_payment_document_ids.state', 'l10n_mx_edi_payment_document_ids.sat_state')
     def _compute_l10n_mx_edi_document_ids(self):
         for move in self:
-            if move.is_invoice():
+            if move._l10n_mx_edi_is_cfdi_invoice() or move._l10n_mx_edi_is_cfdi_bill():
                 move.l10n_mx_edi_document_ids = [Command.set(move.l10n_mx_edi_invoice_document_ids.ids)]
             elif move._l10n_mx_edi_is_cfdi_payment():
                 move.l10n_mx_edi_document_ids = [Command.set(move.l10n_mx_edi_payment_document_ids.ids)]
@@ -542,7 +556,7 @@ class AccountMove(models.Model):
             move.l10n_mx_edi_cfdi_state = None
             move.l10n_mx_edi_cfdi_attachment_id = None
             move.l10n_mx_edi_invoice_cancellation_reason = None
-            if move.is_invoice():
+            if move._l10n_mx_edi_is_cfdi_invoice() or move._l10n_mx_edi_is_cfdi_bill():
                 # Compute the SAT & the PAC states in 2 different loops.
                 # In case of a request cancellation that failed, the SAT state needs
                 # to be retrieved from the document corresponding to the request cancellation.
@@ -607,7 +621,7 @@ class AccountMove(models.Model):
                         move.l10n_mx_edi_invoice_cancellation_reason = doc.cancellation_reason
                         break
 
-    @api.depends('l10n_mx_edi_invoice_document_ids.state')
+    @api.depends('l10n_mx_edi_invoice_document_ids.state', 'reconciled_payment_ids.is_reconciled')
     def _compute_l10n_mx_edi_update_payments_needed(self):
         payments_diff = self._origin\
             .with_context(bin_size=False)\
@@ -626,7 +640,7 @@ class AccountMove(models.Model):
     @api.depends('state', 'l10n_mx_edi_cfdi_state', 'l10n_mx_edi_cfdi_sat_state')
     def _compute_l10n_mx_edi_update_sat_needed(self):
         for move in self:
-            if move.is_invoice():
+            if move._l10n_mx_edi_is_cfdi_invoice() or move._l10n_mx_edi_is_cfdi_bill():
                 documents = move.l10n_mx_edi_invoice_document_ids
             elif move._l10n_mx_edi_is_cfdi_payment():
                 documents = move.l10n_mx_edi_payment_document_ids
@@ -677,7 +691,7 @@ class AccountMove(models.Model):
                     # invoice payment term should be PPD as soon as the due date
                     # is after the last day of  the month (the month of the invoice date).
                     if (
-                        move.move_type == 'out_invoice'
+                        move.move_type in ('out_invoice', 'out_refund')
                         and (
                             move.invoice_date_due > move.invoice_date
                             and (
@@ -898,7 +912,7 @@ class AccountMove(models.Model):
     def _get_name_invoice_report(self):
         # EXTENDS account
         self.ensure_one()
-        if self.l10n_mx_edi_cfdi_state == 'sent' and self.l10n_mx_edi_cfdi_attachment_id:
+        if self.l10n_mx_edi_cfdi_state in ('sent', 'cancel') and self.l10n_mx_edi_cfdi_attachment_id:
             return 'l10n_mx_edi.report_invoice_document'
         return super()._get_name_invoice_report()
 
@@ -913,7 +927,11 @@ class AccountMove(models.Model):
             :return: a dict mapping original moves to its duplicates according to the folio fiscal
         """
         mx_moves = self.filtered(
-            lambda m: (m.is_purchase_document() or m.is_sale_document()) and m.l10n_mx_edi_cfdi_uuid and m._origin.id
+            lambda m: (
+                (m._l10n_mx_edi_is_cfdi_invoice() or m._l10n_mx_edi_is_cfdi_bill())
+                and m.l10n_mx_edi_cfdi_uuid
+                and m._origin.id
+            )
         )
         if not mx_moves:
             return {}
@@ -1020,6 +1038,7 @@ class AccountMove(models.Model):
     def _l10n_mx_edi_get_invoice_cfdi_base_lines(self, global_invoice=False):
         self.ensure_one()
         base_lines, tax_lines = self._get_rounded_base_and_tax_lines()
+        base_lines = [base_line for base_line in base_lines if base_line['special_type'] != 'cash_rounding']
         for base_line in base_lines:
             invl = base_line['record']
             base_line.update({
@@ -1806,6 +1825,9 @@ class AccountMove(models.Model):
     def _l10n_mx_edi_cfdi_invoice_try_send(self):
         """ Try to generate and send the CFDI for the current invoice. """
         self.ensure_one()
+
+        self = self.with_context(lang=self.partner_id.lang)  # noqa: PLW0642
+
         if self.state != 'posted' or self.l10n_mx_edi_cfdi_state not in (False, 'cancel', 'global_cancel'):
             return
 
@@ -1865,6 +1887,15 @@ class AccountMove(models.Model):
             on_failure,
             on_success,
         )
+        if (
+            (doc := self.l10n_mx_edi_invoice_document_ids.sorted()[0])
+            and doc.state == 'invoice_sent'
+            and (original_doc := doc._get_original_document())
+            and original_doc.state == 'invoice_sent'
+            and self.move_type == 'out_invoice'
+            and doc.attachment_origin[:3] == '04|'
+        ):
+            original_doc.move_id._l10n_mx_edi_cfdi_invoice_try_cancel(original_doc, '01')
 
     def _l10n_mx_edi_cfdi_invoice_post_cancel(self):
         """ Cancel the current invoice and drop a message in the chatter.
@@ -1979,19 +2010,21 @@ class AccountMove(models.Model):
 
             # If a reconciliation has been made with something that is not a payment like a credit note, it has to be taken into account
             # when computing the residual amounts before and after.
+            # Pre-populate the exchange moves mapping so the main loop below can stay strictly chronological.
+            for field1 in ('credit', 'debit'):
+                for partial in pay_rec_lines[f'matched_{field1}_ids']:
+                    if partial.exchange_move_id:
+                        exchange_move_map[partial.exchange_move_id] = partial[f'{field1}_move_id'].move_id
+
             other_residual = 0.0
             for field1, field2 in (('credit', 'debit'), ('debit', 'credit')):
                 for partial in pay_rec_lines[f'matched_{field1}_ids'].sorted(lambda x: (
-                    not x.exchange_move_id,
                     x[f'{field1}_move_id'].invoice_date or x[f'{field1}_move_id'].date,
                     x[f'{field1}_move_id'].id,
                 )):
                     counterpart_line = partial[f'{field1}_move_id']
                     counterpart_move = counterpart_line.move_id
                     is_payment = counterpart_move._l10n_mx_edi_is_cfdi_payment()
-
-                    if partial.exchange_move_id:
-                        exchange_move_map[partial.exchange_move_id] = counterpart_move
 
                     if counterpart_move in exchange_move_map:
                         if is_payment:
@@ -2002,7 +2035,15 @@ class AccountMove(models.Model):
                     elif is_payment:
                         pay_results = reconciliation_values[invoice]['payments'][counterpart_move]
                         pay_results['invoice_amount_currency'] += partial[f'{field2}_amount_currency']
-                        pay_results['payment_amount_currency'] += partial[f'{field1}_amount_currency']
+                        stmt_line = counterpart_line.statement_line_id
+                        if stmt_line and stmt_line.currency_id != counterpart_line.currency_id:
+                            result = stmt_line._get_accounting_amounts_and_currencies()
+                            journal_amount = result[2]
+                            company_amount = result[4]
+                            rate = abs(journal_amount) / abs(company_amount) if company_amount else 0.0
+                            pay_results['payment_amount_currency'] += partial[f'{field1}_amount_currency'] * rate
+                        else:
+                            pay_results['payment_amount_currency'] += partial[f'{field1}_amount_currency']
                         pay_results['balance'] += partial.amount
                         pay_results['other_residual'] += other_residual
                         other_residual = 0.0
@@ -2054,7 +2095,11 @@ class AccountMove(models.Model):
             # Only the fully reconciled payments need to be sent.
             pay_rec_lines = payment.line_ids\
                 .filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable'))
-            if any(not x.reconciled for x in pay_rec_lines):
+            if (
+                any(not x.reconciled for x in pay_rec_lines)
+                or False in payment.line_ids.statement_line_id.mapped('is_reconciled')
+                or False in payment.origin_payment_id.mapped('is_reconciled')
+            ):
                 continue
 
             # The payments must only be sent when all reconciled invoices are sent.
@@ -2164,6 +2209,13 @@ class AccountMove(models.Model):
             on_failure,
             on_success,
         )
+        if (
+            (new_doc := self.l10n_mx_edi_payment_document_ids.sorted()[0])
+            and new_doc.state == 'payment_sent'
+            and (original_doc := new_doc._get_original_document())
+            and original_doc.state == 'payment_sent'
+        ):
+            original_doc.move_id._l10n_mx_edi_cfdi_invoice_try_cancel_payment(original_doc)
 
     def _l10n_mx_edi_cfdi_payment_post_cancel(self):
         """ Cancel the current payment and drop a message in the chatter.
@@ -2215,7 +2267,8 @@ class AccountMove(models.Model):
         for invoice, pay_results_list in reconciled_invoice_values.items():
             payments = self.env['account.move']
             for pay_results in pay_results_list:
-                payments |= pay_results['payment']
+                if pay_results['payment'].date <= fields.Date.context_today(self):
+                    payments |= pay_results['payment']
             all_payments |= payments
 
             commands = []
@@ -2248,6 +2301,7 @@ class AccountMove(models.Model):
                 for invoice in sat_sent_payments[payment]:
                     results['need_update'].add(invoice)
 
+            invoices = invoices.filtered(lambda move: move.l10n_mx_edi_payment_policy != 'PUE')
             # Check if something changed in the already sent payment.
             if last_document.state == 'payment_sent':
                 current_uuids = set(invoices.mapped('l10n_mx_edi_cfdi_uuid'))
@@ -2471,6 +2525,14 @@ class AccountMove(models.Model):
             on_failure,
             on_success,
         )
+        if (
+            origin
+            and (new_doc := invoices[0].l10n_mx_edi_invoice_document_ids.sorted()[0])
+            and new_doc.state == 'ginvoice_sent'
+            and (original_doc := new_doc._get_original_document())
+            and original_doc.state == 'ginvoice_sent'
+        ):
+            original_doc.invoice_ids._l10n_mx_edi_cfdi_global_invoice_try_cancel(original_doc, '01')
 
     def _l10n_mx_edi_cfdi_global_invoice_post_cancel(self):
         """ Cancel the current payment and drop a message in the chatter.
@@ -2549,7 +2611,7 @@ class AccountMove(models.Model):
 
     def l10n_mx_edi_cfdi_try_sat(self):
         self.ensure_one()
-        if self._l10n_mx_edi_is_cfdi_invoice():
+        if self._l10n_mx_edi_is_cfdi_invoice() or self._l10n_mx_edi_is_cfdi_bill():
             documents = self.l10n_mx_edi_invoice_document_ids
         elif self._l10n_mx_edi_is_cfdi_payment():
             documents = self.l10n_mx_edi_payment_document_ids
@@ -2734,6 +2796,12 @@ class AccountMove(models.Model):
             if invoice.state == 'draft' and not invoice.invoice_line_ids:
                 invoice.move_type = move_type
                 invoice._l10n_mx_edi_import_cfdi_fill_invoice(tree)
+
+            # 'out_receipt' is not handled by the CFDI computes
+            if invoice.move_type == 'out_receipt':
+                invoice.message_post(body=_(
+                    "Importing a CFDI on a sales receipt is not supported."))
+                return
 
             # create the document
             self.env['l10n_mx_edi.document'].create({

@@ -711,3 +711,64 @@ class TestPayslipComputation(TestPayslipContractBase):
                         "Gross wage should be computed for flexible employees")
         self.assertAlmostEqual(payslip.net_wage, 7905.0, places=2,
                           msg="Net wage computation changed for flexible employees - possible regression")
+
+    def test_warning_cleared_after_recompute(self):
+        payslip = self.env['hr.payslip'].create({
+            'name': 'Payslip Test Warning',
+            'employee_id': self.richard_emp.id,
+            'version_id': self.contract_cdi.id,
+            'struct_id': self.developer_pay_structure.id,
+            'date_from': date(2026, 1, 1),
+            'date_to': date(2026, 1, 31),
+        })
+
+        payslip.compute_sheet()
+        payslip.action_payslip_done()
+
+        # Make a modification on the version that should trigger the warning on the payslip
+        # Note: we need to wait a bit before writing on the version to ensure that the payslip has been fully computed and the warning triggered before the write
+        # ,otherwise the warning will not be triggered at all and the test will be invalid.
+        self.richard_emp.write({
+            'wage': 10000.0,
+        })
+
+        # Cancel & draft the payslip
+        payslip.action_payslip_cancel()
+        payslip.action_payslip_draft()
+
+        # Recompute & validate the payslip again
+        payslip.compute_sheet()
+        payslip.action_payslip_done()
+
+        self.assertFalse(payslip.has_wrong_data, "Warning should not reappear after recompute.")
+
+    def test_structure_without_worked_days_clears_lines(self):
+        '''Changing the structure type to one that does not use worked days lines should clear the worked days lines immediately.'''
+        no_worked_days_structure = self.env['hr.payroll.structure'].create({
+            'name': '13th Month Structure',
+            'type_id': self.developer_pay_structure.type_id.id,
+            'use_worked_day_lines': False,
+            'country_id': self.env.ref('base.be').id if self.env.ref('base.be', False) else False,
+        })
+
+        self.richard_payslip._compute_worked_days_line_ids()
+        self.assertTrue(
+            self.richard_payslip.worked_days_line_ids,
+            "Initial payslip should have worked day lines generated."
+        )
+
+        with Form(self.richard_payslip) as payslip_form:
+            payslip_form.struct_id = no_worked_days_structure
+
+        self.assertFalse(
+            self.richard_payslip.worked_days_line_ids,
+            "Worked days lines must be cleared immediately when switching to a structure with use_worked_day_lines=False."
+        )
+
+        with Form(self.richard_payslip) as payslip_form:
+            payslip_form.struct_id = self.developer_pay_structure
+
+        self.assertTrue(
+            self.richard_payslip.worked_days_line_ids,
+            "Worked days lines should be re-computed when switching back to a regular structure."
+        )

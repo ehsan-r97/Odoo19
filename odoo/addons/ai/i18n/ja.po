@@ -9,51 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-03-27 06:27+0000\n"
+"POT-Creation-Date: 2026-08-28 17:46+0000\n"
+"PO-Revision-Date: 2026-04-13 09:42+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
-"Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/ai/ja/>"
-"\n"
+"Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/ai/ja/"
+">\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.16.2\n"
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
-msgid ""
-"\n"
-"            **Tool Name: Read group**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **ツール名: Read group**\n"
-"\n"
-"            特定のモデルを、指定されたドメイン条件で検索します。ドメインは有"
-"効な JSON 形式である必要があります。\n"
-"        "
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
-msgid ""
-"\n"
-"            **Tool Name: search**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **ツール名: 検索**\n"
-"\n"
-"            指定されたドメインを使って、特定のモデルを検索します。ドメインは"
-"有効なJSON 形式である必要があります。\n"
-"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -446,6 +412,16 @@ msgstr ""
 "            ⚠️ 返されたモデルが期待通りのものであることを常に確認してくださ"
 "い\n"
 "        "
+
+#. module: ai
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
+msgid ""
+"\n"
+"            Searches a particular model using a domain. The provided domain "
+"must be in valid JSON format.\n"
+"        "
+msgstr ""
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_adjust_search
@@ -1027,6 +1003,11 @@ msgid "Customize to control relevance and formatting."
 msgstr "カスタマイズして関連性や書式をコントロールします。"
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ai_agent__deprecated_model_replacement_hint
+msgid "Deprecated Model Replacement Hint"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 #: model:ir.model.fields,field_description:ai.field_ai_agent__subtitle
@@ -1137,7 +1118,7 @@ msgstr "エラー詳細"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__status__failed
 msgid "Failed"
-msgstr "不合格"
+msgstr "失敗"
 
 #. module: ai
 #. odoo-python
@@ -1184,6 +1165,13 @@ msgid "File Size"
 msgstr "ファイルサイズ"
 
 #. module: ai
+#: model:ir.model.fields,help:ai.field_ai_agent__response_style
+msgid ""
+"For thinking models (e.g. gpt-5): Analytical: Medium thinking, Balanced: Low "
+"thinking, Creative: Minimal thinking"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Generate or transform content with AI"
@@ -1195,7 +1183,7 @@ msgid "Get help on a record"
 msgstr "このレコードについてヘルプを表示"
 
 #. module: ai
-#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
+#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-2
 msgid "Google"
 msgstr "Google"
 
@@ -2024,6 +2012,12 @@ msgid "User is online"
 msgstr "ユーザーはオンラインです"
 
 #. module: ai
+#. odoo-python
+#: code:addons/ai/models/ai_agent.py:0
+msgid "Using %(llm_model_label)s based on your agent setup."
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
@@ -2102,6 +2096,36 @@ msgstr "fa-hashtag"
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
 msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: Read group**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **ツール名: Read group**\n"
+#~ "\n"
+#~ "            特定のモデルを、指定されたドメイン条件で検索します。ドメインは"
+#~ "有効な JSON 形式である必要があります。\n"
+#~ "        "
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: search**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **ツール名: 検索**\n"
+#~ "\n"
+#~ "            指定されたドメインを使って、特定のモデルを検索します。ドメイン"
+#~ "は有効なJSON 形式である必要があります。\n"
+#~ "        "
 
 #~ msgid "An error occurred while generating the AI response."
 #~ msgstr "AI応答生成中にエラーが発生しました。"

@@ -968,3 +968,13 @@ Content-Transfer-Encoding: quoted-printable
         ticket = ticket_form.save()
         self.assertTrue(ticket.id)
         self.assertEqual(ticket.stage_id.name, 'New')
+
+    def test_get_empty_list_context_pollution(self):
+        """ Test that context pollution from another model doesn't crash the ticket view action. """
+        team = self.env['helpdesk.team'].create({'name': 'Test Team'})
+        bad_context = {
+            'active_model': 'mail.alias',
+            'active_id': 9999,
+        }
+        action = team.with_context(bad_context).action_view_ticket()
+        self.assertEqual(action.get('type'), 'ir.actions.act_window')

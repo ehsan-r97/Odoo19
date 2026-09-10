@@ -75,17 +75,14 @@ class SignContract(Sign):
 
         # All signers have signed
         if request_item.sign_request_id.nb_wait == 0:
-            current_employee_version = version.employee_id.version_id
+            offer._archive_future_versions()
+            current_employee_version = offer.employee_version_id if offer.employee_id else version.employee_id.current_version_id
             must_archive_current_version = version.applicant_id or False
-            # If you are an employee with an existing version already, close the existing version
-            if not version.applicant_id and current_employee_version.contract_date_start:
-                current_employee_version.contract_date_end = (
-                    version.contract_date_start - timedelta(days=1)
-                )
             if current_employee_version.date_version >= version.date_version:
-                # then remplace the current version with the new one signed. We must 'fake' the date_version in order
-                # to be able to unarchive the new version without triggering the constraint if the two dates are equal
-                current_employee_version.date_version = version.date_version - timedelta(days=1)
+                # then replace the current version with the new one signed. We must 'fake' the date_version
+                # to current date_version + 1 day (future has no versions) in order to be able to unarchive the
+                # new version without triggering the constraint if the two dates are equal
+                current_employee_version.date_version = version.date_version + timedelta(days=1)
                 must_archive_current_version = True
             request.env.flush_all()
             version.write({'active': True})
@@ -240,7 +237,7 @@ class HrContractSalary(http.Controller):
         for bundle_name in ["web.assets_frontend", "web.assets_frontend_lazy"]:
             request.env["ir.qweb"]._get_asset_nodes(bundle_name, debug=debug, js=True, css=True)
 
-        with hr_version_context(request):
+        with hr_version_context(request, invalidate=True):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(kw.get('token'), offer, version)
@@ -290,7 +287,7 @@ class HrContractSalary(http.Controller):
 
     @http.route(['/salary_package/thank_you/<int:offer_id>'], type='http', auth="public", website=True, sitemap=False)
     def salary_package_thank_you(self, offer_id=None, **kw):
-        with hr_version_context(request):
+        with hr_version_context(request, invalidate=True):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             result = request.render("hr_contract_salary.salary_package_thank_you", {
@@ -470,6 +467,11 @@ class HrContractSalary(http.Controller):
     def _get_new_version_values(self, version_vals, employee, benefits, offer):
         version_benefits = self._get_benefits(version_vals, offer)
         company = self.env['res.company'].browse(version_vals.get('company_id'))
+        # During simulation, the offer temporarily becomes an amendment. After rollback and cache invalidation, compute isn't triggered automatically!
+        offer._compute_is_contract_amendment()
+        effective_date = offer.contract_start_date or fields.Date.today().replace(day=1)
+        contract_date_start = offer.employee_version_id.contract_date_start if offer.is_contract_amendment else effective_date
+        contract_date_end = offer.employee_version_id.contract_date_end if offer.is_contract_amendment else offer.contract_end_date
         new_version_vals = {
             'active': False,
             'name': version_vals.get('name') or _("Package Simulation"),
@@ -485,10 +487,10 @@ class HrContractSalary(http.Controller):
             'contract_template_id': offer.contract_template_id.id,
             'hr_responsible_id': version_vals.get('hr_responsible_id'),
             'sign_template_id': offer.sign_template_id.id,
-            'contract_update_template_id': version_vals.get('contract_update_template_id'),
-            'date_version': offer.contract_start_date or fields.Date.today().replace(day=1),
-            'contract_date_start': offer.contract_start_date or fields.Date.today().replace(day=1),
-            'contract_date_end': offer.contract_end_date,
+            'contract_update_template_id': version_vals.get('contract_update_template_id') or offer.contract_template_id.contract_update_template_id.id,
+            'date_version': effective_date,
+            'contract_date_start': contract_date_start,
+            'contract_date_end': contract_date_end,
             'contract_type_id': version_vals.get('contract_type_id'),
             'originated_offer_id': offer.id,
             'address_id': employee.address_id.id,
@@ -749,7 +751,7 @@ class HrContractSalary(http.Controller):
     def update_salary(self, offer_id=None, benefits=None, **kw):
         result = {}
 
-        with hr_version_context(request):
+        with hr_version_context(request, invalidate=True):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(kw.get('token'), offer, version)
@@ -830,7 +832,7 @@ class HrContractSalary(http.Controller):
         # Override this controllers to add customize
         # the returned value for a specific benefit
         result = {}
-        with hr_version_context(request):
+        with hr_version_context(request, invalidate=True):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id)
             version = offer._get_version()
             has_access, error_page = self.check_access_to_salary_configurator(kw.get('token'), offer, version)
@@ -945,7 +947,7 @@ class HrContractSalary(http.Controller):
 
     @http.route(['/salary_package/submit'], type='jsonrpc', auth='public')
     def submit(self, offer_id=None, benefits=None, **kw):
-        with hr_version_context(request):
+        with hr_version_context(request, invalidate=True):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id).exists()
             if not offer.applicant_id and not offer.employee_version_id:
                 raise UserError(_('This link is invalid. Please contact the HR Responsible to get a new one...'))
@@ -1095,7 +1097,7 @@ class HrContractSalary(http.Controller):
 
     @http.route(['/salary_package/post_feedback'], type='jsonrpc', auth='public')
     def refuse(self, offer_id, feedback=None, token=None):
-        with hr_version_context(request):
+        with hr_version_context(request, invalidate=True):
             offer = request.env['hr.contract.salary.offer'].sudo().browse(offer_id).exists()
             if not offer.applicant_id and not offer.employee_version_id:
                 raise UserError(_('This link is invalid. Please contact the HR Responsible to get a new one...'))

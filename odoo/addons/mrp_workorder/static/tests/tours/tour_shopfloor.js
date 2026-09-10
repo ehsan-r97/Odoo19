@@ -70,9 +70,23 @@ registry.category("web_tour.tours").add("test_shop_floor", {
         },
         // Handle mrp.production.serials wizard
         {
+            content: "Edit the quantity produced",
+            trigger: ".o_mrp_register_production_dialog input.o_input",
+            run: "edit 1.00",
+        },
+        {
             content: "Register production: Giraffe",
             trigger: ".o_workorder_bar_content:contains('Generate Lot') .btn-primary",
             run: "click",
+        },
+        {
+            content: "Check if the button clear is visible",
+            trigger: ".o_mrp_register_production_dialog .btn-secondary:contains('Clear')",
+        },
+        {
+            content: "Check that the value is still 1.00 then Edit the quantity produced",
+            trigger: ".o_mrp_register_production_dialog input.o_input:value(1.00)",
+            run: "edit 2.00",
         },
         {
             trigger: ".btn-primary:contains('Validate')",
@@ -301,6 +315,40 @@ registry.category("web_tour.tours").add("test_shop_floor", {
         // Leave Shop Floor before to end the tour.
         ...stepUtils.closeShopFloor(),
         { trigger: ".o_apps" },
+    ],
+});
+
+registry.category("web_tour.tours").add("test_shop_floor_disable_serial_create", {
+    steps: () => [
+        ...stepUtils.openWorkcentersSelector(),
+        ...stepUtils.confirmWorkcentersSelection(),
+        {
+            trigger: ".o_mrp_record_line:contains('Product 2') .btn-outline-secondary .fa-plus",
+            run: "click",
+        },
+        {
+            trigger: ".modal-dialog:has(.modal-title:contains('Add line: Product 2')) .o_create_button:contains(New)",
+            run: "click",
+        },
+        {
+            trigger: ".modal-dialog:has(.modal-title:contains('Create Move Line for Product 2')) .o_field_many2one_selection input",
+            run: "edit 00001",
+        },
+        {
+            trigger: "li.o_m2o_dropdown_option_create a:contains('00001')",
+            run: "click",
+        },
+        {
+            trigger: ".modal-dialog:has(.modal-body:contains('You are not allowed to create or edit')) .btn:contains(Close)",
+            run: "click",
+        },
+        {
+            trigger: ".modal-dialog:has(.modal-title:contains('Create Move Line for Product 2')) .btn:contains(Discard)",
+            run: "click",
+        },
+        {
+            trigger: "body:not(:has(.modal-dialog))",
+        },
     ],
 });
 
@@ -551,6 +599,26 @@ registry.category("web_tour.tours").add("test_generate_serials_in_shopfloor", {
         {
             trigger:
                 ".o_mrp_display_record .o_mrp_record_line .o_line_label.text-decoration-line-through:contains('By-product: byprod')",
+        },
+        {
+            trigger: ".o_mrp_record_line:contains('By-product: By Product 1')",
+            run: "click",
+        },
+        {
+            trigger: ".o_field_many2one[name='lot_id'] input",
+            run: "edit 00002",
+        },
+        {
+            trigger: "li.o_m2o_dropdown_option_create a",
+            run: "click",
+        },
+        {
+            trigger: ".modal-footer button.o_form_button_save",
+            run: "click",
+        },
+        {
+            trigger:
+                ".o_mrp_display_record .o_mrp_record_line .o_line_label.text-decoration-line-through:contains('By-product: By Product 1')",
         },
         {
             content: "Set production as done",
@@ -1194,6 +1262,90 @@ registry.category("web_tour.tours").add("test_add_component_from_shop_floor", {
             content: "Check that the Product 2 are visible on the WO",
             trigger:
                 ".o_mrp_display_record:contains('First Love') .o_mrp_record_line:contains('Product 2')",
+        },
+    ],
+});
+
+registry.category("web_tour.tours").add("test_barcode_scan_returns_stock_quant_not_vendor_quant", {
+    steps: () => [
+        ...stepUtils.openWorkcentersSelector(),
+        ...stepUtils.addWorkcenterToDisplay("Assembly"),
+        ...stepUtils.confirmWorkcentersSelection(),
+        ...stepUtils.clickOnWorkcenterButton("Assembly"),
+        {
+            content: "Start the workorder",
+            trigger: ".o_mrp_display_record:not(.o_active) .card-header",
+            run: "click",
+        },
+        {
+            content: "Open the Hand Piece component registration dialog",
+            trigger:
+                ".o_mrp_display_record.o_active .o_mrp_record_line:contains('Hand Piece') .o_btn_icon .fa-plus",
+            run: "click",
+        },
+        {
+            content: "Scan serial number barcode SN-TEST-001",
+            trigger: ".o_dialog .o_list_table",
+            run: "scan SN-TEST-001",
+        },
+        {
+            content: "Verify Hand Piece component is marked as consumed",
+            trigger:
+                ".o_mrp_display_record.o_active .o_mrp_record_line:contains('Hand Piece') .o_line_label.text-decoration-line-through",
+        },
+    ],
+});
+
+registry.category("web_tour.tours").add("test_shop_floor_workorders_sorting", {
+    steps: () => [
+        {
+            trigger: "body",
+            run: () => {
+                // remove MOs from cache to force load and sort
+                localStorage.clear();
+            }
+        },
+        ...stepUtils.openWorkcentersSelector(),
+        ...stepUtils.addWorkcenterToDisplay("WC Sorting"),
+        ...stepUtils.confirmWorkcentersSelection(),
+        ...stepUtils.clickOnWorkcenterButton("WC Sorting"),
+        {
+            trigger: ".o_work_centers",
+            run: () => {
+                const workorders = Array.from(document.querySelectorAll('.o_mrp_display_record'));
+                const names = workorders.map(el => el.querySelector('.card-header h4').innerText);
+                if (names[0] !== 'MO_PLANNED' || names[1] !== 'MO_UNPLANNED') {
+                    console.error("Wrong sorting, got " + names.join(", "));
+                } else {
+                    document.body.classList.add('sort-test-passed');
+                }
+            }
+        },
+        {
+            trigger: "body.sort-test-passed",
+        }
+    ]
+});
+
+registry.category("web_tour.tours").add("test_barcode_scan_product", {
+    steps: () => [
+        ...stepUtils.openWorkcentersSelector(),
+        ...stepUtils.addWorkcenterToDisplay("Assembly"),
+        ...stepUtils.confirmWorkcentersSelection(),
+        ...stepUtils.clickOnWorkcenterButton("Assembly"),
+        {
+            content: "Start the workorder",
+            trigger: ".o_mrp_display_record:not(.o_active) .card-header",
+            run: "click",
+        },
+        {
+            content: "Scan product barcode 1234567890123",
+            trigger: "body",
+            run: "scan 1234567890123",
+        },
+        {
+            content: "Verify quantity popup is opened",
+            trigger: ".o_dialog .modal-title:contains('Quantity')",
         },
     ],
 });

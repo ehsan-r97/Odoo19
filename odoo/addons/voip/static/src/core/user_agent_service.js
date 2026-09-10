@@ -160,7 +160,7 @@ export class UserAgent extends Reactive {
         this.attemptingToReconnect = true;
         try {
             await this.__sipJsUserAgent.reconnect();
-            this.registerer.register();
+            await this.registerer.register();
             this.voip.resolveError();
         } catch {
             setTimeout(
@@ -429,6 +429,10 @@ export class UserAgent extends Reactive {
             }
         })();
         this.voip.triggerError(errorMessage, { isNonBlocking: true });
+        // If completed elsewhere before microphone problem, nothing to do
+        if (!this.activeSession) {
+            return;
+        }
         if (this.activeSession.call.direction === "outgoing") {
             this.hangup();
         } else {
@@ -439,7 +443,8 @@ export class UserAgent extends Reactive {
     /** @param {MediaStream} stream */
     _onGetUserMediaSuccess(stream) {
         this.voip.resolveError();
-        switch (this.activeSession.call.direction) {
+        // If completed elsewhere before microphone acceptation, nothing to do
+        switch (this.activeSession?.call.direction) {
             case "outgoing":
                 this.ringtoneService.dial.play();
                 break;

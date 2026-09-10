@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-20 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 09:53+0000\n"
+"PO-Revision-Date: 2026-08-14 14:10+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "account_iso20022/de/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_iso20022
 #. odoo-python
@@ -204,7 +204,7 @@ msgstr "Identifikation"
 #: model:ir.model.fields,help:account_iso20022.field_res_config_settings__iso20022_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
 msgstr ""
-"Identifikation, die von einer Institution zugeordnet wurde (z. B. USt.-IdNr.)"
+"Identifikation, die von einer Institution zugewiesen wurde (z. B. USt-IdNr.)"
 
 #. module: account_iso20022
 #: model:ir.model.fields,field_description:account_iso20022.field_account_batch_payment__payment_method_is_iso20022
@@ -446,8 +446,9 @@ msgid ""
 "The Name Identification and Issuer details are required to proceed. Please "
 "configure them in the settings."
 msgstr ""
-"Die Angaben zu Name, Identifikation und Aussteller sind erforderlich, um "
-"fortzufahren. Bitte konfigurieren Sie diese in den Einstellungen."
+"Die Angaben zum Namen, zur Identifikation und zum Aussteller sind "
+"erforderlich, um fortzufahren. Bitte konfigurieren Sie diese in den "
+"Einstellungen."
 
 #. module: account_iso20022
 #. odoo-python

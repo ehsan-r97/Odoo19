@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
+"POT-Creation-Date: 2026-08-28 17:46+0000\n"
 "PO-Revision-Date: 2025-11-08 20:03+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Norwegian Bokmål <https://translate.odoo.com/projects/odoo-19/"
@@ -19,28 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
-msgid ""
-"\n"
-"            **Tool Name: Read group**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
-msgid ""
-"\n"
-"            **Tool Name: search**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -246,6 +224,16 @@ msgid ""
 "            💡 Performance tip: Request multiple menu details in one call "
 "when comparing options\n"
 "            ⚠️ Always validate the returned model matches your expectations\n"
+"        "
+msgstr ""
+
+#. module: ai
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
+msgid ""
+"\n"
+"            Searches a particular model using a domain. The provided domain "
+"must be in valid JSON format.\n"
 "        "
 msgstr ""
 
@@ -775,6 +763,11 @@ msgid "Customize to control relevance and formatting."
 msgstr ""
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ai_agent__deprecated_model_replacement_hint
+msgid "Deprecated Model Replacement Hint"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 #: model:ir.model.fields,field_description:ai.field_ai_agent__subtitle
@@ -932,6 +925,13 @@ msgid "File Size"
 msgstr "Filstørrelse"
 
 #. module: ai
+#: model:ir.model.fields,help:ai.field_ai_agent__response_style
+msgid ""
+"For thinking models (e.g. gpt-5): Analytical: Medium thinking, Balanced: Low "
+"thinking, Creative: Minimal thinking"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Generate or transform content with AI"
@@ -943,7 +943,7 @@ msgid "Get help on a record"
 msgstr ""
 
 #. module: ai
-#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
+#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-2
 msgid "Google"
 msgstr ""
 
@@ -1734,6 +1734,12 @@ msgstr ""
 #: code:addons/ai/static/src/im_status_patch.xml:0
 msgid "User is online"
 msgstr "Bruker er online"
+
+#. module: ai
+#. odoo-python
+#: code:addons/ai/models/ai_agent.py:0
+msgid "Using %(llm_model_label)s based on your agent setup."
+msgstr ""
 
 #. module: ai
 #. odoo-javascript

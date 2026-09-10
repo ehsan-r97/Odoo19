@@ -8,7 +8,7 @@ import uuid
 import random
 
 from odoo import api, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from ..controllers.keyed_xml_differ import KeyedXmlDiffer
 from odoo.tools.template_inheritance import apply_inheritance_specs
 
@@ -369,7 +369,24 @@ class IrUiView(models.Model):
         groupbys = list()
         fields.append(E.field(name=rec_name))
         if isinstance(model, self.pool['mail.activity.mixin']):
-            filters.append(E.filter(name="filter_activities_my", domain="[['activity_user_id', '=', uid]]"))
+            filters.append(E.filter(
+                invisible="1", string=_('My Activities'), name="filter_activities_my",
+                domain="[['activity_user_id', '=', uid]]")
+            )
+            filters.append(E.separator())
+            filters.append(E.filter(
+                invisible="1", string=_('Late Activities'), name='activities_overdue',
+                domain="[('my_activity_date_deadline', '<', 'today')]")
+            )
+            filters.append(E.filter(
+                invisible="1", string=_('Today Activities'), name='activities_today',
+                domain="[('my_activity_date_deadline', '=', 'today')]")
+            )
+            filters.append(E.filter(
+                invisible="1", string=_('Future Activities'), name='activities_upcoming_all',
+                domain="[('my_activity_date_deadline', '>', 'today')]")
+            )
+            filters.append(E.separator())
         if 'x_studio_partner_id' in model._fields:
             fields.append(E.field(name='x_studio_partner_id', operator='child_of'))
             groupbys.append(E.filter(name='groupby_x_partner', string=_('Partner'), context="{'group_by': 'x_studio_partner_id'}", domain="[]"))
@@ -643,7 +660,11 @@ class IrUiView(models.Model):
         KeyedXmlDiffer.assign_node_ids_for_diff(old_tree)
         old_str = etree.tostring(old_tree)
 
-        new_tree = apply_inheritance_specs(old_tree, etree.fromstring(arch_to_normalize))
+        try:
+            new_tree = apply_inheritance_specs(old_tree, etree.fromstring(arch_to_normalize))
+        except ValueError as e:
+            # Convert so edit_view() can fall back gracefully instead of crashing.
+            raise ValidationError(str(e)) from e
 
         # Assign names to some node added to the tree, if they don't have one
         def on_new_node(node):

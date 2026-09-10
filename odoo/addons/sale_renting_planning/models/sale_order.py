@@ -44,7 +44,7 @@ class SaleOrder(models.Model):
                     slots_vals['start_datetime'] = rental_start_date
                 if rental_return_date:
                     slots_vals['end_datetime'] = rental_return_date
-                slots.with_context(rental_order_updated=True).write(slots_vals)
+                slots.with_context(rental_order_updated=True).sudo().write(slots_vals)
         return res
 
     def action_confirm(self):

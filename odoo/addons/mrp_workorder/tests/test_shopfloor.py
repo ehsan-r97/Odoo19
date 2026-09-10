@@ -252,6 +252,40 @@ class TestShopFloor(HttpCase):
         self.assertEqual(mo.workorder_ids[0].check_ids[3].move_id.quantity, 2)
         self.assertRecordValues(mo.workorder_ids[0].check_ids[3].move_id.lot_ids, [{'id': neck_sn_1}, {'id': neck_sn_2}])
 
+    def test_shop_floor_disable_serial_create(self):
+        """ This test ensures user can't create serial number in shopfloor if forbidden """
+        self._enable_settings('tracking')
+        self.warehouse.manu_type_id.use_create_components_lots = False
+
+        self.product_1.is_storable = True
+        self.product_2.write({
+            'is_storable': True,
+            'tracking': 'serial',
+        })
+        product_2_sn = self.env['stock.lot'].create({
+            'name': 'P2S',
+            'product_id': self.product_2.id,
+        })
+        self.env['stock.quant']._update_available_quantity(self.product_2, self.stock_location, quantity=1, lot_id=product_2_sn)
+        mo = self.env['mrp.production'].create({
+            'product_id': self.product_1.id,
+            'product_qty': 1.0,
+            'move_raw_ids': [Command.create({
+                'product_id': self.product_2.id,
+                'product_uom_qty': 1.0,
+            })]
+        })
+        mo.action_confirm()
+
+        with self.assertLogs(level="WARNING") as log_catcher:
+            self.start_tour('/odoo/shop-floor', "test_shop_floor_disable_serial_create", login='test_without_hr_right')
+        self.assertEqual(len(log_catcher.output), 1, "Exactly one warning should be logged")
+        self.assertIn(
+            "You are not allowed to create or edit a lot or serial number",
+            log_catcher.output[0],
+            "The logged warning should warn about creating serial numbers for components",
+        )
+
     @users('test_without_hr_right')
     def test_shop_floor_auto_select_workcenter(self):
         """ This test ensures the right work center is selected when Shop Floor is opened."""
@@ -312,6 +346,42 @@ class TestShopFloor(HttpCase):
         all_mo[1].workorder_ids[0].action_mark_as_done()
         all_mo[0].workorder_ids[1].barcode = "bake it lovely"
         self.start_tour("/odoo/shop-floor", "test_shop_floor_auto_select_workcenter", login='test_without_hr_right')
+
+    @users('test_without_hr_right')
+    def test_shop_floor_workorders_sorting(self):
+        product_final = self.env['product.product'].create({'name': 'Final Sort', 'is_storable': True})
+        product_comp = self.env['product.product'].create({'name': 'Comp Sort', 'is_storable': True})
+        self.env['stock.quant'].create({
+            'product_id': product_comp.id,
+            'location_id': self.warehouse.lot_stock_id.id,
+            'quantity': 100,
+        })
+        wc = self.env['mrp.workcenter'].create({'name': 'WC Sorting'})
+        bom = self.env['mrp.bom'].create({
+            'product_id': product_final.id,
+            'product_tmpl_id': product_final.product_tmpl_id.id,
+            'product_uom_id': product_final.uom_id.id,
+            'product_qty': 1.0,
+            'operation_ids': [Command.create({'name': 'Op1', 'workcenter_id': wc.id})],
+            'bom_line_ids': [Command.create({'product_id': product_comp.id, 'product_qty': 1})]
+        })
+        mo_unplanned = self.env['mrp.production'].create({'product_id': product_final.id, 'product_qty': 1, 'bom_id': bom.id})
+        mo_planned = self.env['mrp.production'].create({'product_id': product_final.id, 'product_qty': 1, 'bom_id': bom.id})
+        (mo_unplanned | mo_planned).action_confirm()
+        # Ensure they are assigned (ready)
+        (mo_unplanned | mo_planned).action_assign()
+
+        # update name so JS tour can identify them easily
+        mo_unplanned.name = "MO_UNPLANNED"
+        mo_planned.name = "MO_PLANNED"
+
+        # plan one of them
+        mo_planned.button_plan()
+
+        self.assertEqual(mo_unplanned.workorder_ids.state, 'ready')
+        self.assertEqual(mo_planned.workorder_ids.state, 'ready')
+
+        self.start_tour("/odoo/shop-floor", "test_shop_floor_workorders_sorting", login='admin')
 
     @users('test_without_hr_right')
     def test_shop_floor_catalog_add_component_in_two_steps(self):
@@ -489,11 +559,19 @@ class TestShopFloor(HttpCase):
             ]
         })
         bom.byproduct_ids[0].operation_id = bom.operation_ids[0].id
+        self.by_product.write({
+            'is_storable': True,
+            'tracking': 'serial'
+        })
         mo = self.env['mrp.production'].create({
             'product_id': finished.id,
             'product_qty': 1,
             'bom_id': bom.id,
         })
+        mo.move_byproduct_ids = [Command.create({
+                'product_id': self.by_product.id,
+                'product_uom_qty': 1
+        })]
         mo.action_confirm()
         mo.action_assign()
         mo.button_plan()
@@ -501,7 +579,60 @@ class TestShopFloor(HttpCase):
         action = self.env["ir.actions.actions"]._for_xml_id("mrp_workorder.action_mrp_display")
         url = f"/odoo/action-{action['id']}"
         self.start_tour(url, "test_generate_serials_in_shopfloor", login='admin')
-        self.assertEqual(mo.move_byproduct_ids.lot_ids.name, "00001")
+        self.assertRecordValues(mo.move_byproduct_ids,
+            [{
+                'product_id': byproduct.id,
+                'location_id': mo.production_location_id.id,
+                'location_dest_id': self.stock_location.id
+            },
+            {
+                'product_id': self.by_product.id,
+                'location_id': mo.production_location_id.id,
+                'location_dest_id': self.stock_location.id
+            }
+            ])
+        self.assertRecordValues(mo.move_byproduct_ids.lot_ids, [{'name': '00001'}, {'name': '00002'}])
+
+    def test_byproduct_empty_bom_action_add_from_quant(self):
+        """
+        Ensure a manually added tracked by-product on an MO with an empty BOM
+        can prefill lots from a quant and complete successfully when
+        `prefill_shop_floor_lots` is enabled.
+        """
+        prod_location = self.env['stock.location'].search([('usage', '=', 'production'), ('company_id', '=', self.company.id)], limit=1)
+        self._enable_settings('tracking', 'by-product')
+        self.product_1.is_storable = True
+        self.by_product.write({
+            'is_storable': True,
+            'tracking': 'serial',
+        })
+
+        lot = self.env['stock.lot'].create({
+            'name': 'LOT-BYPRODUCT-001',
+            'product_id': self.by_product.id,
+            'company_id': self.env.company.id,
+        })
+        self.env['stock.quant']._update_available_quantity(
+            self.by_product,
+            prod_location,
+            1,
+            lot_id=lot,
+        )
+
+        mo = self.env['mrp.production'].create({
+            'product_id': self.product_1.id,
+            'product_qty': 1.0,
+        })
+        mo.picking_type_id.prefill_shop_floor_lots = True
+        mo.move_byproduct_ids = [Command.create({
+            'product_id': self.by_product.id,
+            'product_uom_qty': 1.0,
+        })]
+        mo.action_confirm()
+        mo.move_byproduct_ids.action_add_from_quant(self.by_product.stock_quant_ids.id)
+
+        mo.button_mark_done()
+        self.assertEqual(mo.state, 'done')
 
     def test_byproduct_serial_with_prefill_lots(self):
         """ When prefill_shop_floor_lots is enabled, by-products tracked by serial
@@ -1029,3 +1160,88 @@ class TestShopFloor(HttpCase):
             {'quantity': 2.0, 'product_id': self.product_1.id},
             {'quantity': 1.0, 'product_id': self.product_2.id},
         ])
+
+    def test_barcode_scan_returns_stock_quant_not_vendor_quant(self):
+        """
+        Scanning a serial barcode must return the WH/Stock quant even when a
+        Partners/Vendors quant with the same serial number exists and has a
+        lower database ID (i.e. was inserted first).
+        """
+        self._enable_settings('tracking')
+        product_serial = self.env['product.product'].create({
+            'name': 'Hand Piece',
+            'is_storable': True,
+            'tracking': 'serial',
+        })
+        product_finished = self.env['product.product'].create({
+            'name': 'Final Product',
+            'is_storable': True,
+        })
+        serial_lot = self.env['stock.lot'].create({
+            'name': 'SN-TEST-001',
+            'product_id': product_serial.id,
+            'company_id': self.env.company.id,
+        })
+        workcenter = self.env['mrp.workcenter'].create({'name': 'Assembly'})
+        bom = self.env['mrp.bom'].create({
+            'product_id': product_finished.id,
+            'product_tmpl_id': product_finished.product_tmpl_id.id,
+            'product_qty': 1.0,
+            'operation_ids': [Command.create({'name': 'Assembly', 'workcenter_id': workcenter.id})],
+            'bom_line_ids': [Command.create({'product_id': product_serial.id, 'product_qty': 1})],
+        })
+        bom.bom_line_ids.operation_id = bom.operation_ids.id
+        vendor_location = self.env.ref('stock.stock_location_suppliers')
+        self.env['stock.quant'].create({
+            'product_id': product_serial.id,
+            'location_id': vendor_location.id,
+            'lot_id': serial_lot.id,
+            'quantity': -1,
+        })
+        self.env['stock.quant']._update_available_quantity(
+            product_serial, self.stock_location, 1, lot_id=serial_lot
+        )
+
+        mo = self.env['mrp.production'].create({
+            'product_id': product_finished.id,
+            'bom_id': bom.id,
+            'product_qty': 1,
+        })
+        mo.action_confirm()
+        self.start_tour('/odoo/shop-floor', 'test_barcode_scan_returns_stock_quant_not_vendor_quant', login='admin')
+        self.assertEqual(mo.move_raw_ids.move_line_ids.location_id.id, self.stock_location.id)
+
+    def test_barcode_scan_product(self):
+        """
+        Scanning a barcode must simulate a click on the corresponding component in the
+        shop floor.
+        """
+        product_component = self.env['product.product'].create({
+            'name': 'Hand Piece',
+            'is_storable': True,
+            'barcode': '1234567890123',
+        })
+        product_finished = self.env['product.product'].create({
+            'name': 'Final Product',
+            'is_storable': True,
+        })
+        workcenter = self.env['mrp.workcenter'].create({'name': 'Assembly'})
+        bom = self.env['mrp.bom'].create({
+            'product_id': product_finished.id,
+            'product_tmpl_id': product_finished.product_tmpl_id.id,
+            'product_qty': 1.0,
+            'operation_ids': [Command.create({'name': 'Assembly', 'workcenter_id': workcenter.id})],
+            'bom_line_ids': [Command.create({'product_id': product_component.id, 'product_qty': 1})],
+        })
+        bom.bom_line_ids.operation_id = bom.operation_ids.id
+        self.env['stock.quant']._update_available_quantity(
+            product_component, self.stock_location, 1
+        )
+
+        mo = self.env['mrp.production'].create({
+            'product_id': product_finished.id,
+            'bom_id': bom.id,
+            'product_qty': 1,
+        })
+        mo.action_confirm()
+        self.start_tour('/odoo/shop-floor', 'test_barcode_scan_product', login='admin')

@@ -30,13 +30,19 @@
                         <td><strong>Entry Date: </strong><span t-out="o.l10n_ch_entry"/></td>
                     </tr>
                     <tr>
-                        <td><div t-if="o.version_id.date_end"><strong>Withdrawal Date: </strong><span t-field="o.version_id.date_end"/></div></td>
+                        <td><div t-if="o.l10n_ch_withdrawal"><strong>Withdrawal Date: </strong><span t-field="o.l10n_ch_withdrawal"/></div></td>
                     </tr>
                     <tr>
                         <td><div t-if="not o.version_id.irregular_working_time"><strong>Activity Rate: </strong><span t-field="o.version_id.l10n_ch_current_occupation_rate"/> %</div></td>
                     </tr>
                     <tr>
                         <td t-if="o.l10n_ch_is_code"><strong>Source-Tax Code: </strong><span t-field="o.l10n_ch_is_code"/></td>
+                    </tr>
+                    <tr>
+                        <t t-set="source_tax_line" t-value="o.line_ids.filtered(lambda line: line.salary_rule_id.l10n_ch_code == '9075')"/>
+                        <td t-if="source_tax_line">
+                            <strong>Source-Tax Rate: </strong><span t-out="str(round(source_tax_line.total, 4)) + ' %'"/>
+                        </td>
                     </tr>
                 </tbody>
             </table>

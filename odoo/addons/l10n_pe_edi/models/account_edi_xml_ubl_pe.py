@@ -167,7 +167,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                 document_type_code = '02'
             prepayment_sequence = 1
             for prepayment_line in prepayments:
-                prepayment_moves = prepayment_line['record']._get_downpayment_lines().move_id.filtered(lambda m: m.move_type == 'out_invoice')
+                prepayment_moves = prepayment_line['record']._get_downpayment_lines().move_id.filtered(lambda m: m.move_type == 'out_invoice' and not m.reversal_move_ids)
                 document_references.extend({
                     'cbc:ID': {'_text': prepayment_move.name.replace(' ', '')},
                     'cbc:DocumentTypeCode': {'_text': document_type_code},
@@ -181,13 +181,20 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                         }
                     }
                 } for prepayment_move in prepayment_moves)
-                prepaid_amounts.extend({
+                # Withholding already excluded by total_grouping_function, same basis as PrepaidAmount
+                prepaid_amount = invoice.direction_sign * sum(
+                    values['base_amount_currency'] + values['tax_amount_currency']
+                    for grouping_key, values in self.env['account.tax']._aggregate_base_line_tax_details(
+                        prepayment_line, vals['total_grouping_function']).items()
+                    if grouping_key
+                )
+                prepaid_amounts.append({
                     'cbc:ID': {'_text': prepayment_sequence},
                     'cbc:PaidAmount': {
-                        '_text': self.format_float(prepayment_move.amount_total, prepayment_move.currency_id.decimal_places),
-                        'currencyID': prepayment_move.currency_id.name,
+                        '_text': self.format_float(prepaid_amount, invoice.currency_id.decimal_places),
+                        'currencyID': invoice.currency_id.name,
                     },
-                } for prepayment_move in prepayment_moves)
+                })
                 prepayment_sequence += 1
             document_node['cac:AdditionalDocumentReference'] = document_references
             document_node['cac:PrepaidPayment'] = prepaid_amounts
@@ -218,11 +225,11 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             'cbc:ID': {'_text': partner.l10n_pe_district.code},
             'cbc:AddressTypeCode': None,
             'cbc:StreetName': {'_text': partner.street},
-            'cbc:AdditionalStreetName': {'_text': partner.street2},
+            'cbc:CitySubdivisionName': {'_text': partner.street2},
             'cbc:CityName': {'_text': partner.city},
-            'cbc:PostalZone': {'_text': partner.zip},
             'cbc:CountrySubentity': {'_text': state.name},
             'cbc:CountrySubentityCode': {'_text': state.code},
+            'cbc:District': {'_text': partner.l10n_pe_district.name},
             'cac:Country': {
                 'cbc:IdentificationCode': {'_text': country.code},
                 'cbc:Name': {'_text': country.name},
@@ -265,7 +272,9 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
         invoice = vals['invoice']
         spot = invoice._l10n_pe_edi_get_spot()
         if spot:
-            spot_amount = spot['amount'] if invoice.currency_id == invoice.company_id.currency_id else spot['spot_amount']
+            # spot['spot_amount'] is in invoice currency and is used to subtract from receivable lines.
+            # spot['amount'] is always in PEN and is only used for the Detraccion XML node.
+            spot_amount = spot['spot_amount']
         invoice_date_due_vals_list = []
         first_time = True
         for rec_line in invoice.line_ids.filtered(lambda l: l.account_type == 'asset_receivable').sorted('date_maturity'):
@@ -349,7 +358,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
         total_isc_tax = sum(
             values['tax_amount_currency']
             for grouping_key, values in aggregated_tax_details.items()
-            if grouping_key['l10n_pe_edi_tax_group_code'] == 'ISC'
+            if grouping_key and grouping_key['l10n_pe_edi_tax_group_code'] == 'ISC'
         )
 
         if invoice.l10n_pe_edi_legend == '1002':
@@ -358,7 +367,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             total_tax_amount = sum(
                 values['tax_amount_currency']
                 for grouping_key, values in aggregated_tax_details.items()
-                if not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_withholding_tax']
             )
 
         document_node['cac:TaxTotal'] = {
@@ -384,7 +393,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                     'cac:TaxCategory': self._get_tax_category_node({**vals, 'grouping_key': grouping_key}),
                 }
                 for grouping_key, tax_details in aggregated_tax_details.items()
-                if not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
             ]
         }
 
@@ -559,7 +568,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             total_tax_amount = sum(
                 values['tax_amount_currency']
                 for grouping_key, values in aggregated_tax_details.items()
-                if not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_withholding_tax']
             )
 
         line_node['cac:TaxTotal'] = {
@@ -570,7 +579,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
             'cac:TaxSubtotal': [
                 {
                     'cbc:TaxableAmount': {
-                        '_text': self.format_float(values['base_amount_currency'], vals['currency_dp']),
+                        '_text': self.format_float(values['total_excluded_currency'], vals['currency_dp']),
                         'currencyID': vals['currency_name']
                     } if grouping_key['l10n_pe_edi_tax_group_code'] != 'ICBPER' else None,
                     'cbc:TaxAmount': {
@@ -584,7 +593,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
                     'cac:TaxCategory': self._get_tax_category_node({**vals, 'grouping_key': grouping_key})
                 }
                 for grouping_key, values in aggregated_tax_details.items()
-                if not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
+                if grouping_key and not grouping_key['is_free_invoice_fake_tax'] and not grouping_key['is_withholding_tax']
             ]
         }
 
@@ -658,7 +667,7 @@ class AccountEdiXmlUbl_Pe(models.AbstractModel):
 
         base_lines_aggregated_tax_details = self.env['account.tax']._aggregate_base_lines_tax_details(vals['base_lines'], grouping_function_wh)
         aggregated_tax_details = self.env['account.tax']._aggregate_base_lines_aggregated_values(base_lines_aggregated_tax_details)
-        base_amount = aggregated_tax_details.get(True, {}).get('base_amount_currency', 0.0)
+        base_amount = min(aggregated_tax_details.get(True, {}).get('base_amount_currency', 0.0), vals['tax_inclusive_amount_currency'])
         allowance_amount = aggregated_tax_details.get(True, {}).get('tax_amount_currency', 0.0)
 
         withholding_node = {}

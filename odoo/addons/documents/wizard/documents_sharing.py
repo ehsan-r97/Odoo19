@@ -151,7 +151,7 @@ class DocumentsSharing(models.TransientModel):
         else:
             self.document_ids.action_update_access_rights(
                 partners={
-                    partner: (self.invite_role, None)
+                    partner: (self.invite_role, False)
                     for partner in self.invite_partner_ids
                 },
                 no_propagation=not self.is_folder_only,

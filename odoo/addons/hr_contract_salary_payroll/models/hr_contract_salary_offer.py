@@ -75,15 +75,6 @@ class HrContractSalaryOffer(models.Model):
             version._get_contract_wage_field(): self.monthly_wage,
             'wage_with_holidays': self.monthly_wage,
         })
-        if not version.contract_date_start:
-            if self.employee_id and self.employee_id.current_version_id and self.employee_id.current_version_id.contract_date_start:
-                self.employee_id.current_version_id.write({
-                    'contract_date_end': version.date_version - relativedelta(days=1)
-                })
-            version_vals.update({
-                'contract_date_start': version.date_version
-            })
-
         if self.is_simulation_offer:
             work_time_rate = (resource_calendar.work_time_rate / 100)
             new_wage = self.monthly_wage * work_time_rate
@@ -92,7 +83,13 @@ class HrContractSalaryOffer(models.Model):
                 'wage': new_wage,
                 'wage_with_holidays': new_wage,
             })
-
+        employee = version.employee_id
+        if employee and employee.active:
+            self.with_context(tracking_disable=True)._archive_future_versions(version=employee.version_id)
+        version_vals.update({
+            'contract_date_start': version.contract_date_start or fields.Date.today().replace(day=1),
+            'contract_date_end': False,
+        })
         version.write(version_vals)
         version._inverse_wage_with_holidays()
         return version

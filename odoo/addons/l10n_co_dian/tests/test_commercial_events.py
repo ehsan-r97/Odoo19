@@ -1,4 +1,5 @@
 import uuid
+from lxml import etree
 from datetime import datetime
 from unittest.mock import patch
 
@@ -111,6 +112,12 @@ class TestCommercialEvents(TestCoDianCommon):
             self.bill_pending_document_data,
         ])
 
+        # Check that the vendor bill PDF does not crash when the DIAN attachment is a zipped AttachedDocument.
+        try:
+            bill._l10n_co_dian_get_invoice_report_qr_code_value()
+        except etree.XMLSyntaxError:
+            self.fail("Unexpected XMLSyntaxError while generating the report QR code")
+
     def test_get_status_event(self):
         self._mock_send_and_print(move=self.invoice, response_file='SendBillSync_warnings.xml')
         self.assertTrue(self.invoice.l10n_co_dian_attachment_id)
@@ -146,7 +153,16 @@ class TestCommercialEvents(TestCoDianCommon):
             'message': "<p>EL CUFE o Factura consultada no tiene a la fecha eventos asociados.</p>",
         }])
 
-        # GetStatusEvent after event has been sent
+        # Rejected commercial event
+        with self._mock_build_and_send_request('CommercialEventRejected.xml'):
+            bill.l10n_co_dian_send_event_update_status_received()
+        self.assertEqual(len(bill.l10n_co_dian_document_ids), 2)
+        self.assertRecordValues(bill.l10n_co_dian_document_ids.sorted(), [
+            {'state': 'invoice_rejected', 'commercial_state': 'received'},
+            self.bill_pending_document_data,
+        ])
+
+        # Send the commercial event succesfully after a rejection
         with self._mock_build_and_send_request('CommercialEvent.xml'):
             bill.l10n_co_dian_send_event_update_status_received()
         self.assertEqual(len(bill.l10n_co_dian_document_ids), 2)
@@ -249,3 +265,22 @@ class TestCommercialEvents(TestCoDianCommon):
         bill = self._create_commercial_event_bill(self.invoice)
         with self.assertRaisesRegex(UserError, "No DIAN Operation Mode Matches"):
             bill.l10n_co_dian_send_event_update_status_received()
+
+    def test_response_history_with_failed_event(self):
+        """ Test that in case of failed transmission we delete the document
+        """
+        self._mock_send_and_print(move=self.invoice, response_file='SendBillSync_warnings.xml')
+        bill = self._create_commercial_event_bill(self.invoice)
+
+        # The DIAN server is unreachable: the document keeps the (unzipped) event xml as attachment
+        with self._mock_build_and_send_request('CommercialEvent.xml', status_code=500):
+            bill.l10n_co_dian_send_event_update_status_received()
+        failed_document = bill.l10n_co_dian_document_ids.sorted()[0]
+        self.assertRecordValues(failed_document, [{
+            'state': 'invoice_sending_failed',
+            'commercial_state': 'received',
+        }])
+
+        with self._mock_build_and_send_request('CommercialEvent.xml'):
+            bill.l10n_co_dian_send_event_update_status_received()
+        self.assertFalse(failed_document.exists())

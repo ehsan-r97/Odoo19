@@ -71,6 +71,23 @@ def _mock_request_call(specific_fedex_check=None):
         yield
 
 
+def _check_request_format(check_list):
+    """
+    Performs all given checks before sending the request to the server.
+
+    :param check_list: A list of functions accepting both url and data as arguments eg. check(url, data).
+        Every check might raise an Exception
+    """
+    original_send_fedex_request = FedexRequest._send_fedex_request
+
+    def patched_send_fedex_request(self, url, data, method='POST'):
+        for check in check_list:
+            check(url, data)
+        return original_send_fedex_request(self, url, data, method)
+
+    return patch.object(FedexRequest, '_send_fedex_request', side_effect=patched_send_fedex_request, autospec=True)
+
+
 @tagged('post_install', '-at_install')
 class TestDeliveryFedex(TransactionCase):
 
@@ -176,7 +193,13 @@ class TestDeliveryFedex(TransactionCase):
             'default_carrier_id': self.env.ref('delivery_fedex_rest.delivery_carrier_fedex_us').id
         }))
         choose_delivery_carrier = delivery_wizard.save()
-        with _mock_request_call():
+
+        def check_presence_of_customer_reference(url, data):
+            if ('ship' in url and not 'cancel' in url):
+                if not any(ref.get('customerReferenceType') == 'CUSTOMER_REFERENCE' for ref in data['requestedShipment']['requestedPackageLineItems'][0]['customerReferences']):
+                    raise (Exception("Shipment is missing transfer reference"))
+
+        with _mock_request_call(), _check_request_format([check_presence_of_customer_reference]):
             choose_delivery_carrier.update_price()
             self.assertGreater(choose_delivery_carrier.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
             choose_delivery_carrier.button_confirm()
@@ -433,4 +456,58 @@ class TestDeliveryFedex(TransactionCase):
             picking = sale_order.picking_ids[0]
             self.assertEqual(picking.carrier_id.id, sale_order.carrier_id.id)
 
+            picking._action_done()
+
+    def test_08_fedex_sell_to_partner_with_delivery_address(self):
+        '''
+        Test selling to a partner but delivering to its' delivery address.
+        '''
+        def payload_content_check(endpoint, payload):
+            if endpoint == 'ship':
+                recipient_contact = payload['requestedShipment']['recipients'][0]['contact']
+                sold_to_contact = payload['requestedShipment']['soldTo']['contact']
+                # Ensure 'soldTo' and 'recipient' are 2 different contacts
+                self.assertNotEqual(recipient_contact['personName'], sold_to_contact['personName'])
+                # Ensure phone number is correctly retrieved from the delivery address
+                self.assertEqual(sold_to_contact['phoneNumber'], "+41987654321")
+
+        swiss_delivery_address = self.env['res.partner'].create({
+            'name': "Swiss Delivery",
+            'phone': "+41987654321",
+            'street': "Longines Avenue 100",
+            'street2': "",
+            'city': "Genève",
+            'zip': "1204",
+            'state_id': self.env.ref('base.state_ch_ge_fr').id,
+            'country_id': self.env.ref('base.ch').id,
+            'type': "delivery",
+            'parent_id': self.swiss_partner.id,
+        })
+
+        sale_order = self.env['sale.order'].create({
+            'partner_id': self.swiss_partner.id,
+            'order_line':  [Command.create({
+                'product_id': self.iPadMini.id,
+                'name': "[A1232] iPad Mini",
+                'product_uom_qty': 1.0,
+            })],
+        })
+        delivery_wizard = Form(self.env['choose.delivery.carrier'].with_context({
+            'default_order_id': sale_order.id,
+            'default_carrier_id': self.env.ref('delivery_fedex_rest.delivery_carrier_fedex_inter').id
+        }))
+        choose_delivery_carrier = delivery_wizard.save()
+        with _mock_request_call(payload_content_check):
+            choose_delivery_carrier.update_price()
+            choose_delivery_carrier.button_confirm()
+
+            sale_order.action_confirm()
+            self.assertEqual(len(sale_order.picking_ids), 1)
+
+            picking = sale_order.picking_ids[0]
+            self.assertEqual(picking.carrier_id.id, sale_order.carrier_id.id)
+
+            picking.partner_id = swiss_delivery_address
+            # Make it so only the delivery address has a phone number
+            self.swiss_partner.phone = False
             picking._action_done()

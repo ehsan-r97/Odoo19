@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-03-24 15:57+0000\n"
+"PO-Revision-Date: 2026-06-11 12:05+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "account_avatax/sv/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_avatax
 #. odoo-python
@@ -33,6 +33,8 @@ msgid ""
 "<i class=\"oi oi-fw oi-arrow-right\"/>\n"
 "                                How to Get Credentials"
 msgstr ""
+"<i class=\"oi oi-fw oi-arrow-right\"/>\n"
+"                                Hur man hämtar inloggningsuppgifter"
 
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.res_config_settings_view_form
@@ -63,6 +65,9 @@ msgid ""
 "logging for 30 minutes\" class=\"fa fa-file-text-o\"/>\n"
 "                                Start logging for 30 minutes"
 msgstr ""
+"<i title=\"Start logging for 30 minutes\" role=\"img\" aria-label=\"Start "
+"logging for 30 minutes\" class=\"fa fa-file-text-o\"/>\n"
+"                                Börja logga i 30 minuter"
 
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.res_config_settings_view_form
@@ -89,7 +94,7 @@ msgstr ""
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.res_config_settings_view_form
 msgid "API ID"
-msgstr "API ID"
+msgstr "API-ID"
 
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.res_config_settings_view_form
@@ -99,7 +104,7 @@ msgstr "API-NYCKEL"
 #. module: account_avatax
 #: model:ir.model,name:account_avatax.model_account_chart_template
 msgid "Account Chart Template"
-msgstr "Mall för kontoplan"
+msgstr "Mall för kontoplan\t"
 
 #. module: account_avatax
 #: model:ir.model.fields,help:account_avatax.field_account_fiscal_position__avatax_invoice_account_id
@@ -148,13 +153,13 @@ msgstr "AvaTax"
 #: model:ir.model.fields,field_description:account_avatax.field_res_company__avalara_api_id
 #: model:ir.model.fields,field_description:account_avatax.field_res_config_settings__avalara_api_id
 msgid "Avalara API ID"
-msgstr ""
+msgstr "Avalara API-ID"
 
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_res_company__avalara_api_key
 #: model:ir.model.fields,field_description:account_avatax.field_res_config_settings__avalara_api_key
 msgid "Avalara API KEY"
-msgstr ""
+msgstr "Avalara API-NYCKEL"
 
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_res_company__avalara_address_validation
@@ -191,7 +196,7 @@ msgstr "Avalara-undantag"
 #. module: account_avatax
 #: model:ir.actions.act_window,name:account_avatax.ir_logging_avalara_action
 msgid "Avalara Logging"
-msgstr ""
+msgstr "Loggning i Avalara"
 
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_res_partner__avalara_partner_code
@@ -203,7 +208,7 @@ msgstr "Avalara partnernummer"
 #: model:ir.model.fields,field_description:account_avatax.field_res_partner__avalara_show_address_validation
 #: model:ir.model.fields,field_description:account_avatax.field_res_users__avalara_show_address_validation
 msgid "Avalara Show Address Validation"
-msgstr ""
+msgstr "Visa adressvalidering i Avalara"
 
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.account_fiscal_position_form_inherit
@@ -231,7 +236,7 @@ msgstr "Avatax faktureringskonto"
 #. module: account_avatax
 #: model:ir.model,name:account_avatax.model_avatax_exemption
 msgid "Avatax Partner Exemption Codes"
-msgstr ""
+msgstr "Undantagskoder för partners i Avatax"
 
 #. module: account_avatax
 #: model:ir.model,name:account_avatax.model_product_avatax_category
@@ -278,13 +283,13 @@ msgstr "Kod"
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.res_config_settings_view_form
 msgid "Commit Transactions"
-msgstr ""
+msgstr "Publicera transaktioner"
 
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_res_company__avalara_commit
 #: model:ir.model.fields,field_description:account_avatax.field_res_config_settings__avalara_commit
 msgid "Commit in Avatax"
-msgstr ""
+msgstr "Publicera i Avatax"
 
 #. module: account_avatax
 #: model:ir.model,name:account_avatax.model_res_company
@@ -429,7 +434,7 @@ msgstr "Är Avatax"
 #. module: account_avatax
 #: model:ir.model,name:account_avatax.model_account_move
 msgid "Journal Entry"
-msgstr "Bokföringspost"
+msgstr "Verifikation"
 
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_avatax_connection_test_result__write_uid
@@ -489,7 +494,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_avatax/models/res_company.py:0
 msgid "Odoo could not fetch the exemption codes of %(company)s"
-msgstr ""
+msgstr "Odoo kunder inte hämta %(company)s undantagskoder"
 
 #. module: account_avatax
 #. odoo-python
@@ -551,7 +556,7 @@ msgstr "Sandlåda"
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.avatax_validate_address_view_form
 msgid "Save Validated"
-msgstr ""
+msgstr "Sparande validerat"
 
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_avatax_connection_test_result__server_response
@@ -583,7 +588,7 @@ msgstr "Föreslå giltiga adresser hämtade från Avatax"
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.res_config_settings_view_form
 msgid "Synchronize the exemption codes from Avatax"
-msgstr ""
+msgstr "Synkronisera undantagskoder från Avatax"
 
 #. module: account_avatax
 #. odoo-python
@@ -612,6 +617,8 @@ msgid ""
 "The Avalara Tax Code is required for %(name)s (#%(id)s)\n"
 "See https://taxcode.avatax.avalara.com/"
 msgstr ""
+"Skattekoden från Avalara krävs för %(name)s (#%(id)s)\n"
+"Läs mer på https://taxcode.avatax.avalara.com/"
 
 #. module: account_avatax
 #. odoo-python
@@ -626,7 +633,7 @@ msgstr ""
 #. module: account_avatax
 #: model:ir.model.fields,help:account_avatax.field_res_config_settings__avalara_commit
 msgid "The transactions will be committed for reporting in Avatax."
-msgstr ""
+msgstr "Transaktioner kommer att publiceras i rapporteringen i Avatax."
 
 #. module: account_avatax
 #: model_terms:ir.ui.view,arch_db:account_avatax.avatax_validate_address_view_form
@@ -642,7 +649,7 @@ msgstr "Använd AvaTax"
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_account_fiscal_position__is_avatax
 msgid "Use AvaTax API"
-msgstr ""
+msgstr "Använd AvaTax API"
 
 #. module: account_avatax
 #: model:ir.model.fields,field_description:account_avatax.field_res_company__avalara_use_upc
@@ -655,6 +662,8 @@ msgstr "Använd UPC"
 #: model:ir.model.fields,help:account_avatax.field_res_config_settings__avalara_use_upc
 msgid "Use Universal Product Code instead of custom defined codes in Avalara."
 msgstr ""
+"Använd en universell produktkod istället för specifikt definierade koder i "
+"Avalara."
 
 #. module: account_avatax
 #: model:ir.model.fields,help:account_avatax.field_account_avatax_unique_code__avatax_unique_code

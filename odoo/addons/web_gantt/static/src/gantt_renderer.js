@@ -2024,7 +2024,7 @@ export class GanttRenderer extends Component {
 
     getSubColumnFromDate(date, onLeft = true) {
         const { interval, cellPart, cellTime, time } = this.model.metaData.scale;
-        const column = date.startOf(interval);
+        const column = localStartOf(date, interval);
         let delta;
         if (onLeft) {
             delta = 0;
@@ -2819,7 +2819,19 @@ export class GanttRenderer extends Component {
         const fallbackParams = this.getUndoAfterDragRecordData(record);
         const fallbackSchedule = this.model.getSchedule(fallbackParams);
 
-        await this.model.reschedule(record.id, schedule, this.openPlanDialogCallback.bind(this));
+        if (this.isAutoPlan) {
+            await this.model.rescheduleAccordingToDependency(
+                record.id,
+                schedule,
+                this.rescheduleAccordingToDependencyCallback.bind(this)
+            );
+        } else {
+            await this.model.reschedule(
+                record.id,
+                schedule,
+                this.openPlanDialogCallback.bind(this)
+            );
+        }
         this.displayUndoNotificationAfterDrag(
             record.id,
             this.interaction.dragAction,

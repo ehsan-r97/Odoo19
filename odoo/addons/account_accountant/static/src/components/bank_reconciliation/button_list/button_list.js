@@ -90,7 +90,14 @@ export class BankRecButtonList extends Component {
                 multiSelect: false,
                 resModel: "res.partner",
                 context: { default_name: this.statementLineData.partner_name },
-                domain: [["company_id", "in", [false, this.statementLineData.company_id.id]]],
+                domain: [
+                    "|",
+                        ["company_id", "in", [false, this.statementLineData.company_id.id]],
+                        ["company_id", "parent_of", this.statementLineData.company_id.id],
+                    "|",
+                        ["parent_id", "=", false],
+                        ["is_company", "=", true],
+                ],
                 onSelected: async (partner) => await this._setPartnerOnReconcileLine(partner[0]),
             },
             {
@@ -227,6 +234,7 @@ export class BankRecButtonList extends Component {
      */
     reconcileOnReconcileLine() {
         const context = {
+            kanban_view_ref: "account_accountant.view_account_move_line_kanban_bank_rec_widget",
             list_view_ref: "account_accountant.view_account_move_line_list_bank_rec_widget",
             search_view_ref: "account_accountant.view_account_move_line_search_bank_rec_widget",
             preferred_aml_value: -this.props.suspenseAccountLine.amount_currency,
@@ -234,7 +242,6 @@ export class BankRecButtonList extends Component {
             ...(this.statementLineData.partner_id
                 ? { search_default_partner_id: this.statementLineData.partner_id.id }
                 : {}),
-            ...(this.availableReconcileLines.length ? {} : { search_default_posted: 1 }),
         };
 
         this.addDialog(
@@ -514,7 +521,25 @@ export class BankRecButtonList extends Component {
     // ACTION
     // -----------------------------------------------------------------------------
     actionViewRecoModels() {
-        return this.action.doAction("account.action_account_reconcile_model");
+        return this.action.doAction({
+            name: _t("Reconciliation Models"),
+            type: "ir.actions.act_window",
+            res_model: "account.reconcile.model",
+            views: [
+                [false, "list"],
+                [false, "form"],
+            ],
+            view_mode: "list,form",
+            domain: [
+                "|",
+                ["match_journal_ids", "=", this.statementLineData.journal_id.id],
+                ["match_journal_ids", "=", false],
+            ],
+            context: {
+                search_default_created_by_user: 1,
+            },
+            target: "current",
+        });
     }
 
     // -----------------------------------------------------------------------------
@@ -611,6 +636,7 @@ export class BankRecButtonList extends Component {
                 action: this.reconcileOnReconcileLine.bind(this),
                 count: this.props.reconcileLineCount,
                 classes: "reconcile-btn",
+                suggestion: this.availableReconcileLines.length,
             };
         }
 
@@ -674,5 +700,10 @@ export class BankRecButtonList extends Component {
         return Object.values(buttons).filter(
             (button) => !buttonToDisplayClasses.includes(button.classes)
         );
+    }
+
+    get displaySuggestionPill() {
+        // Override that function to display the suggestion pill on the dropdown
+        return this.availableReconcileLines.length;
     }
 }

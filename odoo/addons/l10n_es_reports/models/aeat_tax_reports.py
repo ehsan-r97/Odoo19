@@ -1263,6 +1263,7 @@ class L10n_EsMod347TaxReportHandler(models.AbstractModel):
         return rslt
 
     def export_boe(self, options):
+        self.env.flush_all()
         dummy, year = self._get_mod_period_and_year(options)
         current_company = self.env.company
         report = self.env['account.report'].browse(options['report_id'])
@@ -1320,6 +1321,15 @@ class L10n_EsMod347TaxReportHandler(models.AbstractModel):
             'file_content': rslt,
             'file_type': 'txt',
         }
+
+    def action_audit_cell(self, options, params):
+        report_line = self.env['account.report.line'].browse(params['report_line_id'])
+        action = report_line.report_id.action_audit_cell(options, params)
+        action['context'] = {
+            **(action.get('context') or {}),
+            'group_by': ['move_type', 'invoice_date:quarter'],
+        }
+        return action
 
 
 class L10n_EsMod349TaxReportHandler(models.AbstractModel):
@@ -1482,7 +1492,7 @@ class L10n_EsMod349TaxReportHandler(models.AbstractModel):
                         else:
                             result_dict['value'] += 1
 
-            result_dict['has_sublines'] = float_compare(result_dict['value'], 0, precision_rounding=2)
+            result_dict['has_sublines'] = float_compare(result_dict['value'], 0, precision_digits=2)
 
             return result_dict
 
@@ -1533,7 +1543,7 @@ class L10n_EsMod349TaxReportHandler(models.AbstractModel):
 
         for grouping_key, query_res_lines in all_res_per_grouping_key.items():
             result_dict = build_result_dict(query_res_lines, reversed_moves_dict)
-            if float_compare(result_dict['value'], 0, precision_rounding=2):
+            if float_compare(result_dict['value'], 0, precision_digits=2):
                 rslt.append((grouping_key, result_dict))
 
         return rslt
@@ -1807,7 +1817,7 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
         545, 546, 722, 723, 689, 690, 547, 548, 551, 552, 27, 28, 29, 30, 649, 650, 31, 32, 33, 34]
         for casilla in casillas:
             rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[f'{casilla:02d}'],
-                                                    length=17, decimal_places=2, in_currency=True)
+                                                    length=17, decimal_places=2, signed=True, in_currency=True)
         # Blank space for AEAT
         rslt += self._l10n_es_boe_format_string(' ' * 150)
         # Footer
@@ -1822,12 +1832,12 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
         casillas = [35, 36]
         for casilla in casillas:
             rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)],
-                                                    length=17, decimal_places=2, in_currency=True)
+                                                    length=17, decimal_places=2, signed=True, in_currency=True)
         rslt += self._l10n_es_boe_format_string('0' * (17 * 4))  # Reserve space for fields 665, 666, 693, and 694 (4 fixed-width values of 17 characters each)
         casillas = [599, 600, 601, 602, 41, 42, 43, 44, 45, 46, 47]
         for casilla in casillas:
             rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)],
-                                                    length=17, decimal_places=2, in_currency=True)
+                                                    length=17, decimal_places=2, signed=True, in_currency=True)
         # Blank space for AEAT
         rslt += self._l10n_es_boe_format_string(' ' * 150)
         # Footer
@@ -1849,7 +1859,7 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
         768, 627, 628, 629, 630, 56, 57]
         for casilla in casillas:
             rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)],
-                                                    length=17, decimal_places=2, in_currency=True)
+                                                    length=17, decimal_places=2, signed=True, in_currency=True)
 
         # Blank space for AEAT
         rslt += self._l10n_es_boe_format_string(' ' * 150)
@@ -1867,7 +1877,7 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
         652, 63, 522, 64, 65]
         for casilla in casillas:
             rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)],
-                                                    length=17, decimal_places=2, in_currency=True)
+                                                    length=17, decimal_places=2, signed=True, in_currency=True)
         # Blank space for AEAT
         rslt += self._l10n_es_boe_format_string(' ' * 150)
         # Footer
@@ -1880,11 +1890,11 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
         rslt = self._l10n_es_boe_format_string('<T39006000> ')
         # Section 7  : Annual settlement result (Only for taxpayers who are taxed exclusively in common territory)
         # Casillas
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['658'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['84'], length=17, decimal_places=2, in_currency=True)
+        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['658'], length=17, decimal_places=2, signed=True, in_currency=True)
+        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['84'], length=17, decimal_places=2, signed=True, in_currency=True)
         rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['659'], length=17, decimal_places=2, in_currency=True)
         rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['85'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['86'], length=17, decimal_places=2, in_currency=True)
+        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['86'], length=17, decimal_places=2, signed=True, in_currency=True)
         # We don't cover the section 8 of the modelo 390, the casillas are replaced by zeros.
         # 87 --> 91: Administraciones : Territorio commùn (5), Álava (5), Guipúzcoa(5), Vizcaya(5), Navarra(5)
         rslt += self._l10n_es_boe_format_string('0' * 5 * 5)
@@ -1907,24 +1917,9 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
         rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['525'], length=17, decimal_places=2, in_currency=True)
         rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['526'], length=17, decimal_places=2, in_currency=True)
         # Section 10 : Trading volume
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['99'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['653'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['103'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['104'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['105'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['110'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['125'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['126'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['127'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['128'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['100'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['101'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['102'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['227'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['228'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['106'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['107'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['108'], length=17, decimal_places=2, in_currency=True)
+        casillas = [99, 653, 103, 104, 105, 110, 125, 126, 127, 128, 100, 101, 102, 227, 228, 106, 107, 108]
+        for casilla in casillas:
+            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, signed=True, in_currency=True)
 
         # Blank space for AEAT
         rslt += self._l10n_es_boe_format_string(' ' * 150)
@@ -1939,15 +1934,11 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
 
         # Casillas
         # Section 11: Specific operations in the carried out during the year
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['230'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['109'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['231'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['232'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['111'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['113'], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['523'], length=17, decimal_places=2, in_currency=True)
+        casillas = [230, 109, 231, 232, 111, 113, 523]
+        for casilla in casillas:
+            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, signed=True, in_currency=True)
         for casilla in range(654, 658):
-            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, in_currency=True)
+            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, signed=True, in_currency=True)
         # We don't cover the section 12 of the modelo 390, the casillas are replaced by blank spaces
         for _i in range(0, 5):
             rslt += self._l10n_es_boe_format_string(' ' * 40)  # Prorratas - Actividad desarrollada
@@ -1971,16 +1962,16 @@ class L10n_EsMod390TaxReportHandler(models.AbstractModel):
 
         # Casillas
         for casilla in range(139, 153):
-            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['640'], length=17, decimal_places=2, in_currency=True)
+            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, signed=True, in_currency=True)
+        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['640'], length=17, decimal_places=2, signed=True, in_currency=True)
         for casilla in range(153, 170):
-            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['641'], length=17, decimal_places=2, in_currency=True)
+            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, signed=True, in_currency=True)
+        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['641'], length=17, decimal_places=2, signed=True, in_currency=True)
         for casilla in range(170, 187):
-            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, in_currency=True)
-        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['642'], length=17, decimal_places=2, in_currency=True)
+            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, signed=True, in_currency=True)
+        rslt += self._l10n_es_boe_format_number(options, casilla_lines_map['642'], length=17, decimal_places=2, signed=True, in_currency=True)
         for casilla in range(187, 190):
-            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, in_currency=True)
+            rslt += self._l10n_es_boe_format_number(options, casilla_lines_map[str(casilla)], length=17, decimal_places=2, signed=True, in_currency=True)
 
         # Blank space for AEAT
         rslt += self._l10n_es_boe_format_string(' ' * 150)

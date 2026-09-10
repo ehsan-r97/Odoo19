@@ -5,6 +5,7 @@ from odoo import Command, fields
 from odoo.addons.documents.tests.test_documents_common import TransactionCaseDocuments
 from odoo.addons.mail.tests.common import MockEmail
 from odoo.tests import Form, freeze_time, users
+from odoo.tools import mute_logger
 
 
 class TestDocumentsSharingCommon(TransactionCaseDocuments):
@@ -233,6 +234,36 @@ class TestDocumentsSharing(TestDocumentsSharingCommon, MockEmail):
         self.assertEqual(action['params']['title'], 'No partners')
         self.assertFalse(action.get('next'), 'The wizard remains open.')
 
+    @mute_logger('odoo.addons.base.models.ir_rule')
+    @users("documents@example.com")
+    def test_invite_reset_expiration_date(self):
+        """Re-inviting a member reset its expiration date."""
+        self.set_documents_env_user_to_current()
+        doc = self.user_doc
+
+        expired = fields.Datetime.now() - timedelta(days=1)
+        doc.action_update_access_rights(partners={self.portal_partner: ('view', expired),
+                                                 self.internal_user.partner_id: ('edit', False)})
+        self._assert_raises_check_access_rule(doc.with_user(self.portal_user), 'read')
+
+        doc_sharing = self.create_documents_sharing(doc)
+        with Form(doc_sharing) as form:
+            form.invite_partner_ids = self.portal_partner
+            form.invite_role = 'view'
+            form.invite_notify = False
+        self.assertEqual(doc_sharing.share_access_ids.partner_id, self.internal_user.partner_id,
+                         "Expired member is hidden from People with access.")
+        self.assertEqual(doc_sharing.action_invite_members()['params']['type'], 'success')
+
+        doc_sharing = self.create_documents_sharing(doc)
+        self.assertIn(self.portal_partner, doc_sharing.share_access_ids.partner_id,
+                      "Re-invited member reappears under People with access.")
+        self.assertFalse(
+            doc_sharing.share_access_ids.filtered(lambda ds: ds.partner_id == self.portal_partner).expiration_date,
+            "Expiration date has been reset.")
+        self.assertEqual(doc.with_user(self.portal_user).user_permission, 'view',
+                         "Re-invited member has access to the document again.")
+
     @users("documents@example.com")
     def test_invite_warning_partners_without_access(self):
         """Test the warning about sharing documents to external partners without access (without user)."""
@@ -406,6 +437,17 @@ class TestDocumentsSharing(TestDocumentsSharingCommon, MockEmail):
         portal_access_user_doc = self.user_doc.access_ids.filtered(lambda a: a.partner_id == self.portal_partner)
         self.assertFalse(portal_access_user_doc.expiration_date)
         self.assertEqual(portal_access_user_doc.role, 'view')
+
+    @users("documents@example.com")
+    def test_update_access_rights_as_editor(self):
+        """Test modifying access_internal when "only" an editor."""
+        self.set_documents_env_user_to_current()
+        self.manager_doc.sudo().action_update_access_rights(
+            access_internal='none', access_via_link='none', partners={self.env.user.partner_id: ('edit', None)})
+        doc_sharing = self.create_documents_sharing(self.manager_doc)
+        with Form(doc_sharing) as form:
+            form.access_internal = 'write_edit'
+            self.assertFalse(form.is_readonly)
 
     @users("dtdm")
     def test_update_access_rights_of_owners(self):

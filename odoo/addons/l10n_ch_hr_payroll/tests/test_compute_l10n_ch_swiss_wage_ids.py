@@ -135,6 +135,40 @@ class TestComputeWageIds(TestSwissdecCommon):
             error.append("        }")
         self.assertEqual(len(error), 0, "\n" + "\n".join(error))
 
+    def test_compute_wage_ids_without_working_schedule(self):
+        version = self.employee_monica._get_version(date(2022, 1, 1))
+        version.update({
+            "resource_calendar_id": False,
+            "l10n_ch_has_monthly": True,
+            "l10n_ch_has_hourly": False,
+            "l10n_ch_has_lesson": False,
+        })
+        self.employee_monica.tz = "Europe/Brussels"
+        self.env.company.l10n_ch_30_day_method = False
+
+        self.env["hr.leave"].with_context(
+            leave_fast_create=True,
+            leave_skip_state_check=True,
+        ).create({
+            "name": "Accident Time Off Jul",
+            "employee_id": self.employee_monica.id,
+            "holiday_status_id": self.accident_leave_type.id,
+            "request_date_from": date(2022, 7, 8),
+            "request_date_to": date(2022, 7, 8),
+            "state": "validate",
+        })
+
+        payslip = self._l10n_ch_generate_swissdec_demo_payslip(
+            version, date(2022, 7, 1), date(2022, 7, 31), version.company_id.id
+        )
+
+        accident_wage = payslip.l10n_ch_swiss_wage_ids.filtered(
+            lambda wage: wage.code == "CH_ACCIDENT"
+        )
+        self.assertEqual(len(accident_wage), 1)
+        self.assertEqual(accident_wage.name, "Salary in case of Accident : 1 / 31")
+        self.assertAlmostEqual(accident_wage.amount, version.wage / 31, places=2)
+
     def test_compute_wage_ids_1(self):
         version = self.employee_monica._get_version(date(2022, 1, 1))
         company = self.employee_monica.company_id

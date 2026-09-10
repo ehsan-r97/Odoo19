@@ -132,14 +132,13 @@ class AccountMove(models.Model):
     @api.depends('l10n_co_dian_document_ids', 'l10n_co_dian_document_ids.state', 'l10n_co_dian_document_ids.commercial_state')
     def _compute_l10n_co_dian_states(self):
         for move in self:
+            if accepted_doc := move._l10n_co_dian_get_last_accepted_document():
+                move.l10n_co_dian_state = accepted_doc.state
+                move.l10n_co_dian_commercial_state = accepted_doc.commercial_state
+                continue
             move.l10n_co_dian_commercial_state = False
-            move.l10n_co_dian_state = False
-            documents = move.l10n_co_dian_document_ids.sorted()
-            for document in documents:
-                if not move.l10n_co_dian_state:
-                    move.l10n_co_dian_state = document.state
-                if not move.l10n_co_dian_commercial_state and document.state == 'invoice_accepted':
-                    move.l10n_co_dian_commercial_state = document.commercial_state
+            doc = move.l10n_co_dian_document_ids.sorted()[:1]
+            move.l10n_co_dian_state = doc.state if doc else False
 
     @api.depends('l10n_co_dian_document_ids', 'l10n_co_dian_document_ids.state')
     def _compute_l10n_co_dian_attachment_id(self):
@@ -217,7 +216,7 @@ class AccountMove(models.Model):
     def _compute_show_reset_to_draft_button(self):
         # EXTENDS 'account'
         super()._compute_show_reset_to_draft_button()
-        for move in self.filtered(lambda m: m.move_type == 'out_invoice'):
+        for move in self.filtered(lambda m: m.is_sale_document()):
             # Reset to draft is not possible for invoices validated by DIAN
             if any(d.state in ('invoice_pending', 'invoice_accepted') and d.commercial_state == 'pending' for d in move.l10n_co_dian_document_ids):
                 move.show_reset_to_draft_button = False
@@ -238,6 +237,7 @@ class AccountMove(models.Model):
         # EXTENDS 'account'
         if (
             file_data['xml_tree'] is not None
+            and etree.QName(file_data['xml_tree']).localname != 'AttachedDocument'
             and (ubl_profile := file_data['xml_tree'].findtext('{*}ProfileID'))
             and ubl_profile.startswith('DIAN 2.1:')
         ):
@@ -382,7 +382,14 @@ class AccountMove(models.Model):
         Otherwise, see section 11.7 ('Anexo-Tecnico-[...]-1-9.pdf').
         """
         self.ensure_one()
-        return xml_utils._get_qr_code_value(etree.fromstring(self.l10n_co_dian_attachment_id.raw), self.currency_id, self.l10n_co_edi_is_support_document)
+        attachment = self.l10n_co_dian_attachment_id
+        if self.move_type in ('in_invoice', 'in_refund') and not self.l10n_co_edi_is_support_document:
+            xml_bytes = xml_utils._unzip(attachment.raw)
+            root = etree.fromstring(etree.fromstring(xml_bytes).findtext('.//{*}Description') or xml_bytes)
+        else:
+            root = etree.fromstring(attachment.raw)
+
+        return xml_utils._get_qr_code_value(root, self.currency_id, self.l10n_co_edi_is_support_document)
 
     def _l10n_co_dian_get_extra_invoice_report_values(self):
         """ Get the values used to render the PDF """
@@ -441,10 +448,10 @@ class AccountMove(models.Model):
             self.message_post(
                 body=self.env._(
                     "The %s was accepted by the DIAN.",
-                    dict(document.move_id._fields['move_type'].selection)[document.move_id.move_type],
+                    dict(self._fields['move_type']._description_selection(self.env))[document.move_id.move_type],
                 ) if not document.move_id.company_id.l10n_co_dian_demo_mode else self.env._(
                     "The %s was validated locally in Demo Mode.",
-                    dict(document.move_id._fields['move_type'].selection)[document.move_id.move_type],
+                    dict(self._fields['move_type']._description_selection(self.env))[document.move_id.move_type],
                 ),
                 attachment_ids=document.attachment_id.copy().ids,
             )

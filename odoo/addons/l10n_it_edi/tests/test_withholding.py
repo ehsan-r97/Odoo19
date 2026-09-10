@@ -307,6 +307,7 @@ class TestWithholdingAndPensionFundTaxes(TestItEdi):
                 'price_unit': price_unit,
             } for name, price_unit in self.invoice_lines]
         }])
+        # Line 1 is taken into account because the TC is missing, so we deduce it should be included.
         for line in invoice.line_ids.filtered(lambda x: x.display_type == 'product'):
             self.assertEqual(line.tax_ids, (
                 self.inps_purchase_tax
@@ -329,6 +330,27 @@ class TestWithholdingAndPensionFundTaxes(TestItEdi):
                 | self.withholding_purchase_tax
                 | self.company.account_purchase_tax_id
             ))
+
+    def test_pension_fund_taxes_import_zero_vat_rate(self):
+        """ Test that pension fund taxes with a 0.00% VAT rate are correctly imported."""
+
+        self.inps_purchase_tax.write({'l10n_it_exempt_reason': 'N2.1'})
+        invoice = self._assert_import_invoice('IT00470550013_pfun3.xml', [{
+            'invoice_date': datetime.date(2022, 3, 24),
+            'invoice_date_due': datetime.date(2022, 3, 24),
+            'invoice_line_ids': [{
+                'name': name,
+                'price_unit': price,
+            } for name, price in self.invoice_lines]
+        }])
+
+        for line in invoice.line_ids.filtered(lambda line: line.display_type == 'product'):
+            self.assertTrue(line.tax_ids, f'No taxes imported on line: {line.name}')
+            self.assertIn(
+                self.inps_purchase_tax,
+                line.tax_ids,
+                f'Pension fund tax was not imported on line: {line.name}'
+            )
 
     ####################################################
     # ENASARCO TAX
@@ -438,6 +460,25 @@ class TestWithholdingAndPensionFundTaxes(TestItEdi):
             Payment amount:  Document total                            780.00
         """
         self._assert_export_invoice(self.inps_tax_invoice, 'inps_tax_invoice.xml')
+
+    def test_multiple_pension_funds_per_line(self):
+        """Test that multiple pension fund taxes can be applied to a single invoice line."""
+
+        invoice = self._create_invoice(
+            partner_id=self.italian_partner_a,
+            company_id=self.company,
+            invoice_date='2023-10-01',
+            invoice_line_ids=[
+                self._prepare_invoice_line(price_unit=1000.0, tax_ids=[
+                    self.company.account_sale_tax_id.id,
+                    self.pension_fund_sale_tax.id,
+                    self.enasarco_sale_tax.id,
+                ])
+            ]
+        )
+
+        errors = invoice._l10n_it_edi_export_taxes_check()
+        self.assertEqual(len(errors), 0)
 
     ####################################################
     # RA 23% WITHHOLDING TAX

@@ -393,7 +393,6 @@ class SpreadsheetMixin(models.AbstractModel):
             "records": self.search_read(domain, ["display_name", "display_thumbnail"], offset=offset, limit=limit)
         }
 
-    @api.readonly
     def get_spreadsheet_history(self, from_snapshot=False):
         """Fetch the spreadsheet history.
          - if from_snapshot is provided, then provides the last snapshot and the revisions since then

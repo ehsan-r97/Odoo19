@@ -711,6 +711,28 @@ class TestAvalaraBrInvoice(TestAvalaraBrInvoiceCommon):
         self.assertEqual(credit_note.tax_totals['total_amount_currency'], expected_amounts['amount_total'])
         self.assertEqual(credit_note.tax_totals['base_amount_currency'], expected_amounts['amount_untaxed'])
 
+    def test_13_stale_manual_total_excluded_currency(self):
+        """Test that manual_total_excluded_currency is updated on recomputation even if it already has a value."""
+        invoice, response = self._create_invoice_01_and_expected_response()
+
+        # First call to populate extra_tax_data with correct values.
+        with self._capture_request_br(return_value=response):
+            invoice.button_external_tax_calculation()
+
+        # Corrupt the manual_total_excluded_currency in extra_tax_data.
+        for line in invoice.invoice_line_ids:
+            extra_tax_data = line.extra_tax_data
+            extra_tax_data['manual_total_excluded_currency'] = 123
+            line.write({'extra_tax_data': extra_tax_data})
+
+        # Second call, should correct the stale manual_total_excluded_currency.
+        with self._capture_request_br(return_value=response):
+            invoice.button_external_tax_calculation()
+
+        # Verify that manual_total_excluded_currency was updated from the fresh Avatax response.
+        pre_tax_base = invoice.invoice_line_ids[0].extra_tax_data.get('manual_total_excluded_currency')
+        self.assertNotEqual(pre_tax_base, 123)
+
 
 @tagged('post_install_l10n', '-at_install', 'post_install')
 class TestAvalaraBrSettings(TestAvalaraBrInvoiceCommon):
@@ -779,6 +801,17 @@ class TestAvalaraBrSettings(TestAvalaraBrInvoiceCommon):
         arguments = mocked_request.call_args[0][2]
         self.assertEqual(self.settings.company_id.vat, '00623904000173', 'CNPJ should be compacted in internal storage')
         self.assertEqual(arguments['cnpj'], '00.623.904/0001-73', 'CNPJ must be formatted for account creation')
+
+    def test_06_extract_tax_values_multiple_moves(self):
+        """Ensure that the tax values are extracted correctly when multiple moves are passed to the function.
+        """
+        invoice_1, response = self._create_invoice_01_and_expected_response()
+        invoice_2, _dummy = self._create_invoice_01_and_expected_response()
+        invoices = invoice_1 | invoice_2
+
+        with self._capture_request_br(return_value=response):
+            invoices.action_post()
+        self.assertTrue(all(invoice.state == 'posted' for invoice in invoices))
 
 
 @tagged('external_l10n', 'external', '-at_install', 'post_install', '-standard')

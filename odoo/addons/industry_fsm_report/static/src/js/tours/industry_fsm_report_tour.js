@@ -26,13 +26,40 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 run: "click",
             },
             {
+                isActive: ["auto"],
+                trigger: `
+                    .o_field_widget[name='x_comments'] .note-editable.odoo-editor-editable,
+                    .o_field_widget[name='x_description'] textarea
+                `,
+                content: markup(_t(
+                    "Fill in your <b>worksheet</b> with the details of your intervention."
+                )),
+                async run(actions) {
+                    const htmlEditor = document.querySelector(
+                        ".o_field_widget[name='x_comments'] .note-editable.odoo-editor-editable"
+                    );
+
+                    if (htmlEditor) {
+                        await actions.editor(`/`);
+                        htmlEditor.dispatchEvent(
+                            new InputEvent("input", {
+                                inputType: "insertText",
+                                data: "/",
+                            })
+                        );
+                    } else {
+                        await actions.edit("My intervention details");
+                    }
+                },
+            },
+            {
+            isActive: ["manual"],
             trigger: '.o_form_sheet div[name] input, .o_form_sheet .note-editable',
             content: markup(_t('Fill in your <b>worksheet</b> with the details of your intervention.')),
             run: "edit My intervention details",
             tooltipPosition: 'bottom',
             },
             {
-                isActive: ["auto"],
                 trigger: ".o_form_button_save",
                 run: "click",
             },

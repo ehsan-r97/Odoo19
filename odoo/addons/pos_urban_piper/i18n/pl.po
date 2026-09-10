@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:46+0000\n"
-"PO-Revision-Date: 2026-03-16 11:29+0000\n"
+"POT-Creation-Date: 2026-07-03 17:45+0000\n"
+"PO-Revision-Date: 2026-04-14 13:04+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Polish <https://translate.odoo.com/projects/odoo-19/"
 "pos_urban_piper/pl/>\n"
@@ -128,6 +128,12 @@ msgstr "Anuluj"
 #: model:ir.model.fields.selection,name:pos_urban_piper.selection__pos_order__delivery_status__cancelled
 msgid "Cancelled"
 msgstr "Anulowano"
+
+#. module: pos_urban_piper
+#. odoo-python
+#: code:addons/pos_urban_piper/models/pos_urban_piper_request.py:0
+msgid "Cannot reach the server. Please try again later."
+msgstr ""
 
 #. module: pos_urban_piper
 #. odoo-javascript
@@ -424,6 +430,12 @@ msgid "Error to send in preparation display."
 msgstr "Błąd wysyłania w ekranie przygotowawczym."
 
 #. module: pos_urban_piper
+#. odoo-python
+#: code:addons/pos_urban_piper/models/pos_urban_piper_request.py:0
+msgid "Failed to parse server response."
+msgstr ""
+
+#. module: pos_urban_piper
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/components/popups/product_info_popup/product_info_popup.js:0
 msgid "Failed to update food delivery availability."
@@ -687,7 +699,7 @@ msgstr "Niedostępne na żadnej platformie."
 #. odoo-javascript
 #: code:addons/pos_urban_piper/static/src/point_of_sale_overrirde/app/delivery_button/delivery_button.xml:0
 msgid "Ongoing"
-msgstr "Na bieżąco"
+msgstr "Bieżące"
 
 #. module: pos_urban_piper
 #: model:ir.model.fields,field_description:pos_urban_piper.field_res_config_settings__pos_urbanpiper_payment_methods_ids

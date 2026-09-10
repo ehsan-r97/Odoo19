@@ -120,16 +120,16 @@ class AccountReturnCreationWizard(models.TransientModel):
 
     @api.depends('date_from', 'date_to', 'return_type_id')
     def _compute_warnings(self):
-        returns_companies_map = {
-            (date_from, date_to, tuple(type_id.ids)): returns.mapped('company_ids')
-            for date_from, date_to, type_id, returns in self.env['account.return']._read_group(
-                domain=[],
-                groupby=['date_from:day', 'date_to:day', 'type_id'],
-                aggregates=['id:recordset'],
-            )
-        }
-
         for wizard in self:
+            returns_companies_map = {
+                (date_from, date_to, tuple(type_id.ids)): returns.mapped('company_ids')
+                for date_from, date_to, type_id, returns in self.env['account.return']._read_group(
+                    domain=[('company_ids', 'in', wizard.company_id.id)],
+                    groupby=['date_from:day', 'date_to:day', 'type_id'],
+                    aggregates=['id:recordset'],
+                )
+            }
+
             wizard.show_warning_wrong_dates = False
             wizard.show_warning_existing_return = False
             wizard.show_warning_overlap = False

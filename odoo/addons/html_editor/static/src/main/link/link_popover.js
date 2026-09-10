@@ -1,6 +1,14 @@
 import { session } from "@web/session";
 import { _t } from "@web/core/l10n/translation";
-import { Component, useState, useRef, useEffect, useExternalListener } from "@odoo/owl";
+import {
+    Component,
+    useState,
+    onMounted,
+    useRef,
+    useEffect,
+    useExternalListener,
+    onWillUnmount,
+} from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { browser } from "@web/core/browser/browser";
 import { cleanZWChars, deduceURLfromText } from "./utils";
@@ -20,6 +28,15 @@ const formatColor = (color) => {
     }
     return color;
 };
+
+function useContentChange(el, callback) {
+    onMounted(() => {
+        el.addEventListener("keyup", callback);
+    });
+    onWillUnmount(() => {
+        el.removeEventListener("keyup", callback);
+    });
+}
 
 export class LinkPopover extends Component {
     static template = "html_editor.linkPopover";
@@ -99,14 +116,6 @@ export class LinkPopover extends Component {
 
         const computedStyle = this.props.document.defaultView.getComputedStyle(linkElement);
         const currentRelValues = linkElement.rel.split(" ");
-        const hasButtonSizeOrShapeOrCustom = this.props.linkElement.className.match(
-            /btn-(lg|sm|xs|custom)|rounded-circle|(?:^|\\s)(outline|fill|flat)(?:\\s|$)/
-        );
-        const buttonType = hasButtonSizeOrShapeOrCustom
-            ? "custom"
-            : this.props.linkElement.className
-                  .match(/btn(-[a-z0-9_-]*)(primary|secondary)/)
-                  ?.pop() || "";
         this.state = useState({
             editing: this.props.LinkPopoverState.editing,
             // `.getAttribute("href")` instead of `.href` to keep relative url
@@ -121,7 +130,10 @@ export class LinkPopover extends Component {
             urlDescription: "",
             linkPreviewName: "",
             imgSrc: "",
-            type: this.props.type || buttonType,
+            type:
+                this.props.type ||
+                linkElement.className.match(/btn(-[a-z0-9_-]*)(primary|secondary|custom)/)?.pop() ||
+                "",
             linkTarget: linkElement.target === "_blank" ? "_blank" : "",
             directDownload: true,
             isDocument: false,
@@ -268,6 +280,9 @@ export class LinkPopover extends Component {
             // Listen to pointerdown outside the iframe
             useExternalListener(document, "pointerdown", onPointerDown);
         }
+        useContentChange(this.props.linkElement, () => {
+            this.state.urlTitle = this.props.linkElement.textContent;
+        });
     }
 
     toggleAdvancedOptions() {
@@ -277,6 +292,11 @@ export class LinkPopover extends Component {
     toggleRelAttr(attr) {
         const option = this.state.relAttributeOptions[attr];
         option.isChecked = !option.isChecked;
+    }
+
+    discard() {
+        this.props.onDiscard();
+        this.cancelUpload?.();
     }
 
     onChange() {
@@ -363,6 +383,9 @@ export class LinkPopover extends Component {
     }
 
     onKeydown(ev) {
+        if (!this.editingWrapper?.el) {
+            return;
+        }
         if (ev.key === "Escape") {
             ev.preventDefault();
             ev.stopImmediatePropagation();
@@ -507,9 +530,9 @@ export class LinkPopover extends Component {
             return;
         }
         if (this.isAttachmentUrl()) {
-            const { name, mimetype } = await this.props.getAttachmentMetadata(this.state.url);
+            const { mimetype } = await this.props.getAttachmentMetadata(this.state.url);
             this.resetPreview();
-            this.state.urlTitle = name;
+            this.state.urlTitle = this.props.linkElement.textContent;
             this.state.previewIcon = { type: "mimetype", value: mimetype };
             return;
         }
@@ -676,7 +699,14 @@ export class LinkPopover extends Component {
     async uploadFile() {
         const { upload, getURL } = this.uploadService;
         const { resModel, resId } = this.props.recordInfo;
-        const [attachment] = await upload({ resModel, resId }, { accessToken: true });
+        const setAbortCallback = (abortFn) => {
+            this.cancelUpload = abortFn;
+        };
+        const [attachment] = await upload(
+            { resModel, resId },
+            { accessToken: true, setAbortCallback }
+        );
+        delete this.cancelUpload;
         if (!attachment) {
             // No file selected or upload failed
             return;

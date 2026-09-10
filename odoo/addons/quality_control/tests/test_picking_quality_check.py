@@ -1640,3 +1640,94 @@ class TestQualityCheck(TestQualityCommon):
             {'product_id': self.product.id, 'product_uom_qty': 0, 'quantity': 0},
             {'product_id': self.product.id, 'product_uom_qty': 5, 'quantity': 6},
         ])
+
+    def test_quality_point_quantity_fail_pass_flow(self):
+        """
+        Test failed quantities move to the failure location and passed quantities
+        move to the original destination.
+        Case 1: Fail 1 unit (goes to failure location), then pass 1 unit (goes to original destination)
+        Case 2: Pass 1 unit (goes to original destination), then fail 2 units (goes to failure location)
+        """
+        self.env['quality.point'].create({
+            'picking_type_ids': [Command.link(self.picking_type_id)],
+            'measure_on': 'move_line',
+            'test_type_id': self.env.ref('quality_control.test_type_passfail').id,
+            'failure_location_ids': [Command.link(self.failure_location.id)],
+        })
+        receipt = self.env['stock.picking'].create({
+            'picking_type_id': self.picking_type_id,
+            'location_id': self.location_id,
+            'location_dest_id': self.location_dest_id,
+            'move_ids': [Command.create({
+                'product_id': self.product.id,
+                'product_uom_qty': 2,
+                'location_id': self.location_id,
+                'location_dest_id': self.location_dest_id,
+            })],
+        })
+        receipt2 = receipt.copy()
+        (receipt | receipt2).action_confirm()
+        receipt2.move_ids.quantity = 1
+        receipt2.check_ids.do_pass()
+        receipt2.move_ids.quantity = 3
+        receipt.move_ids.quantity = 1
+
+        for incoming_picking in (receipt, receipt2):
+            action = incoming_picking.check_ids.filtered(lambda c: c.quality_state == 'none').action_open_quality_check_wizard()
+            fail_wizard = self.env[action['res_model']].with_context(action['context']).create({})
+            fail_action = fail_wizard.do_fail()
+            self.env[fail_action['res_model']].with_context(fail_action['context']).browse(fail_action['res_id']).confirm_fail()
+
+        receipt.move_ids.quantity = 2
+        receipt.check_ids.filtered(lambda c: c.quality_state == 'none').do_pass()
+
+        self.assertRecordValues(receipt.move_ids.move_line_ids, [
+            {'quantity': 1, 'location_dest_id': self.failure_location.id},
+            {'quantity': 1, 'location_dest_id': self.location_dest_id},
+        ])
+        self.assertRecordValues(receipt2.move_ids.move_line_ids, [
+            {'quantity': 1, 'location_dest_id': self.location_dest_id},
+            {'quantity': 2, 'location_dest_id': self.failure_location.id},
+        ])
+
+    def test_on_demand_quality_check_partial_failure_split(self):
+        """
+        Test that a manually created (on-demand) quality check with
+        Control per Quantity can be split correctly on partial failure
+        """
+        stock_location = self.env.ref('stock.stock_location_stock')
+        customer_location = self.env.ref('stock.stock_location_customers')
+        delivery = self.env['stock.picking'].create({
+            'picking_type_id': self.env.ref('stock.warehouse0').out_type_id.id,
+            'location_id': stock_location.id,
+            'location_dest_id': customer_location.id,
+            'move_ids': [Command.create({
+                'product_id': self.product.id,
+                'product_uom_qty': 10,
+                'product_uom': self.product.uom_id.id,
+                'location_id': stock_location.id,
+                'location_dest_id': customer_location.id,
+            })],
+        })
+        delivery.action_confirm()
+        # Manually create an on-demand quality check (no control point).
+        manual_check = self.env['quality.check'].create({
+            'picking_id': delivery.id,
+            'product_id': self.product.id,
+            'measure_on': 'move_line',
+        })
+        self.assertFalse(manual_check.move_line_id, "move_line_id should not be set on a manual check")
+        wizard_action = delivery.check_ids.action_open_quality_check_wizard()
+        wizard = self.env[wizard_action['res_model']].with_context(wizard_action['context']).create({})
+        fail_action = wizard.do_fail()
+        fail_wizard = self.env[fail_action['res_model']].with_context(fail_action['context']).browse(fail_action['res_id'])
+        # Set partial failure: 3 units failed, 7 units passed
+        fail_wizard.qty_failed = 3
+        fail_wizard.failure_location_id = self.failure_location.id
+        fail_wizard.confirm_fail()
+        # After the split there should be 2 checks: 1 failed (3 units), 1 passed (7 units)
+        self.assertEqual(len(delivery.check_ids), 2)
+        self.assertRecordValues(delivery.check_ids.sorted('quality_state'), [
+            {'quality_state': 'fail', 'product_id': self.product.id, 'failure_location_id': self.failure_location.id},
+            {'quality_state': 'pass', 'product_id': self.product.id, 'failure_location_id': False},
+        ])

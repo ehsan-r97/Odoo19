@@ -135,7 +135,6 @@ class AccountReturn(models.Model):
 
     def _get_closing_report_options(self):
         options = super()._get_closing_report_options()
-        options['return_id'] = self.id
 
         if self.type_id.id == self.env.ref('l10n_nl_reports.nl_tax_correction_return_type').id:
             options['l10n_nl_is_correction'] = True

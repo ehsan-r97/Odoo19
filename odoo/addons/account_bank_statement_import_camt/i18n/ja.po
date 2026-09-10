@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server saas~15.4+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-03-19 11:56+0000\n"
+"PO-Revision-Date: 2026-08-24 03:10+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "account_bank_statement_import_camt/ja/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: account_bank_statement_import_camt
 #. odoo-python
@@ -237,7 +237,7 @@ msgstr "中間有価証券のコール"
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/lib/camt.py:0
 msgid "Capital Gains Distribution"
-msgstr "キャピタルゲインの配布"
+msgstr "キャピタルゲイン分配"
 
 #. module: account_bank_statement_import_camt
 #. odoo-python
@@ -621,13 +621,13 @@ msgstr "予備の下に口座振替"
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/lib/camt.py:0
 msgid "Discounted Draft"
-msgstr "値引ドラフト"
+msgstr "値引下書き"
 
 #. module: account_bank_statement_import_camt
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/lib/camt.py:0
 msgid "Dishonoured/Unpaid Draft"
-msgstr "不渡り/未払いのドラフト"
+msgstr "不渡り/未払いの下書き"
 
 #. module: account_bank_statement_import_camt
 #: model:ir.model.fields,field_description:account_bank_statement_import_camt.field_account_journal__display_name
@@ -668,13 +668,13 @@ msgstr "国内クレジット移転"
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/lib/camt.py:0
 msgid "Draft Maturity Change"
-msgstr "ドラフト成熟度の変更"
+msgstr "下書き成熟度の変更"
 
 #. module: account_bank_statement_import_camt
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/lib/camt.py:0
 msgid "Drafts/BillOfOrders"
-msgstr "ドラフト/ オーダ請求書"
+msgstr "下書き/ オーダ請求書"
 
 #. module: account_bank_statement_import_camt
 #. odoo-python
@@ -1104,7 +1104,7 @@ msgstr "余白のクライアントが所有する現金担保"
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/lib/camt.py:0
 msgid "Merchant Card Transactions"
-msgstr "加盟店カードトランザクション"
+msgstr "加盟店カード取引"
 
 #. module: account_bank_statement_import_camt
 #. odoo-python
@@ -1602,7 +1602,7 @@ msgstr "SEPA Core Direct Debit"
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/lib/camt.py:0
 msgid "SEPA Credit Transfer"
-msgstr "SEPAクレジット振替"
+msgstr "SEPA送金(SCT) "
 
 #. module: account_bank_statement_import_camt
 #. odoo-python
@@ -1830,7 +1830,7 @@ msgstr "取引手数料"
 #. odoo-python
 #: code:addons/account_bank_statement_import_camt/models/account_journal.py:0
 msgid "Transaction ID: %s"
-msgstr "トランザクションID:%s"
+msgstr "取引ID:%s"
 
 #. module: account_bank_statement_import_camt
 #. odoo-python

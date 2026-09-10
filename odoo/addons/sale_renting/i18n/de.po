@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-03-14 09:35+0000\n"
+"POT-Creation-Date: 2026-07-03 17:41+0000\n"
+"PO-Revision-Date: 2026-07-06 08:26+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "sale_renting/de/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_renting
 #. odoo-python
@@ -49,7 +49,6 @@ msgstr "%(amount)s / %(duration)s"
 
 #. module: sale_renting
 #. odoo-python
-#: code:addons/sale_renting/models/product_template.py:0
 #: code:addons/sale_renting/models/sale_order_recurrence.py:0
 msgid "%(duration)s %(unit)s"
 msgstr "%(duration)s %(unit)s"
@@ -71,6 +70,12 @@ msgstr ""
 "Rückgabeschein - %s' %(object.name)) or 'Auftrag - %s' % (object.name)"
 
 #. module: sale_renting
+#. odoo-python
+#: code:addons/sale_renting/models/product_template.py:0
+msgid "/ %(duration)s %(unit)s"
+msgstr "/ %(duration)s %(unit)s"
+
+#. module: sale_renting
 #: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
 msgid "123 Main St"
 msgstr "Hofstraße 123"
@@ -79,16 +84,6 @@ msgstr "Hofstraße 123"
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_2_weeks
 msgid "2 Weeks"
 msgstr "2 Wochen"
-
-#. module: sale_renting
-#: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
-msgid "2023-08-01"
-msgstr "01.08.2023"
-
-#. module: sale_renting
-#: model_terms:ir.ui.view,arch_db:sale_renting.report_rental_order_document
-msgid "2023-08-10"
-msgstr "10.08.2023"
 
 #. module: sale_renting
 #: model:sale.temporal.recurrence,name:sale_renting.recurrence_3_hours
@@ -131,8 +126,8 @@ msgid ""
 "== 0\">and </span>"
 msgstr ""
 "<span invisible=\"duration_days != 1\"> Tag </span>\n"
-"                    <span invisible=\"duration_days in [0,1]\"> Tage </span>"
-"\n"
+"                    <span invisible=\"duration_days in [0,1]\"> Tage </"
+"span>\n"
 "                    <span invisible=\"duration_days == 0 or remaining_hours "
 "== 0\">und </span>"
 
@@ -1653,6 +1648,12 @@ msgstr "alle Varianten"
 #: model_terms:ir.ui.view,arch_db:sale_renting.res_config_settings_view_form
 msgid "hours"
 msgstr "Stunden"
+
+#~ msgid "2023-08-01"
+#~ msgstr "01.08.2023"
+
+#~ msgid "2023-08-10"
+#~ msgstr "10.08.2023"
 
 #~ msgid "Night period cannot be mixed with other rental periods."
 #~ msgstr ""

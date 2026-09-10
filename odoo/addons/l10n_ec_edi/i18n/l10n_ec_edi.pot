@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 19:17+0000\n"
-"PO-Revision-Date: 2026-02-27 19:17+0000\n"
+"POT-Creation-Date: 2026-09-04 18:08+0000\n"
+"PO-Revision-Date: 2026-09-04 18:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,11 +43,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ec_edi.selection__account_tax__l10n_ec_code_taxsupport__00
 #: model:ir.model.fields.selection,name:l10n_ec_edi.selection__l10n_ec_wizard_account_withhold_line__taxsupport_code__00
 msgid "00 Special cases whose support does not apply to the above options"
-msgstr ""
-
-#. module: l10n_ec_edi
-#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.view_account_l10n_ec_reimbursement_client_form
-msgid "001-001-000012345"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -132,11 +127,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ec_edi.selection__l10n_ec_wizard_account_withhold_line__taxsupport_code__15
 msgid ""
 "15 Payments made for own and third-party consumption of digital services"
-msgstr ""
-
-#. module: l10n_ec_edi
-#: model_terms:ir.ui.view,arch_db:l10n_ec_edi.reimbursement_common_info_template
-msgid "41"
 msgstr ""
 
 #. module: l10n_ec_edi
@@ -1277,6 +1267,13 @@ msgid "RIMPE taxpayer - Popular Business"
 msgstr ""
 
 #. module: l10n_ec_edi
+#: model:ir.model.fields,help:l10n_ec_edi.field_res_config_settings__l10n_ec_edi_provider_vat
+msgid ""
+"RUC of the provider of the billing software, reported on electronic "
+"documents and their RIDE"
+msgstr ""
+
+#. module: l10n_ec_edi
 #: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_document
 #: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_invoice_header
 #: model_terms:ir.ui.view,arch_db:l10n_ec_edi.report_withhold_document
@@ -1405,6 +1402,11 @@ msgstr ""
 #. module: l10n_ec_edi
 #: model:ir.model.fields,field_description:l10n_ec_edi.field_l10n_ec_wizard_account_withhold__is_dividend_withhold
 msgid "Show fields dividend"
+msgstr ""
+
+#. module: l10n_ec_edi
+#: model:ir.model.fields,field_description:l10n_ec_edi.field_res_config_settings__l10n_ec_edi_provider_vat
+msgid "Software Provider RUC"
 msgstr ""
 
 #. module: l10n_ec_edi

@@ -456,10 +456,14 @@ class L10n_AuStp(models.Model):
                     Remuneration["SalarySacrificeCollection"].append(
                         {"TypeC": "S", "PaymentA": float_round(employee_ytd["fields"]["l10n_au_salary_sacrifice_superannuation"], precision_rounding=rounding)},
                     )
-                if not self.is_zeroing and employee_ytd["fields"]["l10n_au_salary_sacrifice_other"]:
+
+                salary_sacrifice_inputs = filter(lambda item: item[1]["code"] == "SS.O", employee_input_totals[income_stream_type].items())
+                salary_sacrifice_amount = sum(line[1]['amount'] for line in salary_sacrifice_inputs) + employee_ytd["fields"].get("l10n_au_salary_sacrifice_other", 0)
+                if not self.is_zeroing and salary_sacrifice_amount:
                     Remuneration["SalarySacrificeCollection"].append(
-                        {"TypeC": "O", "PaymentA": float_round(employee_ytd["fields"]["l10n_au_salary_sacrifice_other"], precision_rounding=rounding)},
+                        {"TypeC": "O", "PaymentA": float_round(salary_sacrifice_amount, precision_rounding=rounding)},
                     )
+
                 # == Lump Sum (Loempia sum) ==
                 lump_sum_input_type = filter(lambda item: item[1]["payment_type"] == 'lump_sum', employee_input_totals[income_stream_type].items())
                 Remuneration["LumpSumCollection"] = []
@@ -547,22 +551,30 @@ class L10n_AuStp(models.Model):
                         "RemunerationTypeC": "D",
                         "RemunerationA": float_round(abs(child_support_deduction), precision_rounding=rounding),
                     })
-                deductions_excluded = ["CHILD_SUPPORT_GARNISHEE"]  # Already included in the Child Support Garnishee rule)
-                deduction_inputs = filter(lambda item: item[1]["payment_type"] == 'deduction' and item[1]["code"] not in deductions_excluded, employee_input_totals_ungrouped.items())
-                for input_type, deduction in deduction_inputs:
-                    deductions.append({
-                        "RemunerationTypeC": deduction["payroll_code"],
-                        "RemunerationA": float_round(abs(deduction['amount']), precision_rounding=rounding),
-                    })
+                deductions_excluded = ["CHILD_SUPPORT_GARNISHEE"]  # Already included in the Child Support Garnishee rule if reportable
+                for _input_type_id, deduction in employee_input_totals_ungrouped.items():
+                    if deduction["payment_type"] == 'deduction' and deduction["payroll_code"] and deduction["code"] not in deductions_excluded:
+                        deductions.append({
+                            "RemunerationTypeC": deduction["payroll_code"],
+                            "RemunerationA": float_round(abs(deduction['amount']), precision_rounding=rounding),
+                        })
 
             # == Super Contribution ==
             contributions = []
-            # OTE Entitlement
-            ote = employee_ytd_ungrouped["slip_lines"]['OTE']['OTE']
-            contributions.append({
-                "EntitlementTypeC": "O",
-                "EmployerContributionsYearToDateA": float_round(ote, precision_rounding=rounding),
-            })
+            # OTE / Qualifying Earnings (mutually exclusive per ATO; Q only valid from 01/07/2026)
+            if submit_date >= date(2026, 7, 1):
+                qe = employee_ytd_ungrouped["slip_lines"]['QE']['QE']
+                contributions.append({
+                    "EntitlementTypeC": "Q",
+                    "EmployerContributionsYearToDateA": float_round(qe, precision_rounding=rounding),
+                })
+            else:
+                ote = employee_ytd_ungrouped["slip_lines"]['OTE']['OTE']
+                contributions.append({
+                    "EntitlementTypeC": "O",
+                    "EmployerContributionsYearToDateA": float_round(ote, precision_rounding=rounding),
+                })
+
             # Non-Resc
             super_liability = employee_ytd_ungrouped["slip_lines"]["SUPER"]["SUPER"] + employee_ytd_ungrouped["fields"]["l10n_au_extra_compulsory_super"]
             contributions.append({
@@ -776,6 +788,10 @@ class L10n_AuStp(models.Model):
 
     def _check_payslips(self):
         self.ensure_one()
+        if self.payevent_type == "submit" and not self.payslip_ids:
+            raise ValidationError(self.env._("There are no payslips for STP submission."))
+        if self.payevent_type == "update" and not self.l10n_au_stp_emp:
+            raise ValidationError(self.env._("There are no employees for STP submission."))
         if self.payslip_ids.filtered(lambda p: p.l10n_au_stp_status != 'ready'):
             raise ValidationError(_("Some payslips are not ready for STP submission!"))
         if self.payslip_batch_id and self.payslip_batch_id.l10n_au_stp_status != 'ready':

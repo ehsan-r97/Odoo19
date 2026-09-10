@@ -13,6 +13,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { useBankReconciliation } from "./bank_reconciliation_service";
 import { BankRecKanbanControlPanel } from "./control_action/control_action";
+import { user } from "@web/core/user";
 
 export class BankRecKanbanRenderer extends KanbanRenderer {
     static template = "account_accountant.BankRecKanbanRenderer";
@@ -45,7 +46,7 @@ export class BankRecKanbanRenderer extends KanbanRenderer {
 
         this.env.model.hooks.onRootLoaded = async (newRoot) => {
             await this.prepareInitialState(newRoot.records);
-        }
+        };
 
         this.env.bus.addEventListener("createRecordQuickCreate", () => {
             this.globalState.quickCreate.isVisible = true;
@@ -80,6 +81,7 @@ export class BankRecKanbanRenderer extends KanbanRenderer {
             this.bankReconciliation.computeReconcileLineCountPerPartnerId(records),
             this.bankReconciliation.computeAvailableReconcileModels(records),
             this.bankReconciliation.computeAvailableReconcileLines(records),
+            this.bankReconciliation.computeAvailableAnalyticAccounts(records),
         ]);
         const statementLineId =
             parseInt(browser.sessionStorage.getItem("bankReconciliationStatementLineId")) ||
@@ -157,8 +159,12 @@ export class BankRecKanbanRenderer extends KanbanRenderer {
     // -----------------------------------------------------------------------------
 
     get quickCreateContext() {
+        // This is needed because you could end up with inconsistent between the model context
+        // and the user context, since the kanban controller directly modifies the user context,
+        // we put priority on the user context.
         return {
             ...this.globalState.context,
+            ...user.context,
         };
     }
 

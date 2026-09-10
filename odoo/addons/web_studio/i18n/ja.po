@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-08-28 17:44+0000\n"
+"PO-Revision-Date: 2026-08-12 02:30+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "web_studio/ja/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: web_studio
 #. odoo-python
@@ -485,7 +485,7 @@ msgstr "グループへの可視性を許可する"
 #: code:addons/web_studio/models/studio_approval.py:0
 #: code:addons/web_studio/static/src/approval/approval_hook.js:0
 msgid "An approval is missing"
-msgstr "承認が見つかりません"
+msgstr "承認が不足しています"
 
 #. module: web_studio
 #: model_terms:ir.ui.view,arch_db:web_studio.studio_approval_rule_delegate_approvers
@@ -583,7 +583,7 @@ msgstr "承認済 <i class=\"fa fa-thumbs-up text-success\"/>"
 #. odoo-javascript
 #: code:addons/web_studio/static/src/approval/approval_infos.xml:0
 msgid "Approved on"
-msgstr "承認済み"
+msgstr "承認日"
 
 #. module: web_studio
 #: model:ir.model.fields,field_description:web_studio.field_studio_approval_entry__user_id
@@ -889,7 +889,7 @@ msgstr "背景を変更する"
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/button_properties/rainbow_effect.xml:0
 msgid "Change Image"
-msgstr "画像を変更する"
+msgstr "画像を変更"
 
 #. module: web_studio
 #. odoo-javascript
@@ -1875,7 +1875,7 @@ msgstr "最初のステータス"
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/graph/graph_editor_sidebar.xml:0
 msgid "First dimension"
-msgstr "第1次元"
+msgstr "第1ディメンション"
 
 #. module: web_studio
 #. odoo-javascript
@@ -1938,6 +1938,12 @@ msgstr "フォーマット"
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/cohort/cohort_editor.js:0
 msgid "Forward"
 msgstr "フォワード"
+
+#. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "Future Activities"
+msgstr ""
 
 #. module: web_studio
 #. odoo-javascript
@@ -2086,13 +2092,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/map/map_editor_sidebar.xml:0
 msgid "Hide Address"
-msgstr "非表示アドレス"
+msgstr "住所を非表示"
 
 #. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/map/map_editor_sidebar.xml:0
 msgid "Hide Name"
-msgstr "名前を隠す"
+msgstr "名前を非表示"
 
 #. module: web_studio
 #. odoo-javascript
@@ -2457,6 +2463,12 @@ msgid "Last Updated on"
 msgstr "最終更新日"
 
 #. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "Late Activities"
+msgstr ""
+
+#. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/report_editor/report_editor_xml/report_editor_xml.xml:0
 msgid "Leave DIFF"
@@ -2525,14 +2537,14 @@ msgstr "多対多"
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/components/view_fields.js:0
 msgid "Many2One"
-msgstr "多対１"
+msgstr "Many2One"
 
 #. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/editor/editor_menu/editor_menu.js:0
 #: code:addons/web_studio/static/src/studio_service.js:0
 msgid "Map"
-msgstr "マップ"
+msgstr "地図"
 
 #. module: web_studio
 #. odoo-javascript
@@ -2542,8 +2554,8 @@ msgid ""
 "Many2one field linked to the res.partner model in order to create a map view."
 msgstr ""
 "マップビューは、リンクされた連絡先のアドレスに基づいています。マップビューを"
-"作成するには、多対1フィールドがres.partnerモデルにリンクされている必要があり"
-"ます。"
+"作成するには、Many2oneフィールドがres.partnerモデルにリンクされている必要があ"
+"ります。"
 
 #. module: web_studio
 #. odoo-javascript
@@ -2746,6 +2758,12 @@ msgid "My %s"
 msgstr "自分の%s"
 
 #. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "My Activities"
+msgstr ""
+
+#. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/button_properties/new_button_box_dialog.xml:0
 msgid "My Button"
@@ -2782,7 +2800,7 @@ msgstr "新規"
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/interactive_editor.js:0
 msgid "New %s"
-msgstr "New %s"
+msgstr "新規%s"
 
 #. module: web_studio
 #. odoo-javascript
@@ -3464,7 +3482,7 @@ msgstr "サーバーアクションを実行"
 #. module: web_studio
 #: model:ir.model.fields,field_description:web_studio.field_studio_approval_rule__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "SMS送信エラー"
+msgstr "SMS配信エラー"
 
 #. module: web_studio
 #. odoo-javascript
@@ -3526,7 +3544,7 @@ msgstr "2番目のステータス"
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/graph/graph_editor_sidebar.xml:0
 msgid "Second dimension"
-msgstr "第2次元"
+msgstr "第2ディメンション"
 
 #. module: web_studio
 #. odoo-javascript
@@ -3614,7 +3632,7 @@ msgstr "メッセージの送信、メモの記録、活動のスケジュール
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/search/search_editor.js:0
 msgid "Separator"
-msgstr "セパレータ"
+msgstr "区切り線"
 
 #. module: web_studio
 #. odoo-python
@@ -4243,6 +4261,12 @@ msgstr ""
 "<b>フィールドをカスタマイズ</b>するには、その<i>ラベルを</i>クリックします。"
 
 #. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "Today Activities"
+msgstr ""
+
+#. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/systray_item/systray_item.xml:0
 msgid "Toggle Studio"
@@ -4325,10 +4349,8 @@ msgstr "ユーザーアバタープレースホルダー"
 #. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/button_properties/button_properties.js:0
-#, fuzzy
-#| msgid "User"
 msgid "Users"
-msgstr "ユーザ"
+msgstr ""
 
 #. module: web_studio
 #. odoo-javascript
@@ -4509,6 +4531,12 @@ msgstr "XML"
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/gantt/gantt_editor_sidebar.js:0
 msgid "Year"
 msgstr "年"
+
+#. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/studio_approval.py:0
+msgid "You are not allowed to delegate this approval rule."
+msgstr ""
 
 #. module: web_studio
 #. odoo-python

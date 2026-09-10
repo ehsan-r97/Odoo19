@@ -51,7 +51,7 @@ MAPPED_DOMAIN_IDENTIFICATION = {
 IS_REASON_MAPPING = {
     'entryCompany': ('Entry', 'entryCompany'),
     'entryCanton': ('Entry', 'cantonChange'),
-    'entryOther': ('Entry', 'entryOther'),
+    'entryOther': ('Entry', 'others'),
     'withdrawalCompany': ('Withdrawal', 'withdrawalCompany'),
     'withdrawalNat': ('Withdrawal', 'naturalization'),
     'withdrawalSettled': ('Withdrawal', 'settled-C'),
@@ -251,13 +251,7 @@ class SwissdecDeclaration:
 
     @staticmethod
     def _round_to_5_cents(total):
-        total = float_round(total, precision_rounding=0.01, rounding_method="HALF-UP")
-        remainder = total % 0.05
-        if remainder >= 0.025:
-            result = total + 0.05 - remainder
-        else:
-            result = total - remainder
-        return SwissdecDeclaration.amount2str(result)
+        return SwissdecDeclaration.amount2str(float_round(total, precision_rounding=0.05, rounding_method="HALF-UP"))
 
     @staticmethod
     def get_salary_totals(staff, **kwargs):
@@ -671,7 +665,7 @@ class SwissdecDeclaration:
             if not kwargs.get('skip_id_ref'):
                 description["GeneralValidAsOf"] = kwargs.get("general_validasof", missing_value)
 
-            if institution.fund_number:
+            if institution.fund_number and not kwargs.get('skip_bvg_payroll_unit'):
                 description["PayrollUnit"] = institution.fund_number
 
         elif INSTITUTION_MODEL_MAPPING[institution._name] in ["UVG-LAA", "KTG-AMC", "UVGZ-LAAC"]:

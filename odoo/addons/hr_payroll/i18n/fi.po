@@ -33,12 +33,13 @@
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Saara Hakanen <sahak@odoo.com>, 2025, 2026.
+# Sonja Fallström <sonja@ahkio.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:43+0000\n"
-"PO-Revision-Date: 2026-04-04 10:43+0000\n"
+"POT-Creation-Date: 2026-07-24 17:44+0000\n"
+"PO-Revision-Date: 2026-08-03 07:34+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "hr_payroll/fi/>\n"
@@ -47,7 +48,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_employee__work_entry_source
@@ -78,7 +79,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/hr_payroll/models/hr_payslip_worked_days.py:0
 msgid " (Half-Day)"
-msgstr " (puolipäivää)"
+msgstr " (puoli päivää)"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__payslips_count
@@ -201,11 +202,6 @@ msgstr ""
 "* Kun käyttäjä peruuttaa palkkalaskelman, tila on 'Peruutettu'."
 
 #. module: hr_payroll
-#: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
-msgid "100"
-msgstr "100"
-
-#. module: hr_payroll
 #: model:hr.payroll.structure,name:hr_payroll.structure_003
 msgid "13th month - End of the year bonus"
 msgstr "13. kuukausi – Vuoden lopun bonus"
@@ -220,6 +216,18 @@ msgstr "13. palkka"
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 msgid "1st semester of %s"
 msgstr "1. lukukausi %s"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "2 months"
+msgstr "2 kuukautta"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "2 weeks"
+msgstr "2 viikkoa"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.contribution_register
@@ -1875,6 +1883,12 @@ msgid "Define the applicability rules for this rule."
 msgstr "Määritä tämän säännön sovellettavuussäännöt."
 
 #. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
+msgid "Define when payslips are printed and sent to employees"
+msgstr ""
+"Määritä, milloin palkkalaskelmat tulostetaan ja lähetetään työntekijöille"
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure__schedule_pay
 #: model:ir.model.fields,help:hr_payroll.field_hr_payroll_structure_type__default_schedule_pay
 msgid "Defines the frequency of the wage payment."
@@ -1957,7 +1971,7 @@ msgstr "Irrota palkkalaskelma palkanmaksuerästä siirtääksesi sen poikkeuser�
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_employee__disabled
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_version__disabled
 msgid "Disabled"
-msgstr "Pois käytöstä"
+msgstr "Toimintarajoitteinen"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -2041,7 +2055,7 @@ msgstr "Dokumentti"
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_salary_rule__condition_select__domain
 msgid "Domain"
-msgstr "Verkkotunnus"
+msgstr "Ehtojoukko"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip__state_display__validated
@@ -2617,10 +2631,8 @@ msgstr "Luo palkkalaskelmat"
 #. module: hr_payroll
 #. odoo-javascript
 #: code:addons/hr_payroll/static/src/views/employee_declaration_list/hr_payroll_employee_declaration_list_controller.xml:0
-#, fuzzy
-#| msgid "Generate Export File"
 msgid "Generate Reports ("
-msgstr "Luo vientitiedosto"
+msgstr "Luo raportteja ("
 
 #. module: hr_payroll
 #. odoo-python
@@ -2647,7 +2659,7 @@ msgstr "Bruttopalkka"
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_payroll_payment_report_wizard
 msgid "HR Payroll Payment Report Wizard"
-msgstr "Ohjattu HR-palkanmaksuraportti"
+msgstr "Ohjattu HR-palkanlaskennan maksuraporttitoiminto"
 
 #. module: hr_payroll
 #: model:ir.model,name:hr_payroll.model_hr_work_entry
@@ -3299,6 +3311,11 @@ msgid "Main Attachment"
 msgstr "Pääliitetiedosto"
 
 #. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__never
+msgid "Manually"
+msgstr "Manuaalisesti"
+
+#. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_work_entry_export_mixin__reference_month__3
 #: model:ir.model.fields.selection,name:hr_payroll.selection__res_company__ytd_reset_month__3
 msgid "March"
@@ -3338,7 +3355,7 @@ msgstr "Lounasseteli"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__message_has_error
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__message_has_error
 msgid "Message Delivery error"
-msgstr "Ongelma viestin toimituksessa"
+msgstr "Viestin toimitusvirhe"
 
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip__message_ids
@@ -3940,7 +3957,7 @@ msgstr "Palkanmaksuerä"
 #. module: hr_payroll
 #: model:ir.actions.act_window,name:hr_payroll.action_hr_payroll_open_pay_run
 msgid "Pay Run Payslips"
-msgstr "Palkanmaksuerän palkkalaskelma"
+msgstr "Palkanmaksuerän palkkalaskelmat"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -4167,6 +4184,7 @@ msgstr "Palkanlaskenta: Päivitä tiedot"
 
 #. module: hr_payroll
 #. odoo-python
+#: code:addons/hr_payroll/controllers/main.py:0
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: model:ir.actions.report,name:hr_payroll.action_report_payslip
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_edit_payslip_lines_wizard__payslip_id
@@ -4358,6 +4376,11 @@ msgid "Payslips - Show final results of the computation."
 msgstr "Palkkalaskelmat – Näytä laskennan lopulliset tulokset."
 
 #. module: hr_payroll
+#: model:ir.model.fields,field_description:hr_payroll.field_res_config_settings__payslip_generate_and_send_trigger
+msgid "Payslips Generate and Send Trigger"
+msgstr "Palkkalaskelmien luomisen ja lähettämisen käynnistäjä"
+
+#. module: hr_payroll
 #: model:hr.payroll.dashboard.warning,name:hr_payroll.hr_payroll_dashboard_warning_payslips_previous_contract
 msgid "Payslips Generated On Previous Contract"
 msgstr "Edellisestä sopimuksesta laaditut palkkalaskelmat"
@@ -4537,7 +4560,7 @@ msgstr "Osuus (%)"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payslip_run__rating_ids
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_attachment__rating_ids
 msgid "Ratings"
-msgstr "Arvioinnit"
+msgstr "Arvostelut"
 
 #. module: hr_payroll
 #: model:ir.model.fields.selection,name:hr_payroll.selection__hr_payslip_run__state__01_ready
@@ -5069,6 +5092,11 @@ msgid "Selected by Default"
 msgstr "Valittu oletuksena"
 
 #. module: hr_payroll
+#: model_terms:ir.ui.view,arch_db:hr_payroll.res_config_settings_view_form
+msgid "Send payslips to employees"
+msgstr "Lähetä palkkalaskelmat työntekijöille"
+
+#. module: hr_payroll
 #: model:ir.actions.server,name:hr_payroll.action_hr_payroll_remove_from_payrun
 msgid "Send to Off-Cycle"
 msgstr "Siirrä poikkeuserään"
@@ -5097,7 +5125,7 @@ msgstr "Syyskuu"
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule__sequence
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_salary_rule_section__sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -5315,7 +5343,7 @@ msgstr "Veronalainen palkka"
 #. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_payroll_structure__report_id
 msgid "Template"
-msgstr "Malli"
+msgstr "Mallipohja"
 
 #. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_payslip__country_code
@@ -6026,6 +6054,16 @@ msgid "Weeks %(week)s and %(week1)s of %(year)s"
 msgstr "Viikot %(week)s ja %(week1)s vuonna %(year)s"
 
 #. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__on_confirmed
+msgid "When Confirmed"
+msgstr "Kun vahvistettu"
+
+#. module: hr_payroll
+#: model:ir.model.fields.selection,name:hr_payroll.selection__res_config_settings__payslip_generate_and_send_trigger__on_paid
+msgid "When Paid"
+msgstr "Kun maksettu"
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__title
 msgid ""
 "When selected, this salary rule will only be displayed as a title with its "
@@ -6435,9 +6473,33 @@ msgid "You'll be able to access all the steps of the payroll process"
 msgstr "Pääset kaikkiin palkanlaskentaprosessin vaiheisiin"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "bi-monthly"
+msgstr "joka toinen kuukausi"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "bi-weekly"
+msgstr "joka toinen viikko"
+
+#. module: hr_payroll
 #: model:ir.model.fields,field_description:hr_payroll.field_hr_work_entry_type__current_companies_country_codes
 msgid "country codes"
 msgstr "maakoodit"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "daily"
+msgstr "päivittäin"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "day"
+msgstr "päivä"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_input_type_view_form
@@ -6504,6 +6566,18 @@ msgid "gross"
 msgstr "brutto"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "half-month"
+msgstr "puoli kuukautta"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "half-year"
+msgstr "puoli vuotta"
+
+#. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payslip_correction_wizard_form
 msgid "have been affected by this version's changes."
 msgstr "ovat tämän version muutosten vaikutusten alaisia."
@@ -6530,7 +6604,19 @@ msgstr "https://www.odoo.com/fr_FR/slides/smartclass-payroll-348"
 #: code:addons/hr_payroll/models/hr_payslip.py:0
 #: code:addons/hr_payroll/models/hr_salary_attachment.py:0
 msgid "id"
-msgstr "tunniste"
+msgstr "tunnus"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "month"
+msgstr "kuukausi"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "monthly"
+msgstr "kuukausittain"
 
 #. module: hr_payroll
 #. odoo-javascript
@@ -6558,9 +6644,33 @@ msgid "payslips"
 msgstr "palkkalaskelmat"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "quarter"
+msgstr "neljännes"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "quarterly"
+msgstr "neljännesvuosittain"
+
+#. module: hr_payroll
 #: model:ir.model.fields,help:hr_payroll.field_hr_salary_rule__amount_percentage_base
 msgid "result will be affected to a variable"
 msgstr "tulos vaikuttaa muuttujaan"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "semi-annually"
+msgstr "kaksi kertaa vuodessa"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "semi-monthly"
+msgstr "kahdesti kuukaudessa"
 
 #. module: hr_payroll
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_salary_attachment_view_form
@@ -6574,6 +6684,24 @@ msgid "used to"
 msgstr "käytetty"
 
 #. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "week"
+msgstr "viikko"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "weekly"
+msgstr "viikoittain"
+
+#. module: hr_payroll
+#. odoo-python
+#: code:addons/hr_payroll/models/hr_payroll_structure_type.py:0
+msgid "year"
+msgstr "vuosi"
+
+#. module: hr_payroll
 #: model:mail.template,subject:hr_payroll.mail_template_new_payslip
 msgid "{{ object.employee_id.name }}, a new payslip is available for you"
 msgstr "{{ object.employee_id.name }}, uusi palkkalaskelma on saatavilla"
@@ -6582,6 +6710,9 @@ msgstr "{{ object.employee_id.name }}, uusi palkkalaskelma on saatavilla"
 #: model_terms:ir.ui.view,arch_db:hr_payroll.hr_payroll_note_demo_content
 msgid "👆See the Menu there, on the top?"
 msgstr "👆Näetkö tuon yllä olevan valikon?"
+
+#~ msgid "100"
+#~ msgstr "100"
 
 #~ msgid "PDFs"
 #~ msgstr "PDF:t"

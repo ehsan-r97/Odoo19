@@ -182,6 +182,7 @@ export class ReportEditorWysiwyg extends Component {
                     key: this.env.localOverlayContainerKey,
                     ref: this.overlayRef,
                 },
+                cleanEmptyStructuralContainers: false,
             },
             this.env.services
         );

@@ -3,15 +3,15 @@
 # * accountant_knowledge
 #
 # "Manon Rondou (ronm)" <ronm@odoo.com>, 2025, 2026.
-# "Cécile Collart (cco)" <cco@odoo.com>, 2025.
+# "Cécile Collart (cco)" <cco@odoo.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:43+0000\n"
-"PO-Revision-Date: 2026-02-28 10:01+0000\n"
-"Last-Translator: \"Manon Rondou (ronm)\" <ronm@odoo.com>\n"
+"POT-Creation-Date: 2026-04-10 18:47+0000\n"
+"PO-Revision-Date: 2026-08-27 16:09+0000\n"
+"Last-Translator: \"Cécile Collart (cco)\" <cco@odoo.com>\n"
 "Language-Team: French <https://translate.odoo.com/projects/odoo-19/"
 "accountant_knowledge/fr/>\n"
 "Language: fr\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_attestation
@@ -90,7 +90,7 @@ msgid ""
 "componentized assets, or the decomposition of such assets does not have a "
 "material impact."
 msgstr ""
-"<strong>Actifs décomposés</strong> : L’entreprise n’a pas pu identifier "
+"<strong>Actifs composés </strong> : L’entreprise n’a pas pu identifier "
 "d’actifs décomposés, ou la décomposition de ces actifs n’a pas d’incidence "
 "significative."
 
@@ -176,9 +176,9 @@ msgid ""
 "measures, the company has chosen to maintain the existing useful life "
 "periods for the depreciation of non-componentized assets."
 msgstr ""
-"<strong>Actifs non décomposés</strong> : Bénéficiant de mesures de "
-"tolérance, l’entreprise a choisi de conserver les durées d’utilité "
-"existantes pour l’amortissement des actifs non décomposés."
+"<strong>Actifs non-composés </strong> : Bénéficiant de mesures de tolérance, "
+"l’entreprise a choisi de conserver les durées d’utilité existantes pour "
+"l’amortissement des actifs non non-composés."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_liabilities_information
@@ -231,7 +231,7 @@ msgstr "Principes et méthodes comptables"
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_additional_information
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_additional_information
 msgid "Additional Information"
-msgstr "Informations Complémentaires"
+msgstr "Informations supplémentaires"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_financial_resources
@@ -274,9 +274,22 @@ msgid "Annexes"
 msgstr "Annexes"
 
 #. module: accountant_knowledge
+#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.ui.menu,name:accountant_knowledge.menu_action_accountant_audit_report
+#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Annual Report"
 msgstr "Rapport annuel"
+
+#. module: accountant_knowledge
+#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
+#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
+msgid "Annual Report Template"
+msgstr "Modèle de rapport annuel"
+
+#. module: accountant_knowledge
+#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
+msgid "Annual Reports"
+msgstr "Rapports annuels"
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_article_id
@@ -335,27 +348,9 @@ msgid "Attestation"
 msgstr "Attestation"
 
 #. module: accountant_knowledge
-#: model:ir.model,name:accountant_knowledge.model_audit_report
 #: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__audit_report_id
-#: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_audit_report
 msgid "Audit Report"
 msgstr "Rapport d'audit"
-
-#. module: accountant_knowledge
-#: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__knowledge_template_article_id
-#: model:ir.model.fields,field_description:accountant_knowledge.field_knowledge_article__is_audit_report_template
-msgid "Audit Report Template"
-msgstr "Modèle de rapport d'audit"
-
-#. module: accountant_knowledge
-#: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report
-msgid "Audit Reports"
-msgstr "Rapports d'audit"
-
-#. module: accountant_knowledge
-#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
-msgid "Audit Template"
-msgstr "Modèle d'audit"
 
 #. module: accountant_knowledge
 #: model:knowledge.article,template_name:accountant_knowledge.accountant_knowledge_article_template_balance_sheet
@@ -483,8 +478,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model:ir.actions.act_window,name:accountant_knowledge.action_audit_report_quick_create
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
-msgid "Create an Audit Report"
-msgstr "Créer un rapport d'audit"
+msgid "Create an Annual Report"
+msgstr "Créer un rapport annuel"
 
 #. module: accountant_knowledge
 #: model:ir.model.fields,field_description:accountant_knowledge.field_audit_report__create_uid
@@ -693,8 +688,8 @@ msgstr ""
 #. module: accountant_knowledge
 #. odoo-python
 #: code:addons/accountant_knowledge/models/audit_report.py:0
-msgid "Edit Audit Report"
-msgstr "Modifier le rapport d'audit"
+msgid "Edit Annual Report"
+msgstr "Modifier le rapport annuel"
 
 #. module: accountant_knowledge
 #: model_terms:ir.actions.act_window,help:accountant_knowledge.action_audit_report
@@ -1049,8 +1044,8 @@ msgid ""
 msgstr ""
 "Indiquez le nombre et la valeur des actions détenues par l’entreprise au "
 "cours de l’année. Incluez les acquisitions, les cessions, les annulations et "
-"la raison de la détention de ces actions "
-"(p. ex. plans d’actionnariat salarié, opérations de marché)."
+"la raison de la détention de ces actions (p. ex. plans d’actionnariat "
+"salarié, opérations de marché)."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_asset_information
@@ -1102,9 +1097,9 @@ msgid ""
 "Interest on borrowings specifically related to the production of tangible "
 "assets is not included in the production cost of these assets."
 msgstr ""
-"Les intérêts sur des emprunts spécifiquement liés à la production d’"
-"immobilisations corporelles ne sont pas inclus dans le coût de production de "
-"ces immobilisations."
+"Les intérêts sur des emprunts spécifiquement liés à la production "
+"d’immobilisations corporelles ne sont pas inclus dans le coût de production "
+"de ces immobilisations."
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1350,8 +1345,8 @@ msgid ""
 "Please provide details of your share of results from joint operations of a "
 "specific nature"
 msgstr ""
-"Veuillez fournir des détails sur votre quote-part des résultats issus d’"
-"opérations conjointes de nature spécifique"
+"Veuillez fournir des détails sur votre quote-part des résultats issus "
+"d’opérations conjointes de nature spécifique"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1726,6 +1721,11 @@ msgid "Technical installations, equipment, and tools<br>"
 msgstr "Installations techniques, matériel et outillage<br>"
 
 #. module: accountant_knowledge
+#: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
+msgid "Template"
+msgstr "Modèle"
+
+#. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_account_principles_and_methods
 msgid ""
 "The annual financial statements have been prepared in accordance with "
@@ -1742,8 +1742,8 @@ msgid ""
 "may be recorded when the grant agreement is signed and eligible expenses "
 "have been incurred, even if the funds have not yet been received."
 msgstr ""
-"L’entreprise a reçu des subventions qui sont comptabilisées en produits d’"
-"exploitation au prorata des charges engagées. En conséquence, les "
+"L’entreprise a reçu des subventions qui sont comptabilisées en produits "
+"d’exploitation au prorata des charges engagées. En conséquence, les "
 "subventions à recevoir peuvent être comptabilisées lorsque la convention de "
 "subvention est signée et que les dépenses éligibles ont été engagées, même "
 "si les fonds n’ont pas encore été reçus."
@@ -1850,8 +1850,8 @@ msgid ""
 "equity as investment grants."
 msgstr ""
 "La partie des subventions qui finance des dépenses d’investissement est "
-"comptabilisée en produits d’exploitation sur la même période que l’"
-"amortissement des Immobilisations concernées. La part acquise non encore "
+"comptabilisée en produits d’exploitation sur la même période que "
+"l’amortissement des Immobilisations concernées. La part acquise non encore "
 "comptabilisée en résultat est enregistrée en capitaux propres en tant que "
 "subventions d’investissement."
 
@@ -1886,7 +1886,8 @@ msgstr ""
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
 msgid "This company is part of a group, and owns the following subsidiaries"
-msgstr "Cette société fait partie d’un groupe et détient les filiales suivantes"
+msgstr ""
+"Cette société fait partie d’un groupe et détient les filiales suivantes"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_entity_information
@@ -1962,8 +1963,8 @@ msgid ""
 "We are making the following comment regarding a matter that may affect the "
 "overall consistency and reliability of the financial statements:"
 msgstr ""
-"Nous formulons l’observation suivante concernant une question susceptible d’"
-"affecter la cohérence et la fiabilité globales des états financiers :"
+"Nous formulons l’observation suivante concernant une question susceptible "
+"d’affecter la cohérence et la fiabilité globales des états financiers :"
 
 #. module: accountant_knowledge
 #: model_terms:knowledge.article,template_body:accountant_knowledge.accountant_knowledge_article_template_inventory_overview
@@ -1976,8 +1977,8 @@ msgid ""
 "When applicable, the initial estimate of dismantling, removal, and site "
 "restoration costs related to the asset's location."
 msgstr ""
-"Le cas échéant, l’estimation initiale des coûts de démantèlement, d’"
-"enlèvement et de remise en état du site liés à l’emplacement de "
+"Le cas échéant, l’estimation initiale des coûts de démantèlement, "
+"d’enlèvement et de remise en état du site liés à l’emplacement de "
 "l’immobilisation."
 
 #. module: accountant_knowledge
@@ -2008,3 +2009,18 @@ msgstr "Effectif employé au cours de la période"
 #: model_terms:ir.ui.view,arch_db:accountant_knowledge.audit_report_view_form
 msgid "e.g. Annual Financial Overview"
 msgstr "p. ex. Aperçu financier annuel"
+
+#~ msgid "Audit Report Template"
+#~ msgstr "Modèle de rapport d'audit"
+
+#~ msgid "Audit Reports"
+#~ msgstr "Rapports d'audit"
+
+#~ msgid "Audit Template"
+#~ msgstr "Modèle d'audit"
+
+#~ msgid "Create an Audit Report"
+#~ msgstr "Créer un rapport d'audit"
+
+#~ msgid "Edit Audit Report"
+#~ msgstr "Modifier le rapport d'audit"

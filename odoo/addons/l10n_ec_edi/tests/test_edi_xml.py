@@ -39,6 +39,29 @@ class TestEcEdiXmls(TestEcEdiCommon):
             </xpath>
         """)
 
+    def test_xml_tree_with_non_iva_tax(self):
+        ice_tax = self._get_tax_by_xml_id('tax_ice_plastic_bag')
+        invoice = self.get_invoice(
+            {
+                'move_type': 'out_invoice',
+                'partner_id': self.partner_a.id,
+            },
+            invoice_line_args=[
+                Command.create({
+                    'product_id': self.product_a.id,
+                    'tax_ids': [Command.set(ice_tax.ids)],
+                }),
+            ],
+        )
+        invoice.action_post()
+
+        xml_string, errors = self.env['account.edi.format']._l10n_ec_generate_xml(invoice)
+        self.assertFalse(errors)
+
+        tax_node = etree.fromstring(xml_string.encode()).xpath('//detalle/impuestos/impuesto')[0]
+        self.assertEqual(tax_node.findtext('codigoPorcentaje'), ice_tax.l10n_ec_code_ats)
+        self.assertEqual(tax_node.findtext('tarifa'), f'{ice_tax.amount:.6f}')
+
     def test_xml_tree_credit_note_product_extra_fields(self):
         self.product_a.l10n_ec_auxiliary_code = 'F010101'
         self.test_xml_tree_credit_note(xpath="""
@@ -621,7 +644,7 @@ class TestEcEdiXmls(TestEcEdiCommon):
         Fallback tax for services: company.l10n_ec_withhold_services_tax_id."""
         self.product_a.type = 'service'
         self.get_and_test_xml_tree_in_withhold(
-            xpath=self.get_withhold_xpath_for_taxes(tax_percent='2.75', withhold_amount='11.00', tax_code=3440)
+            xpath=self.get_withhold_xpath_for_taxes(tax_percent='3.00', withhold_amount='12.00', tax_code=3440)
         )
 
     def test_xml_tree_in_withhold_suggested_tax_taxpayer_type(self):

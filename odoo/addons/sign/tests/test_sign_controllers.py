@@ -11,6 +11,7 @@ from odoo.tests import tagged
 from odoo.tools import formataddr
 from .sign_controller_common import TestSignControllerCommon
 
+
 @tagged('post_install', '-at_install')
 class TestSignController(TestSignControllerCommon):
     # test float auto_field display
@@ -354,3 +355,35 @@ class TestSignController(TestSignControllerCommon):
         response = self.url_open(url)
         self.assertEqual(response.status_code, 200)
         self.assertFalse('/odoo/sign.request/' in response.url)
+
+    def test_sequential_signing_non_consecutive(self):
+        template = self.template_3_roles
+        roles = template.sign_item_ids.mapped('responsible_id')
+        role_customer = roles[0]
+        role_employee = roles[1]
+        role_company = roles[2]
+        sign_request = self.env['sign.request'].create({
+            'template_id': template.id,
+            'reference': 'A-B-A Sequence',
+            'request_item_ids': [
+                Command.create({'partner_id': self.partner_1.id, 'role_id': role_customer.id, 'mail_sent_order': 1}),
+                Command.create({'partner_id': self.partner_2.id, 'role_id': role_employee.id, 'mail_sent_order': 2}),
+                Command.create({'partner_id': self.partner_1.id, 'role_id': role_company.id, 'mail_sent_order': 3})
+            ],
+        })
+        role2item = {sri.role_id: sri for sri in sign_request.request_item_ids}
+        item_customer = role2item[role_customer]
+        item_company = role2item[role_company]
+        customer_sign_values = self.create_sign_values(template.sign_item_ids, role_customer.id)
+        item_customer.sudo().sign(customer_sign_values)
+        self.authenticate(None, None)
+        response = self._json_url_open(
+            '/sign/sign_request_items',
+            {
+                'request_id': sign_request.id,
+                'token': item_customer.access_token,
+                'sign_item_id': item_customer.id
+            }
+        )
+        result_ids = [item['id'] for item in response.json().get('result', [])]
+        self.assertNotIn(item_company.id, result_ids)

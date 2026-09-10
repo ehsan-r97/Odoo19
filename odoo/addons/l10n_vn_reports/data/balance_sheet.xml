@@ -98,7 +98,7 @@
                                     <record id="account_financial_report_l10n_vn_bs_ce_balance" model="account.report.expression">
                                         <field name="label">balance</field>
                                         <field name="engine">account_codes</field>
-                                        <field name="formula">12811 + 12881 + 12831</field>
+                                        <field name="formula">12811 + 12881</field>
                                     </record>
                                 </field>
                             </record>
@@ -172,7 +172,7 @@
                                     <record id="account_financial_report_l10n_vn_bs_hmi_balance" model="account.report.expression">
                                         <field name="label">balance</field>
                                         <field name="engine">account_codes</field>
-                                        <field name="formula">12812 + 12822 + 12882 + 12832 + 13812</field>
+                                        <field name="formula">12812 + 12822 + 12882 + 12832 + 13812 + 12831</field>
                                     </record>
                                 </field>
                             </record>

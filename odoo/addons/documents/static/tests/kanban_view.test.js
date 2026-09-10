@@ -815,7 +815,7 @@ test("Select a range with SHIFT key", async () => {
     });
     await keyDown("Shift");
     await contains(".o_kanban_record:contains(Request 2)").click();
-    expect(".o_kanban_record:contains(Request 1)").toHaveClass("o_record_selected");
+    expect(".o_kanban_record:contains(Request 3)").toHaveClass("o_record_selected");
     expect("div.o_record_selected").toHaveCount(3);
 });
 

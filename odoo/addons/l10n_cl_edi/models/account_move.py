@@ -126,10 +126,15 @@ services reception has been received as well.
         ('RFP', 'Claim for Partial Lack of Merchandise'),
         ('RFT', 'Claim for Total Lack of Merchandise'),
         ('NCA', 'Reception of Cancellation that References Document'),
+        ('ENC', 'Reception of Credit note different to Cancellation'),
+        ('PAG', 'DTE Paid with Cash'),
+        ('ERG', 'Merchandise and Service Receipt Acknowledge in Delivery Guide Previous Month'),
+        ('ERI', 'Merchandise and Service Receipt Acknowledge Printed in Previous Month'),
+        ('CED', 'Yielded DTE'),
     ], string='Claim', copy=False, help='The reason why the DTE was accepted or claimed by the customer')
     l10n_cl_claim_description = fields.Char(string='Claim Detail', readonly=True, copy=False)
-    l10n_cl_sii_send_file = fields.Many2one('ir.attachment', string='SII Send file', copy=False, groups='base.group_system')
-    l10n_cl_dte_file = fields.Many2one('ir.attachment', string='DTE file', copy=False, groups='base.group_system')
+    l10n_cl_sii_send_file = fields.Many2one('ir.attachment', string='SII Send file', copy=False, groups='base.group_system', index='btree_not_null')
+    l10n_cl_dte_file = fields.Many2one('ir.attachment', string='DTE file', copy=False, groups='base.group_system', index='btree_not_null')
     l10n_cl_sii_send_ident = fields.Text(string='SII Send Identification(Track ID)', copy=False, tracking=True)
     l10n_cl_journal_point_of_sale_type = fields.Selection(related='journal_id.l10n_cl_point_of_sale_type')
     l10n_cl_reference_ids = fields.One2many('l10n_cl.edi.reference', 'move_id', string='Reference Records')
@@ -789,6 +794,9 @@ services reception has been received as well.
             raise UserError(_(
                 'There are no activity codes configured in your company. This is mandatory for electronic '
                 'invoicing. Please go to your company and set the correct activity codes (www.sii.cl - Mi SII)'))
+        if len(self.company_id.l10n_cl_company_activity_ids) > 4:
+            raise UserError(self.env._(
+                'The maximum amount of Activities Names is 4. Please go to your company and select only 4 or less options.'))
         if not self.company_id.l10n_cl_sii_regional_office:
             raise UserError(_(
                 'There is no SII Regional Office configured in your company. This is mandatory for electronic '
@@ -1076,6 +1084,11 @@ services reception has been received as well.
         origin_type = self.env['fetchmail.server']._get_xml_origin_type(xml_tree)
         if origin_type == 'not_classified':
             messages.append(_('Failed to determine origin type of the attached document, attempting to process as a vendor bill'))
+
+        # The file may contain several DTEs: only the first one belongs to this vendor bill.
+        dte_nodes = xml_tree.findall('.//ns0:DTE', namespaces=XML_NAMESPACES)
+        if len(dte_nodes) > 1:
+            xml_tree = dte_nodes[0]
 
         invoice._l10n_cl_fill_partner_vals_from_xml(xml_tree, vals, messages)
         invoice._l10n_cl_fill_document_number_vals_from_xml(xml_tree, vals, messages)

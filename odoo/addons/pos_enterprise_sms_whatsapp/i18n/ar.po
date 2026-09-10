@@ -1,42 +1,50 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* pos_enterprise_sms_whatsapp
+# * pos_enterprise_sms_whatsapp
 #
+# "Malaz Siddig Elsayed Abuidris (msea)" <msea@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-06 18:45+0000\n"
-"PO-Revision-Date: 2026-02-06 18:45+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-08-26 10:19+0000\n"
+"Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
+"Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/"
+"pos_enterprise_sms_whatsapp/ar/>\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "<span>Enable this option to send order status updates via SMS.</span>"
 msgstr ""
+"<span>قم بتمكين هذا الخيار لإرسال تحديثات حالة الطلب عبر الرسائل النصية "
+"القصيرة.</span>"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid ""
 "<span>Enable this option to send order status updates via Whatsapp.</span>"
 msgstr ""
+"<span>قم بتمكين هذا الخيار لإرسال تحديثات حالة الطلب عبر Whatsapp.</span>"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "Communication"
-msgstr ""
+msgstr "التواصل"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__display_name
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_order__display_name
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_state__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "الاسم المعروض"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:sms.template,body:pos_enterprise_sms_whatsapp.sms_template_order_received_confirmation_pos
@@ -50,6 +58,14 @@ msgid ""
 "\n"
 "            "
 msgstr ""
+"مرحبًا {{ object.partner_id.name }} ،\n"
+"\n"
+"شكرًا لك على طلبك رقم {{ object.pos_reference }} {{ object.preset_time }}.\n"
+"سيتم إخطارك بمجرد أن يصبح طلبك جاهزًا.\n"
+"\n"
+"{{ object.company_id.name }}\n"
+"\n"
+"            "
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:sms.template,body:pos_enterprise_sms_whatsapp.sms_template_order_ready_pos
@@ -62,38 +78,46 @@ msgid ""
 "\n"
 "            "
 msgstr ""
+"مرحبًا {{ object.partner_id.name }} ،\n"
+"\n"
+"الطلب رقم {{ object.pos_reference }}  الخاص بك جاهز للاستلام الآن. يمكنك الحضور "
+"متى أردت للاستمتاع بوجبتك.\n"
+"\n"
+"{{ object.company_id.name }}\n"
+"\n"
+"            "
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__id
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_order__id
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_state__id
 msgid "ID"
-msgstr ""
+msgstr "المُعرف"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "Order is ready"
-msgstr ""
+msgstr "الطلب جاهز"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__sms_order_ready_id
 msgid "Order is ready (SMS)"
-msgstr ""
+msgstr "الطلب جاهز (رسالة نصية قصيرة)"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__whatsapp_order_ready_id
 msgid "Order is ready (wa)"
-msgstr ""
+msgstr "الطلب جاهز (wa)"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model_terms:ir.ui.view,arch_db:pos_enterprise_sms_whatsapp.view_pos_prep_display_form_inherit_comm
 msgid "Order received"
-msgstr ""
+msgstr "تم استلام الطلب"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__sms_order_received_id
 msgid "Order received (SMS)"
-msgstr ""
+msgstr "تم استلام الطلب (رسالة نصية قصيرة)"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__whatsapp_order_received_id
@@ -128,9 +152,9 @@ msgstr ""
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__sms_enabled
 msgid "SMS Enabled"
-msgstr ""
+msgstr "تم تفعيل الرسائل النصية القصيرة"
 
 #. module: pos_enterprise_sms_whatsapp
 #: model:ir.model.fields,field_description:pos_enterprise_sms_whatsapp.field_pos_prep_display__whatsapp_enabled
 msgid "WhatsApp Enabled"
-msgstr ""
+msgstr "تم تمكين WhatsApp"

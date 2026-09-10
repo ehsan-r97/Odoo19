@@ -6,14 +6,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 19:00+0000\n"
-"PO-Revision-Date: 2026-02-13 19:00+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2026-08-28 18:09+0000\n"
+"PO-Revision-Date: 2026-04-20 07:26+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19-l10n/"
+"l10n_ae_faf/ar/>\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: l10n_ae_faf
 #. odoo-python
@@ -58,8 +62,8 @@ msgstr ""
 #. module: l10n_ae_faf
 #: model_terms:ir.ui.view,arch_db:l10n_ae_faf.res_config_settings_view_form
 msgid ""
-"Defines the Tax Agency and Tax Agent in the United Arab Emirates Federal Tax"
-" Authority Files"
+"Defines the Tax Agency and Tax Agent in the United Arab Emirates Federal Tax "
+"Authority Files"
 msgstr ""
 
 #. module: l10n_ae_faf
@@ -89,11 +93,6 @@ msgid "FAF"
 msgstr ""
 
 #. module: l10n_ae_faf
-#: model:ir.model,name:l10n_ae_faf.model_account_general_ledger_report_handler
-msgid "FEC Report Custom Handler"
-msgstr ""
-
-#. module: l10n_ae_faf
 #: model:ir.model.fields,field_description:l10n_ae_faf.field_account_tax__l10n_ae_tax_code
 msgid "FTA Tax Code"
 msgstr ""
@@ -102,8 +101,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ae_faf.field_res_partner__l10n_ae_name_ar
 #: model:ir.model.fields,help:l10n_ae_faf.field_res_users__l10n_ae_name_ar
 msgid ""
-"Fill in the Arabic name of the partner for the generation of the Federal Tax"
-" Authority (FTA) Audit File (FAF)"
+"Fill in the Arabic name of the partner for the generation of the Federal Tax "
+"Authority (FTA) Audit File (FAF)"
 msgstr ""
 
 #. module: l10n_ae_faf
@@ -150,6 +149,12 @@ msgid "Leave empty if not applicable"
 msgstr ""
 
 #. module: l10n_ae_faf
+#. odoo-python
+#: code:addons/l10n_ae_faf/models/account_general_ledger.py:0
+msgid "Missing company details."
+msgstr ""
+
+#. module: l10n_ae_faf
 #: model:ir.model.fields.selection,name:l10n_ae_faf.selection__account_tax__l10n_ae_tax_code__oa
 msgid "OA - Amendments to Output Tax"
 msgstr ""
@@ -171,8 +176,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ae_faf/models/account_general_ledger.py:0
 msgid ""
-"Please define the Tax Agent Approval Number on the \"Reference\" for the Tax"
-" Agent"
+"Please define the Tax Agent Approval Number on the \"Reference\" for the Tax "
+"Agent"
 msgstr ""
 
 #. module: l10n_ae_faf
@@ -191,6 +196,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ae_faf/models/account_general_ledger.py:0
 msgid "Please input the 'State' for the following partners"
+msgstr ""
+
+#. module: l10n_ae_faf
+#: model:ir.model,name:l10n_ae_faf.model_account_general_ledger_report_handler
+msgid "Polish JPK KR PD Custom Handler"
 msgstr ""
 
 #. module: l10n_ae_faf

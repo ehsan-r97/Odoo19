@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-01-30 18:03+0000\n"
+"POT-Creation-Date: 2026-08-28 17:46+0000\n"
+"PO-Revision-Date: 2026-08-10 12:59+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/ai/ru/>\n"
 "Language: ru\n"
@@ -18,41 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.3\n"
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
-msgid ""
-"\n"
-"            **Tool Name: Read group**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **Название инструмента: Read group**\n"
-"\n"
-"            Выполняет поиск по модели с использованием домена в формате "
-"JSON.\n"
-"        "
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
-msgid ""
-"\n"
-"            **Tool Name: search**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **Название инструмента: search**\n"
-"\n"
-"            Выполняет поиск по модели с использованием домена в формате "
-"JSON.\n"
-"        "
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -368,7 +334,7 @@ msgstr ""
 "            - Агрегация показателей (sum – сумма, avg – среднее, count – "
 "количество)\n"
 "            - Поиск по тексту среди доступных полей\n"
-"            - EФункциональность сводной таблицы (аналогично Excel)\n"
+"            - Функциональность сводной таблицы (аналогично Excel)\n"
 "\n"
 "            💡 ВСЕГДА вызывайте compute_report_measures() сначала, чтобы "
 "получить валидные показатели\n"
@@ -383,8 +349,8 @@ msgstr ""
 "            ⚠️ Примечание: использует row_groupbys/col_groupbys (массивы) "
 "вместо selected_groupbys\n"
 "\n"
-"            Пример: для «лучшие продавцы офисных товаров»:\n"
-"            - используйте search=[\"categ_id\", \"office\"], если поле "
+"            Пример: Для «лучшие продавцы офисных товаров»:\n"
+"            - Используйте search=[\"categ_id\", \"office\"], если поле "
 "categ_id доступно для поиска\n"
 "            - custom_domain используйте только при отсутствии нужных полей\n"
 "        "
@@ -445,6 +411,20 @@ msgstr ""
 "меню одним вызовом, если вам нужно сравнить опции\n"
 "            ⚠️ Важно: всегда проверяйте, что возвращаемая модель "
 "соответствует вашим ожиданиям\n"
+"        "
+
+#. module: ai
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
+msgid ""
+"\n"
+"            Searches a particular model using a domain. The provided domain "
+"must be in valid JSON format.\n"
+"        "
+msgstr ""
+"\n"
+"            Выполняет поиск по конкретной модели с использованием домена. "
+"Предоставленный домен должен быть в валидном формате JSON.\n"
 "        "
 
 #. module: ai
@@ -1030,6 +1010,11 @@ msgid "Customize to control relevance and formatting."
 msgstr "Настроить параметры релевантности и форматирования."
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ai_agent__deprecated_model_replacement_hint
+msgid "Deprecated Model Replacement Hint"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 #: model:ir.model.fields,field_description:ai.field_ai_agent__subtitle
@@ -1171,12 +1156,12 @@ msgstr "Селектор поля"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_model_fields__ttype
 msgid "Field Type"
-msgstr ""
+msgstr "Тип поля"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_model_fields
 msgid "Fields"
-msgstr ""
+msgstr "Поля"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__type__binary
@@ -1187,6 +1172,13 @@ msgstr "Файл"
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__file_size
 msgid "File Size"
 msgstr "Размер файла"
+
+#. module: ai
+#: model:ir.model.fields,help:ai.field_ai_agent__response_style
+msgid ""
+"For thinking models (e.g. gpt-5): Analytical: Medium thinking, Balanced: Low "
+"thinking, Creative: Minimal thinking"
+msgstr ""
 
 #. module: ai
 #. odoo-javascript
@@ -1200,7 +1192,7 @@ msgid "Get help on a record"
 msgstr "Получить помощь по записи"
 
 #. module: ai
-#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
+#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-2
 msgid "Google"
 msgstr "Google"
 
@@ -1546,7 +1538,7 @@ msgstr "Вставьте ссылки, по одной в строку"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 msgid "Pretty Edit"
-msgstr ""
+msgstr "Pretty Edit"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ai_agent_source__status__processing
@@ -2030,6 +2022,12 @@ msgid "User is online"
 msgstr "Пользователь в сети"
 
 #. module: ai
+#. odoo-python
+#: code:addons/ai/models/ai_agent.py:0
+msgid "Using %(llm_model_label)s based on your agent setup."
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
@@ -2106,7 +2104,37 @@ msgstr "fa-hashtag"
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
-msgstr ""
+msgstr "вектор"
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: Read group**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **Название инструмента: Read group**\n"
+#~ "\n"
+#~ "            Выполняет поиск по модели с использованием домена в формате "
+#~ "JSON.\n"
+#~ "        "
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: search**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **Название инструмента: search**\n"
+#~ "\n"
+#~ "            Выполняет поиск по модели с использованием домена в формате "
+#~ "JSON.\n"
+#~ "        "
 
 #~ msgid "An error occurred while generating the AI response."
 #~ msgstr "Произошла ошибка при генерации ответа ИИ."

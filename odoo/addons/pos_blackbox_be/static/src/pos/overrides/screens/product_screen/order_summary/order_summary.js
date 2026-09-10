@@ -2,6 +2,7 @@ import { patch } from "@web/core/utils/patch";
 import { OrderSummary } from "@point_of_sale/app/screens/product_screen/order_summary/order_summary";
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { _t } from "@web/core/l10n/translation";
+import { parseFloat } from "@web/views/fields/parsers";
 
 patch(OrderSummary.prototype, {
     _setValue(val) {
@@ -81,10 +82,21 @@ patch(OrderSummary.prototype, {
             return await super.setLinePrice(line, price);
         }
         const oldPrice = line.unitPrices.no_discount_total_included;
+        price = typeof price === "number" ? price : parseFloat(price) || 0;
         if (price > oldPrice) {
             return;
         }
         const discount = ((oldPrice - price) / oldPrice) * 100;
         line.setDiscount(discount);
+    },
+    async _showDecreaseQuantityPopup(options = {}) {
+        if (!this.pos.useBlackBoxBe()) {
+            return super._showDecreaseQuantityPopup(options);
+        }
+        const quantityFormatter = (value = "") => value.replace(/^-0?/, "");
+        const chain = (fn) => (value) => quantityFormatter(fn ? fn(value) : value);
+        options.formatDisplayedValue = chain(options.formatDisplayedValue);
+        options.parseQuantityValue = chain(options.parseQuantityValue);
+        return super._showDecreaseQuantityPopup(options);
     },
 });

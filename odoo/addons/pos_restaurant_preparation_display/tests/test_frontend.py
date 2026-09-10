@@ -77,6 +77,7 @@ class TestUi(test_frontend.TestFrontendCommon, TestPreparationDisplayHttpCommon)
         self.assertEqual(json.loads(pdis_order1.prep_line_ids[0].internal_note)[0]['text'], "Test Internal Notes")
         self.assertEqual(pdis_order1.prep_line_ids[1].quantity, 1)
         self.assertEqual(pdis_order1.prep_line_ids[1].internal_note, "[]")
+        self.assertEqual(sum(pdis_order1.prep_line_ids.mapped('cancelled')), 0)
 
     def test_cancel_order_notifies_display(self):
         category = self.env['pos.category'].create({'name': 'Food'})

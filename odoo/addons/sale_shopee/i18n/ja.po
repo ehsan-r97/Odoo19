@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.4+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 18:42+0000\n"
-"PO-Revision-Date: 2026-02-02 13:40+0000\n"
+"POT-Creation-Date: 2026-07-24 17:44+0000\n"
+"PO-Revision-Date: 2026-08-17 04:08+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "sale_shopee/ja/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: sale_shopee
 #: model:mail.template,body_html:sale_shopee.order_sync_failure
@@ -185,8 +185,8 @@ msgstr ""
 "                }\n"
 "            </style>\n"
 "            <body><div>\n"
-"                <p>出荷オーダの同期中にエラーが発生し完了できませんでした。"
-"</p>\n"
+"                <p>出荷オーダの同期中にエラーが発生し完了できませんでした。</"
+"p>\n"
 "                <p>出荷オーダを再度手動で同期する前に、問題を訂正して下さい。"
 "他に試行される同期はありません。</p>\n"
 "                <p>Shopeeから送られたエラーは以下です: </p>\n"
@@ -198,13 +198,13 @@ msgstr ""
 "                        </tr>\n"
 "                    </thead>\n"
 "                    <tbody>\n"
-"                        <tr t-foreach=\"ctx.get('error_messages')\" t-as="
-"\"error\">\n"
-"                            <th><t t-out=\"error['batch_picking_refs']\""
-"/></th>\n"
+"                        <tr t-foreach=\"ctx.get('error_messages')\" t-"
+"as=\"error\">\n"
+"                            <th><t t-out=\"error['batch_picking_refs']\"/></"
+"th>\n"
 "                            <td>\n"
-"                                <t t-if=\"error['message']\" t-out="
-"\"error['message']\"/>\n"
+"                                <t t-if=\"error['message']\" t-"
+"out=\"error['message']\"/>\n"
 "                                <t t-else=\"\">Shopeeとの同期中に不明なエラー"
 "が発生しました。\n"
 "                                    お手数ですが、オーダのステートの正誤をマ"
@@ -601,7 +601,7 @@ msgstr "FBS在庫ロケーション"
 #. module: sale_shopee
 #: model:ir.model.fields.selection,name:sale_shopee.selection__stock_picking__shopee_label_status__failed
 msgid "Failed"
-msgstr "不合格"
+msgstr "失敗"
 
 #. module: sale_shopee
 #. odoo-python
@@ -693,7 +693,8 @@ msgstr "無効化された場合、このアカウントはShopeeと同期され
 msgid ""
 "If the sale is locked, you can not modify it anymore. However, you will "
 "still be able to invoice or deliver."
-msgstr "販売がロックされている場合は、これ以上編集できません。ただし、請求や出荷は引"
+msgstr ""
+"販売がロックされている場合は、これ以上編集できません。ただし、請求や出荷は引"
 "き続き可能です。"
 
 #. module: sale_shopee
@@ -785,6 +786,12 @@ msgid "Order Count"
 msgstr "オーダ数"
 
 #. module: sale_shopee
+#. odoo-python
+#: code:addons/sale_shopee/models/shopee_shop.py:0
+msgid "Order Discount"
+msgstr ""
+
+#. module: sale_shopee
 #: model_terms:ir.ui.view,arch_db:sale_shopee.shopee_shop_view_form
 msgid "Orders"
 msgstr "オーダ"
@@ -825,6 +832,14 @@ msgstr "プロダクトプロモーション"
 #: model:ir.model,name:sale_shopee.model_product_product
 msgid "Product Variant"
 msgstr "プロダクトバリアント"
+
+#. module: sale_shopee
+#. odoo-python
+#: code:addons/sale_shopee/models/shopee_shop.py:0
+msgid ""
+"Promotion: %(promotion_type)s - id: %(promotion_id)d\n"
+"Original price: %(price)s"
+msgstr ""
 
 #. module: sale_shopee
 #: model:ir.model.fields.selection,name:sale_shopee.selection__stock_picking__shopee_label_status__ready
@@ -905,7 +920,7 @@ msgstr "Shopee経由で配送が手配されました"
 #. module: sale_shopee
 #: model:ir.model.fields.selection,name:sale_shopee.selection__sale_order__shopee_delivery_status__done
 msgid "Shipped"
-msgstr "配送済"
+msgstr "出荷済"
 
 #. module: sale_shopee
 #: model_terms:ir.ui.view,arch_db:sale_shopee.picking_view_form
@@ -917,6 +932,12 @@ msgstr "Shopeeにより配送済"
 #: code:addons/sale_shopee/models/stock_picking.py:0
 msgid "Shipping Label Not Ready"
 msgstr "配送ラベルの準備ができていません"
+
+#. module: sale_shopee
+#. odoo-python
+#: code:addons/sale_shopee/models/shopee_shop.py:0
+msgid "Shipping: %(carrier)s"
+msgstr ""
 
 #. module: sale_shopee
 #: model:ir.model.fields,field_description:sale_shopee.field_shopee_item__shop_id
@@ -1053,6 +1074,11 @@ msgstr "Shopeeオーダ %(order)s  mock_shopee_shop"
 #: code:addons/sale_shopee/models/shopee_shop.py:0
 msgid "Shopee Order %(shopee_order_ref)s at %(shop_name)s"
 msgstr "Shopeeオーダ %(shopee_order_ref)s  %(shop_name)s"
+
+#. module: sale_shopee
+#: model:product.template,name:sale_shopee.default_discount_product_product_template
+msgid "Shopee Order Discount"
+msgstr ""
 
 #. module: sale_shopee
 #. odoo-python
@@ -1432,22 +1458,6 @@ msgid "You are not allowed to access this page."
 msgstr "このページへのアクセス権がありません。"
 
 #. module: sale_shopee
-#. odoo-python
-#: code:addons/sale_shopee/models/shopee_shop.py:0
-msgid "[%(sku)s] %(product_name)s"
-msgstr "[%(sku)s] %(product_name)s"
-
-#. module: sale_shopee
-#. odoo-python
-#: code:addons/sale_shopee/models/shopee_shop.py:0
-msgid ""
-"[%(sku)s] %(product_title)s\n"
-"Promotion: %(promotion_type)s - id: %(promotion_id)d"
-msgstr ""
-"[%(sku)s] %(product_title)s\n"
-"プロモーション: %(promotion_type)s - id: %(promotion_id)d"
-
-#. module: sale_shopee
 #: model_terms:ir.ui.view,arch_db:sale_shopee.shopee_account_view_form
 msgid "e.g. American Market"
 msgstr "例：アメリカ市場"
@@ -1474,3 +1484,13 @@ msgstr "shop_id"
 #: code:addons/sale_shopee/models/shopee_shop.py:0
 msgid "shopee_shop_id"
 msgstr "shopee_shop_id"
+
+#~ msgid "[%(sku)s] %(product_name)s"
+#~ msgstr "[%(sku)s] %(product_name)s"
+
+#~ msgid ""
+#~ "[%(sku)s] %(product_title)s\n"
+#~ "Promotion: %(promotion_type)s - id: %(promotion_id)d"
+#~ msgstr ""
+#~ "[%(sku)s] %(product_title)s\n"
+#~ "プロモーション: %(promotion_type)s - id: %(promotion_id)d"

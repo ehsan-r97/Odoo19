@@ -103,6 +103,7 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 content: markup(_t('<b>Review and sign</b> the <b>task report</b> with your customer.')),
                 tooltipPosition: 'bottom',
                 run: "click",
+                expectUnloadPage: true,
             },
             {
                 trigger: ".o_project_portal_sidebar",
@@ -113,6 +114,25 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 tooltipPosition: 'right',
                 id: 'sign_report',
                 run: "click",
+            },
+            {
+                trigger: ".o_project_portal_sidebar",
+            },
+            {
+                trigger: '.o_web_sign_auto_button',
+                content: markup(_t('Save time by automatically generating a <b>signature</b>.')),
+                tooltipPosition: 'right',
+                run: "click",
+            },
+            {
+                trigger: "canvas.o_web_sign_signature",
+            },
+            {
+                trigger: '.modal .o_portal_sign_submit',
+                content: markup(_t('Validate the <b>signature</b>.')),
+                tooltipPosition: 'left',
+                run: "click",
+                expectUnloadPage: true,
             },
             {
                 trigger: ".o_project_portal_sidebar",
@@ -133,21 +153,6 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 run: "click",
             },
             {
-                trigger: '.o_web_sign_auto_button',
-                content: markup(_t('Save time by automatically generating a <b>signature</b>.')),
-                tooltipPosition: 'right',
-                run: "click",
-            },
-            {
-                trigger: ".o_project_portal_sidebar",
-            },
-            {
-                trigger: '.modal .o_portal_sign_submit',
-                content: markup(_t('Validate the <b>signature</b>.')),
-                tooltipPosition: 'left',
-                run: "click",
-            },
-            {
                 trigger: ".o_project_portal_sidebar",
             },
             {
@@ -155,6 +160,7 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 content: markup(_t('Go back to your Field Service <b>task</b>.')),
                 tooltipPosition: 'right',
                 run: "click",
+                expectUnloadPage: true,
             },
             {
                 trigger: ".o_form_project_tasks",
@@ -164,6 +170,9 @@ patch(registry.category("web_tour.tours").get("industry_fsm_tour"), {
                 content: markup(_t('<b>Send your task report</b> to your customer.')),
                 tooltipPosition: 'bottom',
                 run: "click",
+            },
+            {
+                trigger: ".o_form_project_tasks",
             },
             {
                 trigger: '.modal .o_input',

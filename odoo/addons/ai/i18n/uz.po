@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
+"POT-Creation-Date: 2026-08-28 17:46+0000\n"
 "PO-Revision-Date: 2025-10-08 18:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,36 +23,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
-#, fuzzy
-msgid ""
-"\n"
-"            **Tool Name: Read group**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"Vosita nomi: Read group\n"
-"\n"
-"Ushbu vosita ma'lum bir modelni domen orqali qidiradi. Berilgan domen "
-"to‘g‘ri JSON formatida bo‘lishi shart."
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
-#, fuzzy
-msgid ""
-"\n"
-"            **Tool Name: search**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"**Vosita nomi: search**              Ma'lum bir modelni domen orqali "
-"qidiradi. Berilgan domen to‘g‘ri JSON formatida bo‘lishi shart."
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -413,6 +383,16 @@ msgstr ""
 "💡 Samaradorlik maslahati: Variantlarni taqqoslashda bir necha menyu "
 "tafsilotlarini bir qo‘ng‘iroqda so‘rang\n"
 "⚠️ Qaytarilgan model kutilgan modelga mos kelishini doimo tekshiring"
+
+#. module: ai
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
+msgid ""
+"\n"
+"            Searches a particular model using a domain. The provided domain "
+"must be in valid JSON format.\n"
+"        "
+msgstr ""
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_adjust_search
@@ -1074,6 +1054,11 @@ msgid "Customize to control relevance and formatting."
 msgstr "Dolzarblik va formatlashni nazorat qilish uchun moslashtiring."
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ai_agent__deprecated_model_replacement_hint
+msgid "Deprecated Model Replacement Hint"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 #: model:ir.model.fields,field_description:ai.field_ai_agent__subtitle
@@ -1252,6 +1237,13 @@ msgid "File Size"
 msgstr "Fayl hajmi"
 
 #. module: ai
+#: model:ir.model.fields,help:ai.field_ai_agent__response_style
+msgid ""
+"For thinking models (e.g. gpt-5): Analytical: Medium thinking, Balanced: Low "
+"thinking, Creative: Minimal thinking"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 #, fuzzy
@@ -1265,7 +1257,7 @@ msgid "Get help on a record"
 msgstr "Yozuv bo‘yicha yordam olish"
 
 #. module: ai
-#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
+#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-2
 #, fuzzy
 msgid "Google"
 msgstr "Google"
@@ -2212,6 +2204,12 @@ msgid "User is online"
 msgstr "Foydalanuvchi onlayn"
 
 #. module: ai
+#. odoo-python
+#: code:addons/ai/models/ai_agent.py:0
+msgid "Using %(llm_model_label)s based on your agent setup."
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
@@ -2301,3 +2299,29 @@ msgstr "fa-hashteg"
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: Read group**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "Vosita nomi: Read group\n"
+#~ "\n"
+#~ "Ushbu vosita ma'lum bir modelni domen orqali qidiradi. Berilgan domen "
+#~ "to‘g‘ri JSON formatida bo‘lishi shart."
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: search**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "**Vosita nomi: search**              Ma'lum bir modelni domen orqali "
+#~ "qidiradi. Berilgan domen to‘g‘ri JSON formatida bo‘lishi shart."

@@ -320,6 +320,42 @@ class TestMpsMps(common.TransactionCase):
         self.assertFalse(screw_forecast_1['to_replenish'])
         self.assertFalse(screw_forecast_1['forced_replenish'])
 
+    def test_batch_resplenish(self):
+        """ Ensure it will consider the batch size when resplenishing,
+        with or without a specified bom
+        """
+        self.bom_table_leg.write({
+            'enable_batch_size': True,
+            'batch_size': 20.0,
+
+        })
+        self.env['mrp.product.forecast'].create({
+            'production_schedule_id': self.mps_table_leg.id,
+            'date': date.today(),
+            'forecast_qty': 1
+        })
+        table_leg_mps_state = self.mps_table_leg.get_production_schedule_view_state()[0]
+        forecast_at_first_period = table_leg_mps_state['forecast_ids'][0]
+        self.assertEqual(forecast_at_first_period['forecast_qty'], 1)
+        self.assertEqual(forecast_at_first_period['replenish_qty'], 20)
+        self.assertEqual(forecast_at_first_period['safety_stock_qty'], 19)
+
+        self.mps_table_leg.unlink()
+        mps_table_leg_without_bom = self.env['mrp.production.schedule'].create({
+            'product_id': self.table_leg.id,
+            'warehouse_id': self.warehouse.id,
+        })
+        self.env['mrp.product.forecast'].create({
+            'production_schedule_id': mps_table_leg_without_bom.id,
+            'date': date.today(),
+            'forecast_qty': 1
+        })
+        table_leg_mps_state_without_bom = mps_table_leg_without_bom.get_production_schedule_view_state()[0]
+        forecast_at_first_period = table_leg_mps_state_without_bom['forecast_ids'][0]
+        self.assertEqual(forecast_at_first_period['forecast_qty'], 1)
+        self.assertEqual(forecast_at_first_period['replenish_qty'], 20)
+        self.assertEqual(forecast_at_first_period['safety_stock_qty'], 19)
+
     def test_lead_times(self):
         """ Manufacture, supplier and rules uses delay. The forecasts to
         replenish are impacted by those delay. Ensure that the MPS state and
@@ -1957,21 +1993,21 @@ class TestMpsMps(common.TransactionCase):
         mps_table = self.mps_table.get_production_schedule_view_state(period_scale='year')[0]
         for i in range(self.env.company.manufacturing_period_to_display_year):
             table_forecast = mps_table['forecast_ids'][i]
-            self.assertEqual(table_forecast['forecast_qty'], 1200)
+            self.assertEqual(table_forecast['forecast_qty'], 1440)
 
         table_suggestion_wizard.based_on = 'three_months'
         table_suggestion_wizard.with_context({'period_scale': 'year'}).apply_forecast_quantity_suggestion()
         mps_table = self.mps_table.get_production_schedule_view_state(period_scale='year')[0]
         for i in range(self.env.company.manufacturing_period_to_display_year):
             table_forecast = mps_table['forecast_ids'][i]
-            self.assertEqual(table_forecast['forecast_qty'], 760)
+            self.assertEqual(table_forecast['forecast_qty'], 840)
 
         table_suggestion_wizard.based_on = 'one_year'
         table_suggestion_wizard.with_context({'period_scale': 'year'}).apply_forecast_quantity_suggestion()
         mps_table = self.mps_table.get_production_schedule_view_state(period_scale='year')[0]
         for i in range(self.env.company.manufacturing_period_to_display_year):
             table_forecast = mps_table['forecast_ids'][i]
-            self.assertEqual(table_forecast['forecast_qty'], 205)
+            self.assertEqual(table_forecast['forecast_qty'], 225)
 
     @freeze_time("2024-02-14")
     def test_suggestion_for_months_with_no_period(self):
@@ -2065,21 +2101,21 @@ class TestMpsMps(common.TransactionCase):
         mps_table = self.mps_table.get_production_schedule_view_state(period_scale='month')[0]
         for i in range(self.env.company.manufacturing_period_to_display_month):
             table_forecast = mps_table['forecast_ids'][i]
-            self.assertEqual(table_forecast['forecast_qty'], 100)
+            self.assertEqual(table_forecast['forecast_qty'], 120)
 
         table_suggestion_wizard.based_on = 'three_months'
         table_suggestion_wizard.with_context({'period_scale': 'month'}).apply_forecast_quantity_suggestion()
         mps_table = self.mps_table.get_production_schedule_view_state(period_scale='month')[0]
         for i in range(self.env.company.manufacturing_period_to_display_month):
             table_forecast = mps_table['forecast_ids'][i]
-            self.assertEqual(table_forecast['forecast_qty'], 64)
+            self.assertEqual(table_forecast['forecast_qty'], 70)
 
         table_suggestion_wizard.based_on = 'one_year'
         table_suggestion_wizard.with_context({'period_scale': 'month'}).apply_forecast_quantity_suggestion()
         mps_table = self.mps_table.get_production_schedule_view_state(period_scale='month')[0]
         for i in range(self.env.company.manufacturing_period_to_display_month):
             table_forecast = mps_table['forecast_ids'][i]
-            self.assertEqual(table_forecast['forecast_qty'], 18)
+            self.assertEqual(table_forecast['forecast_qty'], 19)
 
     @freeze_time("2024-02-14")
     def test_suggestion_for_weeks_with_no_period(self):

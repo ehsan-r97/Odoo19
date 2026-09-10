@@ -2,7 +2,7 @@ import { Plugin } from "@html_editor/plugin";
 import { isEmptyTextNode, isZWS } from "@html_editor/utils/dom_info";
 import { reactive } from "@odoo/owl";
 import { composeToolbarButton, Toolbar } from "./toolbar";
-import { hasTouch, isMacOS } from "@web/core/browser/feature_detection";
+import { hasTouch, isMacOS, isIOS } from "@web/core/browser/feature_detection";
 import { registry } from "@web/core/registry";
 import { ToolbarMobile } from "./mobile_toolbar";
 import { debounce } from "@web/core/utils/timing";
@@ -11,6 +11,7 @@ import { withSequence } from "@html_editor/utils/resource";
 import { _t } from "@web/core/l10n/translation";
 import { memoize } from "@web/core/utils/functions";
 import { closestElement } from "@html_editor/utils/dom_traversal";
+import { utils } from "@web/core/ui/ui_service";
 
 /** @typedef { import("@html_editor/core/selection_plugin").EditorSelection } EditorSelection */
 /** @typedef {import("@html_editor/core/selection_plugin").SelectionData} SelectionData */
@@ -161,7 +162,7 @@ export class ToolbarPlugin extends Plugin {
     /** @type {import("plugins").EditorResources} */
     resources = {
         selectionchange_handlers: this.handleSelectionChange.bind(this),
-        selection_leave_handlers: () => this.closeToolbar(),
+        selection_leave_handlers: () => this.closeToolbar(null, { force: true }),
         selection_enter_handlers: () => this.updateToolbar(),
         step_added_handlers: () => this.updateToolbar(),
         user_commands: {
@@ -200,7 +201,9 @@ export class ToolbarPlugin extends Plugin {
         this.buttonGroups = this.getButtonGroups();
         this.buttonsByNamespace = { DISABLED_NAMESPACE: [] };
 
-        this.isMobileToolbar = hasTouch() && window.visualViewport;
+        // For IOS devices, they usually shows a native toolbar on top of the selection so
+        // we show the editor toolbar at the bottom to avoid they overlap.
+        this.isMobileToolbar = (utils.isSmall() && hasTouch() && window.visualViewport) || isIOS();
 
         if (this.isMobileToolbar) {
             this.overlay = new MobileToolbarOverlay(this.editable);
@@ -234,7 +237,7 @@ export class ToolbarPlugin extends Plugin {
                 if (ev.detail >= 2) {
                     // Delayed open, waiting for a possible triple click.
                     this.onSelectionChangeActive = true;
-                    this.debouncedUpdateToolbar();
+                    this.triggerDebouncedUpdateToolbar();
                 } else {
                     // Fast open, just wait for a possible selection change due
                     // to mouseup.
@@ -267,7 +270,7 @@ export class ToolbarPlugin extends Plugin {
                 if (ev.key?.startsWith("Arrow")) {
                     this.pendingArrowKey = false;
                     this.onSelectionChangeActive = true;
-                    this.debouncedUpdateToolbar();
+                    this.triggerDebouncedUpdateToolbar();
                 }
             });
             if (isMacOS()) {
@@ -275,7 +278,7 @@ export class ToolbarPlugin extends Plugin {
                     if (this.pendingArrowKey && !this.isMouseDown) {
                         this.pendingArrowKey = false;
                         this.onSelectionChangeActive = true;
-                        this.debouncedUpdateToolbar();
+                        this.triggerDebouncedUpdateToolbar();
                     }
                 });
                 this.addDomListener(this.editable, "mousedown", () => (this.isMouseDown = true));
@@ -296,6 +299,13 @@ export class ToolbarPlugin extends Plugin {
         this.updateToolbar.cancel();
         this.overlay.close();
         super.destroy();
+    }
+
+    /**
+     * Schedules a debounced toolbar update.
+     */
+    triggerDebouncedUpdateToolbar() {
+        this.debouncedUpdateToolbar();
     }
 
     /**
@@ -458,7 +468,7 @@ export class ToolbarPlugin extends Plugin {
     /**
      * @param {SelectionData} selectionData
      */
-    closeToolbar(selectionData = null) {
+    closeToolbar(selectionData = null, { force = false } = {}) {
         if (!this.overlay.isOpen) {
             return;
         }
@@ -467,8 +477,9 @@ export class ToolbarPlugin extends Plugin {
             ? selectionData.editableSelection?.anchorNode
             : document.getSelection()?.anchorNode;
         const shouldPreventClosing =
+            !force &&
             anchor?.closest?.("[data-prevent-closing-overlay]")?.dataset?.preventClosingOverlay ===
-            "true";
+                "true";
         if (!shouldPreventClosing) {
             this.overlay.close();
             this.isToolbarExpanded = false;
@@ -551,6 +562,7 @@ class MobileToolbarOverlay {
 
     open({ props }) {
         props.class = "shadow";
+        props.editable = this.editable;
         if (!this.isOpen) {
             const modal = this.editable.closest(".o_modal_full");
             if (modal) {

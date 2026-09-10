@@ -468,6 +468,42 @@ result = worked_days['OVERTIME'].number_of_hours * payslip.l10n_ae_hourly_wage *
             <field name="struct_id" ref="l10n_ae_hr_payroll.uae_employee_payroll_structure"/>
         </record>
 
+        <record id="l10n_ae_regular_pay_overtime_day" model="hr.salary.rule">
+            <field name="name">Overtime Weekdays Daytime</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="code">OVTWD</field>
+            <field name="sequence">63</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'OVTWD' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days['OVTWD'].amount</field>
+            <field name="struct_id" ref="l10n_ae_hr_payroll.uae_employee_payroll_structure"/>
+        </record>
+
+        <record id="l10n_ae_regular_pay_overtime_night" model="hr.salary.rule">
+            <field name="name">Overtime Weekdays Nighttime</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="code">OVTWDN</field>
+            <field name="sequence">64</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'OVTWDN' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days['OVTWDN'].amount</field>
+            <field name="struct_id" ref="l10n_ae_hr_payroll.uae_employee_payroll_structure"/>
+        </record>
+
+        <record id="l10n_ae_regular_pay_overtime_offdays" model="hr.salary.rule">
+            <field name="name">Overtime Off-days</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="code">OVTOD</field>
+            <field name="sequence">65</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'OVTOD' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days['OVTOD'].amount</field>
+            <field name="struct_id" ref="l10n_ae_hr_payroll.uae_employee_payroll_structure"/>
+        </record>
+
         <record id="uae_out_of_contract_salary_rule" model="hr.salary.rule">
             <field name="name">Out of Contract</field>
             <field name="category_id" ref="hr_payroll.DED"/>

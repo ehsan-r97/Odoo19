@@ -50,7 +50,7 @@ LINE_ID_HIERARCHY_DELIMITER = '|'
 
 CURRENCIES_USING_LAKH = {'AFN', 'BDT', 'INR', 'MMK', 'NPR', 'PKR', 'LKR'}
 
-UNDISTR_LINE_NAME = _lt("Undistributed Profits/Losses")
+UNDISTR_LINE_NAME = _lt("Result Brought Forward")
 
 
 class AccountReportAnnotation(models.Model):
@@ -599,7 +599,7 @@ class AccountReport(models.Model):
             else:
                 dt_from_str = format_date(self.env, fields.Date.to_string(date_from))
                 dt_to_str = format_date(self.env, fields.Date.to_string(date_to))
-                string = _('From %(date_from)s\nto  %(date_to)s', date_from=dt_from_str, date_to=dt_to_str)
+                string = _('%(date_from)s - %(date_to)s', date_from=dt_from_str, date_to=dt_to_str)
 
         return {
             'string': string,
@@ -929,6 +929,15 @@ class AccountReport(models.Model):
         if self.filter_growth_comparison and len(options['columns']) == 2 and len(options.get('comparison', {}).get('periods', [])) == 1:
             options['column_percent_comparison'] = 'growth'
 
+        if (
+                options.get('display_analytic_groupby')
+                and len(options.get('analytic_plans_groupby', [])) == 1
+                and not options.get('analytic_accounts')
+                and not options.get('comparison', {}).get('periods', [])
+                and len(options['columns']) == 2
+        ):
+            options['column_percent_comparison'] = 'analytic_coverage'
+
         if self.filter_budgets and any(budget['selected'] for budget in options.get('budgets', [])):
             options['column_percent_comparison'] = 'budget'
 
@@ -1173,8 +1182,15 @@ class AccountReport(models.Model):
             unfolded = line_id in options.get('unfolded_lines') or options['unfold_all']
             name = account_group.display_name if account_group else _('(No Group)')
             columns = []
-            for column_total, column in zip(column_totals, options['columns']):
-                columns.append(self._build_column_dict(column_total, column, options=options))
+            for col_total, column in zip(column_totals, options['columns']):
+                if isinstance(col_total, tuple):
+                    col_value, currency = col_total
+                else:
+                    col_value = col_total
+                    currency = None
+
+                columns.append(self._build_column_dict(col_value, column, options=options, currency=currency))
+
             return {
                 'id': line_id,
                 'name': name,
@@ -1187,14 +1203,33 @@ class AccountReport(models.Model):
             }
 
         def compute_group_totals(line, group=None):
-            result = []
+            totals = []
+
             for total, column in zip(hierarchy[group]['totals'], line['columns']):
-                value = column.get('no_format')
-                if isinstance(total, float) and isinstance(value, (int, float)):
-                    result.append(total + value)
-                else:
-                    result.append('')
-            return result
+                if not isinstance(column.get('no_format'), (int, float)):
+                    total = None
+
+                if isinstance(total, (int, float)):
+                    total = total + column['no_format']
+                elif isinstance(total, tuple):
+                    if total == (None, None):
+                        # Entering here only on first aggregation
+                        amount = 0.0
+                        currency = column.get('currency')
+                    else:
+                        amount, currency = total
+
+                    if currency != column.get('currency'):
+                        total = None
+                    else:
+                        total = (
+                            amount + column['no_format'],
+                            currency
+                        )
+
+                totals.append(total)
+
+            return totals
 
         def render_lines(account_groups, current_level, parent_line_id, skip_no_group=True):
             to_treat = [(current_level, parent_line_id, group) for group in account_groups.sorted()]
@@ -1241,9 +1276,25 @@ class AccountReport(models.Model):
                 ] + to_treat
 
         def create_hierarchy_dict():
+            def create_totals():
+                totals = []
+
+                for column in options['columns']:
+                    default_value = None
+                    if figure_type := column.get('figure_type'):
+                        if figure_type == 'float':
+                            default_value = 0.0
+                        elif figure_type == 'integer':
+                            default_value = 0
+                        elif figure_type == 'monetary':
+                            default_value = (None, None)
+                    totals.append(default_value)
+
+                return totals
+
             return defaultdict(lambda: {
                 'lines': [],
-                'totals': [('' if column.get('figure_type') == 'string' else 0.0) for column in options['columns']],
+                'totals': create_totals(),
                 'child_groups': self.env['account.group'],
             })
 
@@ -1608,7 +1659,7 @@ class AccountReport(models.Model):
     def _init_options_search_bar(self, options, previous_options):
         if self.search_bar:
             options['search_bar'] = True
-            if 'default_filter_accounts' not in self.env.context and 'filter_search_bar' in previous_options:
+            if 'filter_search_bar' in previous_options:
                 options['filter_search_bar'] = previous_options['filter_search_bar']
 
     ####################################################
@@ -1668,16 +1719,15 @@ class AccountReport(models.Model):
                     },
                     'colspan': 1,
                 })
-                if len(self.column_ids.filtered(lambda column: column.figure_type == 'monetary')) == 1:
-                    # Add budget percentage column (only if one column in the report)
-                    budget_headers.append({
-                        'name': "%",
-                        'forced_options': {
-                            'budget_percentage': budget['id'],
-                            'no_subheader_division': True,
-                        },
-                        'colspan': 1,
-                    })
+                # Add budget percentage column
+                budget_headers.append({
+                    'name': "%",
+                    'forced_options': {
+                        'budget_percentage': budget['id'],
+                        'no_subheader_division': True,
+                    },
+                    'colspan': 1,
+                })
 
             if selected_horizontal_group_id:
                 column_headers[1] += budget_headers
@@ -1778,7 +1828,7 @@ class AccountReport(models.Model):
                     'sortable': False,
                     'figure_type': 'monetary',
                     'blank_if_zero': False,
-                    'style': "text-align: center; white-space: nowrap;",
+                    'class': "text-nowrap text-end",
                 })
 
             else:
@@ -1790,7 +1840,7 @@ class AccountReport(models.Model):
                         'sortable': report_column.sortable,
                         'figure_type': report_column.figure_type,
                         'blank_if_zero': report_column.blank_if_zero,
-                        'style': "text-align: center; white-space: nowrap;",
+                        'class': f"text-nowrap {'text-end' if report_column.figure_type in NUMBER_FIGURE_TYPES else 'text-center'}",
                     })
 
         return columns, column_groups
@@ -2590,7 +2640,7 @@ class AccountReport(models.Model):
         if not account_id_to_search and not company_id_to_search:
             raise UserError(_(
                 "'Open General Ledger' caret option is only available form report lines targetting "
-                "accounts or Undistributed Profits/Losses."
+                "accounts or Result Brought Forward."
             ))
 
         if account_id_to_search:
@@ -2742,7 +2792,10 @@ class AccountReport(models.Model):
         # Manage growth comparison
         if options.get('column_percent_comparison') == 'growth':
             for line in lines:
-                first_value, second_value = line['columns'][0]['no_format'], line['columns'][1]['no_format']
+                if options['comparison']['period_order'] == 'descending':
+                    first_value, second_value = line['columns'][0]['no_format'], line['columns'][1]['no_format']
+                else:
+                    first_value, second_value = line['columns'][1]['no_format'], line['columns'][0]['no_format']
 
                 green_on_positive = True
                 model, line_id = self._get_model_info_from_id(line['id'])
@@ -2761,6 +2814,11 @@ class AccountReport(models.Model):
         elif options.get('column_percent_comparison') == 'budget':
             for line in lines:
                 self._set_budget_column_comparisons(options, line)
+
+        elif options.get('column_percent_comparison') == 'analytic_coverage':
+            for line in lines:
+                first_value, second_value = line['columns'][0]['no_format'], line['columns'][1]['no_format']
+                line['column_percent_comparison_data'] = self._compute_column_percent_comparison_data(options, first_value, second_value, green_on_positive=False)
 
         # Manage hide_if_zero lines:
         # - If they have column values: hide them if all those values are 0 (or empty)
@@ -4377,6 +4435,8 @@ class AccountReport(models.Model):
                     SELECT %(expression_id)s, text_value
                     FROM account_report_external_value
                     WHERE %(where_clause)s AND target_report_expression_id = %(expression_id)s
+                    ORDER BY date DESC, id DESC
+                    LIMIT 1
                 """
             monetary_query = """
                 SELECT
@@ -4731,8 +4791,7 @@ class AccountReport(models.Model):
                 'name': _("Journal Items"),
                 'type': 'ir.actions.act_window',
                 'res_model': 'account.move.line',
-                'view_mode': 'list',
-                'views': [(False, 'list')],
+                'view_mode': 'list,pivot,graph,kanban',
                 'context': {
                     'active_test': False,
                 },
@@ -5818,8 +5877,9 @@ class AccountReport(models.Model):
             if line.get('expand_function'):
                 result.append(line)
             elif markups[line['id']] == 'total':
-                # Keep the total only if its parent still has real children.
-                if line.get('parent_id') in parents_with_non_total_child:
+                # Keep report-level totals (no parent), and keep section totals only if
+                # their parent still has non-total children.
+                if line.get('parent_id') is None or line.get('parent_id') in parents_with_non_total_child:
                     result.append(line)
             elif line['id'] in parents_with_non_total_child:
                 result.append(line)
@@ -5945,7 +6005,7 @@ class AccountReport(models.Model):
                     for prefix_subline in prefix_sublines:
                         prefix_expr_label_result = prefix_expression_totals_by_group.setdefault(column_data['column_group_key'], {})
                         prefix_expr_label_result.setdefault(column_data['expression_label'], 0)
-                        prefix_expr_label_result[column_data['expression_label']] += (prefix_subline['columns'][column_index]['no_format'] or 0)
+                        prefix_expr_label_result[column_data['expression_label']] += (prefix_subline['columns'][column_index].get('no_format') or 0)
 
             column_values = []
             for column in options['columns']:
@@ -6168,7 +6228,7 @@ class AccountReport(models.Model):
 
         footer = self._get_layout_footer(rcontext)
 
-        action_report = self.env['ir.actions.report']
+        action_report = self.env['ir.actions.report'].with_context(account_report_pdf_export=True)
         files_stream = []
         for is_landscape, reports_with_options in grouped_reports_by_format:
             bodies = []
@@ -6383,7 +6443,7 @@ class AccountReport(models.Model):
 
         if value is None:
             value = ''
-        else:
+        elif not isinstance(value, (datetime.date, datetime.datetime)):
             try:  # noqa: SIM105
                 # This is needed, otherwise we could compute width on very long number such as 12.0999999998
                 # which wouldn't show well in the end result as the numbers are rounded.
@@ -6516,6 +6576,8 @@ class AccountReport(models.Model):
         y_offset = 0
         # 1 and not 0 to leave space for the line name. original_x_offset allows making place for the code column if needed.
         x_offset = original_x_offset + 1
+        annotations_x_offset = 0
+        annotations_header_written = False
 
         # Add headers.
         # For this, iterate in the same way as done in main_table_header template
@@ -6537,8 +6599,7 @@ class AccountReport(models.Model):
                         merged_rowspan_cells.update((x_offset + col, y_offset + row) for col in range(colspan_with_horizontal_group))
 
                 x_offset += colspan
-
-            if options.get('column_percent_comparison') == 'growth':
+            if options.get('column_percent_comparison') in ('growth', 'analytic_coverage'):
                 write_cell(sheet, x_offset, y_offset, '%', title_format)
                 x_offset += 1
 
@@ -6549,6 +6610,7 @@ class AccountReport(models.Model):
             if report_annotations:
                 annotations_x_offset = x_offset
                 write_cell(sheet, annotations_x_offset, y_offset, 'Annotations', title_format)
+                annotations_header_written = True
                 x_offset += 1
             y_offset += 1
             x_offset = original_x_offset + 1
@@ -6574,8 +6636,15 @@ class AccountReport(models.Model):
         if options['show_horizontal_group_total']:
             write_cell(sheet, x_offset, y_offset, options['columns'][0].get('name', ''), title_format, colspan)
 
-        if options.get('column_percent_comparison') == 'growth':
+        if options.get('column_percent_comparison') in ('growth', 'analytic_coverage'):
             write_cell(sheet, x_offset, y_offset, '', title_format, colspan)
+        if annotations and not annotations_header_written:
+            # Fallback: if column_headers is empty the loop above never runs, so
+            # annotations_x_offset was never set. x_offset already points to the
+            # first free column after all data columns — the right spot for Annotations.
+            annotations_x_offset = x_offset
+            write_cell(sheet, annotations_x_offset, y_offset, 'Annotations', title_format)
+
         y_offset += 1
 
         if options.get('order_column'):
@@ -6636,8 +6705,12 @@ class AccountReport(models.Model):
 
             if options['show_horizontal_group_total']:
                 columns += [line.get('horizontal_group_total_data', {'name': 0})]
+            company_currency = self.env.company.currency_id
             for x, column in enumerate(columns, start=x_offset):
                 cell_type, cell_value = self._get_cell_type_value(column)
+                if column.get('figure_type', '') == 'monetary' and isinstance(cell_value, float):
+                    currency = column.get('currency') or company_currency
+                    cell_value = currency.round(cell_value)
                 if cell_type == 'date':
                     cell_format = get_format('date', level)
                 elif is_initial_line:
@@ -6824,7 +6897,8 @@ class AccountReport(models.Model):
         return y_offset
 
     def _get_cell_type_value(self, cell):
-        if 'date' not in cell.get('class', '') or not cell.get('name'):
+        is_date = 'date' in cell.get('class', '') or cell.get('figure_type') in ('date', 'datetime')
+        if not is_date or not cell.get('name'):
             # cell is not a date
             return ('text', cell.get('name', ''))
         if isinstance(cell['name'], (float, datetime.date, datetime.datetime)):
@@ -6850,6 +6924,16 @@ class AccountReport(models.Model):
             return tax_unit.vat
 
         company = self._get_sender_company_for_export(options)
+
+        if company.account_fiscal_country_id != self.country_id:
+            foreign_vat_fpos = self.env['account.fiscal.position'].search([
+                *self.env['account.fiscal.position']._check_company_domain(company),
+                ('foreign_vat', '!=', False),
+                ('country_id', '=', self.country_id.id)
+            ], limit=1)
+            if foreign_vat_fpos:
+                return foreign_vat_fpos.foreign_vat
+
         if not company.vat and raise_warning:
             action = self.env.ref('base.action_res_company_form')
             raise RedirectWarning(_('No VAT number associated with your company. Please define one.'), action.id, _("Company Settings"))
@@ -6914,12 +6998,23 @@ class AccountReport(models.Model):
                 company_to_line_id[company_line['company_id']] = line_id
                 unallocated_earnings_lines[column_group_key] |= {line_id: company_line}
 
+        companies = self.env['res.company'].browse(company_to_line_id.keys())
+        company_by_id = {c.id: c for c in companies}
+        is_single_company = len(options['companies']) == 1
+        report_currency = self.env.company.currency_id
+
+        valid_company_lines = {
+            company_id: line_id
+            for company_id, line_id in company_to_line_id.items()
+            if not all(
+                report_currency.is_zero(col_group.get(line_id, {}).get('balance', 0.0))
+                for col_group in unallocated_earnings_lines.values()
+            )
+        }
+
         return [{
             'id': line_id,
-            'name': (
-                str(UNDISTR_LINE_NAME) if len(self.env.companies) == 1 else
-                _('%(line_name)s - %(company)s', line_name=UNDISTR_LINE_NAME, company=self.env['res.company'].browse(company_id).name)
-            ),
+            'name': str(UNDISTR_LINE_NAME) if is_single_company else _('%(line_name)s - %(company)s', line_name=UNDISTR_LINE_NAME, company=company_by_id[company_id].name),
             'level': 1,
             'columns': [
                 self._build_column_dict(
@@ -6935,7 +7030,7 @@ class AccountReport(models.Model):
             'unfoldable': False,
             'unfolded': False,
             'caret_options': 'undistributed_profits_losses',
-        } for company_id, line_id in company_to_line_id.items()]
+        } for company_id, line_id in valid_company_lines.items()]
 
     def _get_partner_and_general_ledger_initial_balance_line(self, options, parent_line_id, eval_dict, account_currency=None, level_shift=0):
         """ Helper to generate dynamic 'initial balance' lines, used by general ledger and partner ledger.
@@ -6976,7 +7071,7 @@ class AccountReport(models.Model):
         :param green_on_positive:   A flag customizing the value with a green color depending if the growth is positive.
         :return:                    The new columns to add to line['columns'].
         '''
-        if value1 is None or value2 is None or float_is_zero(value2, precision_rounding=0.1):
+        if not isinstance(value1, (int, float)) or not isinstance(value2, (int, float)) or float_is_zero(value2, precision_rounding=0.1):
             return {'name': _('n/a'), 'mode': 'muted'}
 
         comparison_type = options['column_percent_comparison']
@@ -7012,6 +7107,16 @@ class AccountReport(models.Model):
                 'mode': 'green' if (comparison_value >= 0 and green_on_positive) or (comparison_value == -1 and not green_on_positive) else 'red',
             }
 
+        elif comparison_type == 'analytic_coverage':
+            coverage = round(value1 / value2 * 100, 1)
+            if float_is_zero(coverage, precision_rounding=0.1):
+                return {'name': '0.0%'}
+            else:
+                return {
+                    'name': str(coverage) + '%',
+                    'mode': 'green' if float_compare(coverage, 100, 1) == 0 else 'red',
+                }
+
     def _set_budget_column_comparisons(self, options, line):
         """
             Set the percentage values in the budget columns
@@ -7030,7 +7135,7 @@ class AccountReport(models.Model):
                     other_col_group_key = line_col['column_group_key']
                     other_col_options = options['column_groups'][other_col_group_key]
                     if other_col_options.get('forced_options', {}).get('date') == date_key:
-                        if other_col_options.get('forced_options', {}).get('budget_base') and line_col['figure_type'] == 'monetary':
+                        if other_col_options.get('forced_options', {}).get('budget_base') and line_col['figure_type'] == 'monetary' and line_col['expression_label'] == 'balance':
                             budget_base_col = line_col
                         elif other_col_options.get('forced_options', {}).get('compute_budget') == budget_id:
                             budget_amount_col = line_col
@@ -7699,12 +7804,21 @@ class AccountReportLine(models.Model):
             # Growth comparison column.
             if options.get('column_percent_comparison') == 'growth':
                 compared_expression = self.expression_ids.filtered(lambda expr: expr.label == group_line_dict['columns'][0]['expression_label'])
+
+                if options['comparison']['period_order'] == 'descending':
+                    first_value, second_value = group_line_dict['columns'][0]['no_format'], group_line_dict['columns'][1]['no_format']
+                else:
+                    first_value, second_value = group_line_dict['columns'][1]['no_format'], group_line_dict['columns'][0]['no_format']
+
                 group_line_dict['column_percent_comparison_data'] = self.report_id._compute_column_percent_comparison_data(
-                    options, group_line_dict['columns'][0]['no_format'], group_line_dict['columns'][1]['no_format'], green_on_positive=compared_expression.green_on_positive)
+                    options, first_value, second_value, green_on_positive=compared_expression.green_on_positive)
             # Manage budget comparison
             elif options.get('column_percent_comparison') == 'budget':
                 self.report_id._set_budget_column_comparisons(options, group_line_dict)
-
+            elif options.get('column_percent_comparison') == 'analytic_coverage':
+                group_line_dict[
+                    'column_percent_comparison_data'] = self.report_id._compute_column_percent_comparison_data(
+                    options, group_line_dict['columns'][0]['no_format'], group_line_dict['columns'][1]['no_format'], green_on_positive=False)
             group_lines_by_keys[grouping_key] = group_line_dict
 
         draft_entries = {}  # move state used order to color the line if it's draft
@@ -7717,7 +7831,7 @@ class AccountReportLine(models.Model):
 
             out_of_sorting_record = None
             records_to_sort = browsed_groupby_keys
-            if browsed_groupby_keys and load_one_more and len(browsed_groupby_keys) >= limit:
+            if browsed_groupby_keys and load_one_more and len(browsed_groupby_keys) > limit:
                 out_of_sorting_record = browsed_groupby_keys[-1]
                 records_to_sort = records_to_sort[:-1]
 

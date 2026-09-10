@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:43+0000\n"
+"POT-Creation-Date: 2026-08-28 17:44+0000\n"
 "PO-Revision-Date: 2025-10-08 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -93,6 +93,17 @@ msgstr "Hisobni yaratish"
 #, fuzzy
 msgid "Create an app"
 msgstr "Ilova yaratish"
+
+#. module: delivery_ups_rest
+#. odoo-python
+#: code:addons/delivery_ups_rest/models/ups_request.py:0
+msgid ""
+"Detected a problem when validating delivery %(delivery_name)s. Invoicing "
+"address of the commercial invoice has been defaulted to %(ship_to_partner)s "
+"instead of %(sold_to_partner)s to avoid the following error from UPS: \"The "
+"Sold To party's country code must be the same as the Ship To party's country "
+"code with the exception of Canada and satellite countries.\""
+msgstr ""
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__display_name
@@ -293,11 +304,8 @@ msgstr "Qabul qiluvchi"
 #. module: delivery_ups_rest
 #. odoo-python
 #: code:addons/delivery_ups_rest/models/ups_request.py:0
-#, fuzzy
-msgid "Recipient Phone must be at least 10 alphanumeric characters."
+msgid "Recipient Phone must be between 1 and 15 alphanumeric characters."
 msgstr ""
-"Qabul qiluvchining telefon raqami kamida 10 ta harf yoki raqamdan iborat "
-"bo‘lishi kerak."
 
 #. module: delivery_ups_rest
 #: model:ir.model.fields,field_description:delivery_ups_rest.field_delivery_carrier__ups_require_signature
@@ -367,11 +375,8 @@ msgstr ""
 #. module: delivery_ups_rest
 #. odoo-python
 #: code:addons/delivery_ups_rest/models/ups_request.py:0
-#, fuzzy
-msgid "Shipper Phone must be at least 10 alphanumeric characters."
+msgid "Shipper Phone must be between 1 and 15 alphanumeric characters."
 msgstr ""
-"Yuboruvchining telefon raqami kamida 10 ta harf yoki raqamdan iborat "
-"bo‘lishi kerak."
 
 #. module: delivery_ups_rest
 #: model:ir.model,name:delivery_ups_rest.model_delivery_carrier
@@ -655,11 +660,8 @@ msgstr "UPS paket og‘irlik birligi"
 #. module: delivery_ups_rest
 #. odoo-python
 #: code:addons/delivery_ups_rest/models/ups_request.py:0
-#, fuzzy
-msgid "Warehouse Phone must be at least 10 alphanumeric characters."
+msgid "Warehouse Phone must be between 1 and 15 alphanumeric characters."
 msgstr ""
-"Ombor telefon raqami kamida 10 ta harf-raqamli belgidan iborat bo‘lishi "
-"kerak."
 
 #. module: delivery_ups_rest
 #. odoo-python
@@ -765,3 +767,21 @@ msgstr "ups.com"
 #, fuzzy
 msgid "you're ready to go!"
 msgstr "Sizning jo‘nashga tayyorligingiz!"
+
+#, fuzzy
+#~ msgid "Recipient Phone must be at least 10 alphanumeric characters."
+#~ msgstr ""
+#~ "Qabul qiluvchining telefon raqami kamida 10 ta harf yoki raqamdan iborat "
+#~ "bo‘lishi kerak."
+
+#, fuzzy
+#~ msgid "Shipper Phone must be at least 10 alphanumeric characters."
+#~ msgstr ""
+#~ "Yuboruvchining telefon raqami kamida 10 ta harf yoki raqamdan iborat "
+#~ "bo‘lishi kerak."
+
+#, fuzzy
+#~ msgid "Warehouse Phone must be at least 10 alphanumeric characters."
+#~ msgstr ""
+#~ "Ombor telefon raqami kamida 10 ta harf-raqamli belgidan iborat bo‘lishi "
+#~ "kerak."

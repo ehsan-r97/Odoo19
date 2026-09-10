@@ -113,7 +113,7 @@ class AccountJournal(models.Model):
     def create_iso20022_credit_transfer(self, payments, payment_method_code, batch_booking=False):
         """Returns the content of the XML file."""
         Document = self.create_iso20022_credit_transfer_content(payments, payment_method_code, batch_booking=batch_booking)
-        return etree.tostring(Document, pretty_print=True, xml_declaration=True, encoding='utf-8')
+        return etree.tostring(Document, pretty_print=True, xml_declaration=True, encoding='UTF-8')
 
     def create_iso20022_credit_transfer_content(self, payments, payment_method_code, batch_booking=False):
         """
@@ -296,7 +296,7 @@ class AccountJournal(models.Model):
         PmtId = etree.SubElement(CdtTrfTxInf, "PmtId")
         if payment['name']:
             InstrId = etree.SubElement(PmtId, "InstrId")
-            InstrId.text = sanitize_communication(payment['name'], 35)
+            InstrId.text = sanitize_communication(payment['name'].replace('&', '+'), 35)
         EndToEndId = etree.SubElement(PmtId, "EndToEndId")
         EndToEndId.text = payment.get('end_to_end_uuid') or uuid4().hex
         Amt = etree.SubElement(CdtTrfTxInf, "Amt")
@@ -417,8 +417,11 @@ class AccountJournal(models.Model):
         # Check whether we have a structured communication
         else:
             Ustrd = etree.SubElement(RmtInf, "Ustrd")
-            Ustrd.text = sanitize_communication(payment['memo'])
+            Ustrd.text = sanitize_communication(payment['memo'].replace('&', '+'))
         return RmtInf
+
+    def _get_organization_id_node_text(self, payment_method_code, postal_address):
+        return self.company_id.iso20022_orgid_id
 
     def _get_company_PartyIdentification32(self, payment_method_code, postal_address=True, nm=True, issr=True, schme_nm=False):
         """ Returns a PartyIdentification32 element identifying the current journal's company
@@ -438,13 +441,13 @@ class AccountJournal(models.Model):
             Id = etree.Element("Id")
             OrgId = etree.SubElement(Id, "OrgId")
             company = self.company_id
-            if self.sepa_pain_version != "pain.001.001.03" and company.iso20022_lei:
+            if self.sepa_pain_version == "pain.001.001.09" and company.iso20022_lei:
                 LEI = etree.Element("LEI")
                 LEI.text = self.company_id.iso20022_lei
                 OrgId.insert(0, LEI)
             Othr = etree.SubElement(OrgId, "Othr")
             _Id = etree.SubElement(Othr, "Id")
-            _Id.text = sanitize_communication(self.company_id.iso20022_orgid_id)
+            _Id.text = sanitize_communication(self._get_organization_id_node_text(payment_method_code, postal_address))
             if issr and company.iso20022_orgid_issr:
                 Issr = etree.SubElement(Othr, "Issr")
                 Issr.text = sanitize_communication(company.iso20022_orgid_issr)
@@ -494,12 +497,16 @@ class AccountJournal(models.Model):
         partner_address = self.get_postal_address(partner_id, payment_method_code)
         if partner_address:
             PstlAdr = etree.Element("PstlAdr")
+            if partner_address.get('state'):
+                CtrySubDvsn = etree.SubElement(PstlAdr, "CtrySubDvsn")
+                CtrySubDvsn.text = sanitize_communication(partner_address['state'][:35])
             Ctry = etree.SubElement(PstlAdr, "Ctry")
             Ctry.text = partner_address['country']
             # Some banks seem allergic to having the zip in a separate tag, so we do as before
-            if partner_address.get('street'):
+            street = ", ".join(part for part in (partner_address.get('street'), partner_address.get('street2')) if part)
+            if street:
                 AdrLine = etree.SubElement(PstlAdr, "AdrLine")
-                AdrLine.text = sanitize_communication(partner_address['street'][:70])
+                AdrLine.text = sanitize_communication(street[:70])
             if partner_address.get('zip') and partner_address.get('city'):
                 AdrLine = etree.SubElement(PstlAdr, "AdrLine")
                 AdrLine.text = sanitize_communication((partner_address['zip'] + " " + partner_address['city'])[:70])

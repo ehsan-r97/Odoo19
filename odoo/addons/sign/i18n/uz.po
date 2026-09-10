@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 18:41+0000\n"
+"POT-Creation-Date: 2026-08-21 17:43+0000\n"
 "PO-Revision-Date: 2025-10-08 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,11 +30,6 @@ msgstr ""
 #, fuzzy
 msgid "# Signatures"
 msgstr "# Imzolar"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "#7898678"
-msgstr ""
 
 #. module: sign
 #. odoo-python
@@ -140,11 +135,6 @@ msgid ""
 msgstr ") hujjatda sizning imzongizni so‘radi"
 
 #. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "******1234"
-msgstr ""
-
-#. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_portal_my_request
 #, fuzzy
 msgid ""
@@ -167,31 +157,6 @@ msgstr "- <em>Bekor qilindi</em>"
 #, fuzzy
 msgid "- or -"
 msgstr "- yoki -"
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "1001"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "192.168.1.1"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "20-03-2000"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "2023-08-18"
-msgstr ""
-
-#. module: sign
-#: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
-msgid "2023-08-18 - 12:30:45"
-msgstr ""
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_request_logs_user
@@ -3904,9 +3869,8 @@ msgstr "Imzolash so‘rovi"
 #. module: sign
 #. odoo-python
 #: code:addons/sign/wizard/sign_send_request.py:0
-#, fuzzy
-msgid "Sign Request - %s"
-msgstr "Imzolash so‘rovi - %s"
+msgid "Sign Request - %(template_name)s - %(res_name)s"
+msgstr ""
 
 #. module: sign
 #: model:ir.model.fields,field_description:sign.field_sign_log__sign_request_item_id
@@ -4625,7 +4589,6 @@ msgstr "Shablon"
 #. module: sign
 #. odoo-javascript
 #: code:addons/sign/static/src/backend_components/sign_request/sign_request_control_panel.js:0
-#: code:addons/sign/static/src/backend_components/sign_template/sign_template_body.js:0
 #: code:addons/sign/static/src/backend_components/sign_template/sign_template_control_panel.js:0
 #, fuzzy
 msgid "Template %s"
@@ -4779,9 +4742,8 @@ msgstr "Hujjat"
 #. module: sign
 #. odoo-python
 #: code:addons/sign/models/sign_request.py:0
-#, fuzzy
-msgid "The document %(template_name)s has been rejected by %(partner_name)s"
-msgstr "%(template_name)s hujjati %(partner_name)s tomonidan rad etildi"
+msgid "The document %(template_name)s has been rejected by %(refuser_name)s"
+msgstr ""
 
 #. module: sign
 #. odoo-python
@@ -5581,6 +5543,12 @@ msgstr ""
 #. module: sign
 #. odoo-python
 #: code:addons/sign/models/sign_request_item.py:0
+msgid "You cannot change the email of a signatory"
+msgstr ""
+
+#. module: sign
+#. odoo-python
+#: code:addons/sign/models/sign_request_item.py:0
 #, fuzzy
 msgid "You cannot reassign this signatory"
 msgstr "Bu imzolovchini qayta tayinlay olmaysiz."
@@ -5607,6 +5575,12 @@ msgid ""
 msgstr ""
 "Siz bu hujjatlarga kira olmaysiz, iltimos, Imzo administratoriga murojaat "
 "qiling."
+
+#. module: sign
+#. odoo-python
+#: code:addons/sign/models/sign_request.py:0
+msgid "You don't have access to the linked document."
+msgstr ""
 
 #. module: sign
 #: model_terms:ir.ui.view,arch_db:sign.sign_template_mail_refused
@@ -6091,6 +6065,14 @@ msgstr "siz"
 #, fuzzy
 msgid "{{0}} Summary"
 msgstr "{{0}} xulosa"
+
+#, fuzzy
+#~ msgid "The document %(template_name)s has been rejected by %(partner_name)s"
+#~ msgstr "%(template_name)s hujjati %(partner_name)s tomonidan rad etildi"
+
+#, fuzzy
+#~ msgid "Sign Request - %s"
+#~ msgstr "Imzolash so‘rovi - %s"
 
 #, fuzzy
 #~ msgid ""

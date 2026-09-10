@@ -5,6 +5,7 @@ from freezegun import freeze_time
 from odoo.addons.l10n_es_reports.tests.common import TestEsAccountReportsCommon
 from odoo import fields
 from odoo.tests import tagged
+from odoo.tests.common import new_test_user
 
 
 @tagged('post_install_l10n', 'post_install', '-at_install')
@@ -29,6 +30,33 @@ class TestBOEGeneration(TestEsAccountReportsCommon):
     @freeze_time('2020-12-22')
     def test_boe_mod_130(self):
         self._check_boe_111_to_303('130')
+
+    @freeze_time('2020-12-22')
+    def test_boe_mod_115_no_company_write_access_required(self):
+        """
+        Generating a mod 115 BOE file should not require write access on res.company.
+        """
+        self._create_invoice(
+            partner_id=self.spanish_partner,
+            invoice_date=fields.Date.today(),
+            invoice_line_ids=[self._prepare_invoice_line(price_unit=10000, tax_ids=self.spanish_test_tax)],
+            post=True,
+        )
+        report = self.env.ref('l10n_es.mod_115')
+        options = self._generate_options(report, fields.Date.from_string('2020-12-01'), fields.Date.from_string('2020-12-31'))
+
+        accountant = new_test_user(self.env, login='accountant_no_settings_access', groups='account.group_account_user')
+        self.assertFalse(accountant.has_group('base.group_erp_manager'), "Test user should not have write access on res.company")
+
+        wizard_model = self.env[report.custom_handler_model_name].with_user(accountant)
+        wizard_action = wizard_model.open_boe_wizard(options, 115)
+        wizard = self.env[wizard_action['res_model']].with_context(wizard_action['context']).with_user(accountant).create({
+            # Mimics the value the web client sends back on save, since the field is
+            # present (albeit invisible) in the wizard view.
+            'company_partner_id': self.env.company.partner_id.id,
+        })
+        options['l10n_es_reports_boe_wizard_id'] = wizard.id
+        self.assertTrue(wizard_model.export_boe(options), "Empty BOE")
 
     @freeze_time('2020-12-22')
     def test_boe_mod_303(self):
@@ -129,6 +157,21 @@ class TestBOEGeneration(TestEsAccountReportsCommon):
             'journal_id': cash_journal.id,
         })._create_payments()
 
+        other_spanish_partner = self.env['res.partner'].create({
+            'name': "Other Partner",
+            'state_id': self.env.ref('base.state_es_m').id,
+            'country_id': self.env.ref('base.es').id,
+            'vat': "ESA12345674",
+        })
+        other_invoice = self.init_invoice('out_invoice', partner=other_spanish_partner, amounts=[4000], invoice_date=fields.Date.today())
+        other_invoice.l10n_es_reports_mod347_invoice_type = 'regular'
+        other_invoice._post()
+        self.env['account.payment.register'].with_context(active_ids=other_invoice.ids, active_model='account.move').create({
+            'amount': 4000,
+            'payment_date': other_invoice.date,
+            'journal_id': cash_journal.id,
+        })._create_payments()
+
         report = self.env.ref('l10n_es_reports.mod_347')
         options = self._generate_options(report, '2020-01-01', '2020-12-31')
         wizard_model = self.env[report.custom_handler_model_name]
@@ -138,6 +181,8 @@ class TestBOEGeneration(TestEsAccountReportsCommon):
 
         boe_result = self.env[report.custom_handler_model_name].export_boe(options)
         self.assertTrue(self.spanish_partner.name.upper() not in boe_result['file_content'].decode())
+        # Only the other partner is above the 3 005,06 € threshold must be reported
+        self.assertIn(other_spanish_partner.name.upper(), boe_result['file_content'].decode())
 
     @freeze_time('2025-05-15')
     def test_boe_includes_null_lines_mod_349(self):

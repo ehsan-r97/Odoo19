@@ -31,7 +31,7 @@ class HrOvertimeRule(models.Model):
             expected_hours = sum(planning_slots.mapped('duration'))
 
             return expected_hours
-        return super()._get_expected_hours_from_contract(date, version, period='day')
+        return super()._get_expected_hours_from_contract(date, version, period)
 
 
 class HrVersion(models.Model):

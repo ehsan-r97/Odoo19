@@ -78,6 +78,7 @@ class HrPayslip(models.Model):
         return super()._get_data_files_to_update() + [(
             'l10n_au_hr_payroll', [
             'data/hr_payslip_input_type_data.xml',
+            'data/hr_salary_rule_category_data.xml',
             'data/salary_rules/hr_salary_rule_regular_data.xml',
             'data/hr_rule_parameters_data.xml',
         ])]
@@ -177,7 +178,7 @@ class HrPayslip(models.Model):
                 continue
             payslip.l10n_au_salary_sacrifice_other = payslip.version_id.l10n_au_salary_sacrifice_other
 
-    @api.depends("employee_id")
+    @api.depends("version_id.l10n_au_income_stream_type")
     def _compute_income_stream_type(self):
         for payslip in self:
             payslip.l10n_au_income_stream_type = payslip.version_id.l10n_au_income_stream_type
@@ -384,6 +385,7 @@ class HrPayslip(models.Model):
         self.env.add_to_compute(self._fields['l10n_au_extra_compulsory_super'], self)
         self.env.add_to_compute(self._fields['l10n_au_salary_sacrifice_superannuation'], self)
         self.env.add_to_compute(self._fields['l10n_au_salary_sacrifice_other'], self)
+        self.env.add_to_compute(self._fields['l10n_au_income_stream_type'], self)
         self.l10n_au_other_input_details_ids._check_input_details()
         return super().compute_sheet()
 
@@ -577,8 +579,9 @@ class HrPayslip(models.Model):
         """
         self.ensure_one()
         # Medicare Exemption
+        # This is part of the tax schedule and not a separate calculation post July 2024
         exemption = 0
-        if self.version_id.l10n_au_medicare_exemption != "X":
+        if self.version_id.l10n_au_medicare_exemption != "X" and self.date_from < date(2024, 7, 1):
             exemption = period_earning * params["ML"]
 
         # Medicare Surcharge
@@ -798,7 +801,7 @@ class HrPayslip(models.Model):
         for payslip in self:
             for allocation in allocations.filtered(
                 lambda x:
-                    x.employee_id == self.employee_id and
+                    x.employee_id == payslip.employee_id and
                     x.date_from <= (payslip.version_id.date_end or payslip.date_to)
                 ):
                 leave_type = leaves_by_date[payslip.id][allocation.holiday_status_id.l10n_au_leave_type]
@@ -813,14 +816,16 @@ class HrPayslip(models.Model):
 
     def _l10n_au_get_unused_leave_totals(self):
         leaves_by_date = self._l10n_au_get_unused_leave_by_type()
-        if not leaves_by_date:
-            return defaultdict(lambda: {"annual": 0.0, "long_service": 0.0})
-        return {
+        # Payslips without any matching allocation are absent from leaves_by_date,
+        # the default keeps them resolvable when this runs on a batch of payslips.
+        leave_totals = defaultdict(lambda: {"annual": 0.0, "long_service": 0.0})
+        leave_totals.update({
             payslip: {
                 'annual': sum(leaves_data['annual'].values()),
                 'long_service': sum(leaves_data['long_service'].values()),
             } for payslip, leaves_data in leaves_by_date.items()
-        }
+        })
+        return leave_totals
 
     def _l10n_au_get_leaves_for_withhold(self):
         self.ensure_one()
@@ -1099,12 +1104,16 @@ class HrPayslip(models.Model):
                     return rates["no-tfn"]["foreign"] if version.is_non_resident else rates["no-tfn"]["resident"]
                 # TFN provided
                 if version.l10n_au_tfn_declaration != "000000000":
-                    if version.l10n_au_tax_treatment_option_seniors == "S":
-                        return rates["single"]
-                    elif version.l10n_au_tax_treatment_option_seniors == "M":
-                        return rates["couple"]
-                    elif version.l10n_au_tax_treatment_option_seniors == "I":
-                        return rates["illness-separated"]
+                    option = {
+                        "S": "single",
+                        "M": "couple",
+                        "I": "illness-separated",
+                    }[version.l10n_au_tax_treatment_option_seniors]
+                    if self.date_from >= fields.Date.from_string("2024-07-01") and version.l10n_au_medicare_exemption == "F":
+                        return rates["full-exemption"][option]  # Only available 2024+
+                    if self.date_from >= fields.Date.from_string("2024-07-01") and version.l10n_au_medicare_exemption == "H":
+                        return rates["half-exemption"][option]  # Only available 2024+
+                    return rates[option]  # Works for both pre-2024 and 2024+
             case "H":  # Working Holiday Makers
                 rates = self._rule_parameter("l10n_au_withholding_schedule_15")
                 # No TFN

@@ -1,164 +1,170 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* esg_csrd_ai
+# * esg_csrd_ai
 #
+# "Marianna Ciofani (cima)" <cima@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-30 18:46+0000\n"
-"PO-Revision-Date: 2026-01-30 18:46+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-04-07 15:54+0000\n"
+"Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
+"Language-Team: Italian <https://translate.odoo.com/projects/odoo-19/"
+"esg_csrd_ai/it/>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__metrics_ai_generation_wizard__company_size__medium
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__res_company__esg_company_size__medium
 msgid "250 - 1000 employees"
-msgstr ""
+msgstr "250 - 1000 dipendenti"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__metrics_ai_generation_wizard__company_size__small
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__res_company__esg_company_size__small
 msgid "< 250 employees"
-msgstr ""
+msgstr "< 250 dipendenti"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__metrics_ai_generation_wizard__company_size__large
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__res_company__esg_company_size__large
 msgid "> 1000 employees"
-msgstr ""
+msgstr "> 1000 dipendenti"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.esg_metric_kanban_view
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.esg_metric_list_view
 msgid "AI Suggest"
-msgstr ""
+msgstr "Suggerimento AI"
 
 #. module: esg_csrd_ai
 #. odoo-python
 #: code:addons/esg_csrd_ai/wizard/metrics_ai_generation_wizard.py:0
 msgid "AI Suggested Metrics"
-msgstr ""
+msgstr "Metriche suggerite dall'AI"
 
 #. module: esg_csrd_ai
 #: model:ir.model,name:esg_csrd_ai.model_metrics_ai_generation_wizard
 msgid "AI generation of suggestions of ESG Metrics based on Company Data"
 msgstr ""
+"Generazione tramite AI di consigli relativi alle metrice ESG in base ai dati "
+"dell'azienda"
 
 #. module: esg_csrd_ai
 #: model:ir.model,name:esg_csrd_ai.model_metrics_ai_suggestion_line
 msgid "AI suggestion of ESG Metric"
-msgstr ""
+msgstr "Suggerimento AI metrica ESG"
 
 #. module: esg_csrd_ai
 #: model:ir.model,name:esg_csrd_ai.model_metrics_ai_suggestion_wizard
 msgid "AI suggestions of ESG Metrics"
-msgstr ""
+msgstr "Suggerimenti AI per le metriche ESG"
 
 #. module: esg_csrd_ai
 #: model:ir.actions.act_window,name:esg_csrd_ai.metrics_ai_generation_wizard_action
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "About Your Company"
-msgstr ""
+msgstr "Informazioni sull'azienda"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_suggestion_wizard_form_view
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_suggestion_wizard_form_view
 msgid "Add All"
-msgstr ""
+msgstr "Aggiungi tutto"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "Assets"
-msgstr ""
+msgstr "Cespiti"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__assets_value
 msgid "Assets Value"
-msgstr ""
+msgstr "Valore cespiti"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__attachment_id
 msgid "Attachment"
-msgstr ""
+msgstr "Allegato"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "Business Description"
-msgstr ""
+msgstr "Descrizione azienda"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__category
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_suggestion_wizard_form_view
 msgid "Close"
-msgstr ""
+msgstr "Chiudi"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__code
 msgid "Code"
-msgstr ""
+msgstr "Codice"
 
 #. module: esg_csrd_ai
 #: model:ir.model,name:esg_csrd_ai.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Aziende"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__company_size
 msgid "Company Size"
-msgstr ""
+msgstr "Dimensione azienda"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__core_business_description
 msgid "Core Business Description"
-msgstr ""
+msgstr "Descrizione dell'attività principale"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__create_uid
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__create_uid
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__create_date
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__create_date
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creata il"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "Describe the activities of your core business in a paragraphs..."
-msgstr ""
+msgstr "Descrivi le attività del tuo business principale in un paragrafo..."
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__detail
 msgid "Detail"
-msgstr ""
+msgstr "Dettaglio"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "Discard"
-msgstr ""
+msgstr "Abbandona"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__display_name
@@ -166,52 +172,52 @@ msgstr ""
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__display_name
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_res_company__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_res_company__esg_assets_value
 msgid "Esg Assets Value"
-msgstr ""
+msgstr "Valore risorse Esg"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_res_company__esg_company_size
 msgid "Esg Company Size"
-msgstr ""
+msgstr "Dimensione azienda Esg"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_res_company__esg_core_business_description
 msgid "Esg Core Business Description"
-msgstr ""
+msgstr "Descrizione attività principale ESG"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_res_company__esg_nace_id
 msgid "Esg Nace"
-msgstr ""
+msgstr "Esg Nace"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_res_company__esg_revenues_value
 msgid "Esg Revenues Value"
-msgstr ""
+msgstr "Valore profitti ESG"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__esrs_id
 msgid "Esrs"
-msgstr ""
+msgstr "Esrs"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "Generate Metrics"
-msgstr ""
+msgstr "Genera metriche"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__company_id
 msgid "Group Reporting Company"
-msgstr ""
+msgstr "Azienda del gruppo per i resoconti"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__has_one_or_more_selected
 msgid "Has One Or More Selected"
-msgstr ""
+msgstr "Ne ha uno o più selezionati"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__id
@@ -219,52 +225,52 @@ msgstr ""
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__id
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_res_company__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "Industry Sector"
-msgstr ""
+msgstr "Settore industriale"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__is_selected
 msgid "Is Selected"
-msgstr ""
+msgstr "È selezionata"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__write_uid
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__write_uid
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento di"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__write_date
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__write_date
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: esg_csrd_ai
 #. odoo-python
 #: code:addons/esg_csrd_ai/wizard/metrics_ai_suggestion_wizard.py:0
 msgid "Metrics have been successfully created."
-msgstr ""
+msgstr "Le metriche sono state create con successo."
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__nace_id
 msgid "Nace"
-msgstr ""
+msgstr "Nace"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__metrics_ai_suggestion_line__type__negative_impact
 msgid "Negative Impact"
-msgstr ""
+msgstr "Impatto negativo"
 
 #. module: esg_csrd_ai
 #. odoo-python
@@ -274,42 +280,46 @@ msgid ""
 "\n"
 "Update your company data or material topics to refine future suggestions."
 msgstr ""
+"Non sono state trovate ulteriori metriche di sostenibilità rilevanti.\n"
+"\n"
+"Aggiorna i dati della tua azienda o gli argomenti rilevanti per affinare i "
+"suggerimenti futuri."
 
 #. module: esg_csrd_ai
 #. odoo-python
 #: code:addons/esg_csrd_ai/wizard/metrics_ai_generation_wizard.py:0
 msgid "Oops, it looks like our AI is unreachable."
-msgstr ""
+msgstr "Ops, sembra che l'AI non sia disponibile!"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__metrics_ai_suggestion_line__type__opportunity
 msgid "Opportunity"
-msgstr ""
+msgstr "Opportunità"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__metrics_ai_suggestion_line__type__positive_impact
 msgid "Positive Impact"
-msgstr ""
+msgstr "Impatto positivo"
 
 #. module: esg_csrd_ai
 #: model_terms:ir.ui.view,arch_db:esg_csrd_ai.metrics_ai_generation_wizard_form_view
 msgid "Revenues"
-msgstr ""
+msgstr "Entrate"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_generation_wizard__revenues_value
 msgid "Revenues Value"
-msgstr ""
+msgstr "Valore dei ricavi"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields.selection,name:esg_csrd_ai.selection__metrics_ai_suggestion_line__type__risk
 msgid "Risk"
-msgstr ""
+msgstr "Rischio"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_wizard__suggestion_line_ids
 msgid "Suggestion Line"
-msgstr ""
+msgstr "Riga dei suggerimenti"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,help:esg_csrd_ai.field_metrics_ai_generation_wizard__company_id
@@ -319,13 +329,18 @@ msgid ""
 "be saved under this company. If your group has several companies, choose the"
 " one representing the consolidated perimeter."
 msgstr ""
+"Questa azienda definisce l'anno fiscale e le principali informazioni "
+"aziendali utilizzate per il rapporto CSRD del gruppo. Le informazioni "
+"inserite nella procedura guidata di creazione del CSRD saranno salvate sotto "
+"questa azienda. Se il gruppo ha diverse aziende, scegli quella che "
+"rappresenta il perimetro consolidato."
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__type
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: esg_csrd_ai
 #: model:ir.model.fields,field_description:esg_csrd_ai.field_metrics_ai_suggestion_line__wizard_id
 msgid "Wizard"
-msgstr ""
+msgstr "Procedura guidata"

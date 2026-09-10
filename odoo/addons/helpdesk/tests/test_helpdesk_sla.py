@@ -293,6 +293,21 @@ class HelpdeskSLA(TransactionCase):
                 "Team with no tickets closed in the past 7 days should have a -1 success rate"
             )
 
+    def test_hours_open_in_analysis_reports(self):
+        with self._ticket_patch_now(NOW):
+            ticket = self.create_ticket(team=self.test_team_reached)
+
+        with self._ticket_patch_now(NOW + relativedelta(hours=2)):
+            ticket.user_id = self.helpdesk_user
+
+        with self._ticket_patch_now(NOW + relativedelta(hours=9)):
+            ticket.stage_id = self.stage_done
+
+        for report in ('helpdesk.ticket.report.analysis', 'helpdesk.sla.report.analysis'):
+            self.assertEqual(
+                self.env[report].search([('ticket_id', '=', ticket.id)]).ticket_open_hours, 9,
+                f"{report} should count the 9 hours the ticket stayed open, from its creation to its closing")
+
     def test_move_ticket_to_done_and_cancel_with_disabled_sla_and_no_calendar(self):
         """ Test moving a ticket does not cause an exception when SLAs are disabled when the calendar is empty. """
         # Create a ticket on a team with SLAs enabled
@@ -313,3 +328,16 @@ class HelpdeskSLA(TransactionCase):
         with Form(ticket) as ticket_form:
             ticket_form.stage_id = self.stage_cancel
         self.assertEqual(ticket.stage_id, self.stage_cancel)
+
+    def test_sla_reached(self):
+        """ Ensure sla_reached is computed corectly"""
+        with self._ticket_patch_now(NOW):
+            ticket = self.create_ticket(team=self.test_team_reached, user_id=self.env.user.id)
+            self.assertFalse(ticket.sla_reached, "Newly created ticket should not be sla_reached")
+
+        with self._ticket_patch_now(NOW + relativedelta(days=10)):
+            ticket.write({'stage_id': self.stage_progress.id})
+            initial_values = {ticket.id: {'stage_id': self.stage_new}}
+            ticket._message_track(['stage_id'], initial_values)
+            self.assertTrue(ticket.sla_reached, "Ticket that reached target stage late should still be sla_reached")
+            self.assertTrue(ticket.sla_reached_late, "Should also be flagged late")

@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-04-04 10:48+0000\n"
+"POT-Creation-Date: 2026-08-28 17:44+0000\n"
+"PO-Revision-Date: 2026-08-28 08:55+0000\n"
 "Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/"
 "web_studio/sv/>\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: web_studio
 #. odoo-python
@@ -1024,7 +1024,7 @@ msgstr "Villkorlig regel"
 #: code:addons/web_studio/controllers/main.py:0
 #: code:addons/web_studio/models/ir_ui_menu.py:0
 msgid "Configuration"
-msgstr "Konfiguration"
+msgstr "Inställningar"
 
 #. module: web_studio
 #. odoo-javascript
@@ -1930,6 +1930,12 @@ msgid "Forward"
 msgstr "Framåt"
 
 #. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "Future Activities"
+msgstr ""
+
+#. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/editor/editor_menu/editor_menu.js:0
 #: code:addons/web_studio/static/src/studio_service.js:0
@@ -2186,13 +2192,14 @@ msgstr "Ikon"
 #: model:ir.model.fields,help:web_studio.field_studio_approval_rule__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr ""
-"Om ikryssad, så finns det nya meddelanden som kräver din uppmärksamhet."
+"Om rutan är markerad, så finns det nya meddelanden som kräver din "
+"uppmärksamhet."
 
 #. module: web_studio
 #: model:ir.model.fields,help:web_studio.field_studio_approval_rule__message_has_error
 #: model:ir.model.fields,help:web_studio.field_studio_approval_rule__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om ikryssad, så finns det meddelanden med leveransfel."
+msgstr "Om rutan är markerad, så har vissa meddelanden leveransfel."
 
 #. module: web_studio
 #. odoo-javascript
@@ -2439,6 +2446,12 @@ msgid "Last Updated on"
 msgstr "Senast uppdaterad den"
 
 #. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "Late Activities"
+msgstr ""
+
+#. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/report_editor/report_editor_xml/report_editor_xml.xml:0
 msgid "Leave DIFF"
@@ -2562,7 +2575,7 @@ msgstr "Meddelande"
 #. module: web_studio
 #: model:ir.model.fields,field_description:web_studio.field_studio_approval_rule__message_has_error
 msgid "Message Delivery error"
-msgstr "Meddelande leveransfel"
+msgstr "Leveransfel för meddelanden"
 
 #. module: web_studio
 #: model:ir.model.fields,field_description:web_studio.field_studio_approval_rule__message_ids
@@ -2721,6 +2734,12 @@ msgstr "Flera registervyer"
 #: code:addons/web_studio/models/ir_ui_view.py:0
 msgid "My %s"
 msgstr "Mina %s"
+
+#. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "My Activities"
+msgstr "Mina aktiviteter"
 
 #. module: web_studio
 #. odoo-javascript
@@ -3457,7 +3476,7 @@ msgstr "Spara."
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/view_editor_snackbar.xml:0
 msgid "Saved"
-msgstr ""
+msgstr "Sparad"
 
 #. module: web_studio
 #. odoo-javascript
@@ -4210,6 +4229,12 @@ msgid "To <b>customize a field</b>, click on its <i>label</i>."
 msgstr "<b>Anpassa ett fält</b> genom att klicka på dess <i>etikett</i>."
 
 #. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/ir_ui_view.py:0
+msgid "Today Activities"
+msgstr ""
+
+#. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/systray_item/systray_item.xml:0
 msgid "Toggle Studio"
@@ -4290,8 +4315,6 @@ msgstr "Platshållare för användarens avatar"
 #. module: web_studio
 #. odoo-javascript
 #: code:addons/web_studio/static/src/client_action/view_editor/interactive_editor/properties/button_properties/button_properties.js:0
-#, fuzzy
-#| msgid "User"
 msgid "Users"
 msgstr "Användare"
 
@@ -4376,7 +4399,7 @@ msgstr "Webbplatsmeddelanden"
 #. module: web_studio
 #: model:ir.model.fields,help:web_studio.field_studio_approval_rule__website_message_ids
 msgid "Website communication history"
-msgstr "Webbplatsens kommunikationshistorik"
+msgstr "Hemsidans kommunikationshistorik"
 
 #. module: web_studio
 #. odoo-javascript
@@ -4472,6 +4495,12 @@ msgstr "XML"
 #: code:addons/web_studio/static/src/client_action/view_editor/editors/gantt/gantt_editor_sidebar.js:0
 msgid "Year"
 msgstr "År"
+
+#. module: web_studio
+#. odoo-python
+#: code:addons/web_studio/models/studio_approval.py:0
+msgid "You are not allowed to delegate this approval rule."
+msgstr ""
 
 #. module: web_studio
 #. odoo-python

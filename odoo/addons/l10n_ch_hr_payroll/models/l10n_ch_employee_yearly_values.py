@@ -55,7 +55,7 @@ ANNUITY_RULE_MAPPING = {
 IS_REASON_MAPPING = {
     'entryCompany': ('Entry', 'entryCompany'),
     'entryCanton': ('Entry', 'cantonChange'),
-    'entryOther': ('Entry', 'entryOther'),
+    'entryOther': ('Entry', 'others'),
     'withdrawalCompany': ('Withdrawal', 'withdrawalCompany'),
     'withdrawalNat': ('Withdrawal', 'naturalization'),
     'withdrawalSettled': ('Withdrawal', 'settled-C'),

@@ -7,7 +7,7 @@ from odoo.tools.sql import column_exists, create_column
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    l10n_de_datev_main_account_id = fields.Many2one('account.account', compute='_get_datev_account', store=True)
+    l10n_de_datev_main_account_id = fields.Many2one('account.account', compute='_get_datev_account', store=True, index='btree_not_null')
 
     def _auto_init(self):
         if column_exists(self.env.cr, "account_move", "l10n_de_datev_main_account_id"):

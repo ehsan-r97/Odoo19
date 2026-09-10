@@ -13,6 +13,7 @@ from . import account_cash_flow_report
 from . import account_deferred_reports
 from . import account_multicurrency_revaluation_report
 from . import account_move_line
+from . import account_analytic_line
 from . import account_trial_balance_report
 from . import account_aged_partner_balance
 from . import account_partner_ledger

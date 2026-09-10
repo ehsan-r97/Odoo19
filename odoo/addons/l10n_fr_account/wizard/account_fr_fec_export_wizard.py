@@ -142,7 +142,7 @@ class L10n_FrFecExportWizard(models.TransientModel):
                 unaffected_earnings_account = self.env['account.account'].search([
                     *self.env['account.account']._check_company_domain(company),
                     ('account_type', '=', 'equity_unaffected'),
-                ], limit=1)
+                ], order='code desc', limit=1)
                 unaffected_earnings_line = True  # used to make sure that we add the unaffected earning initial balance only once
                 if unaffected_earnings_account:
                     # compute the benefit/loss of last year to add in the initial balance of the current year earnings account
@@ -182,7 +182,7 @@ class L10n_FrFecExportWizard(models.TransientModel):
                     aa_code=aa_code,
                     aa_name=aa_name,
                 ))
-                self.env.cr.execute(SQL('%s GROUP BY account_move_line__account_id.id', sql_query))
+                self.env.cr.execute(SQL('%s GROUP BY account_move_line__account_id.id HAVING SUM(account_move_line.balance) != 0', sql_query))
 
                 currency_digits = 2
                 for row in self.env.cr.fetchall():
@@ -214,7 +214,7 @@ class L10n_FrFecExportWizard(models.TransientModel):
                     # search an unaffected earnings account
                     unaffected_earnings_account = self.env['account.account'].search([
                         ('account_type', '=', 'equity_unaffected')
-                    ], limit=1)
+                    ], order='code desc', limit=1)
                     if unaffected_earnings_account:
                         unaffected_earnings_results[4] = unaffected_earnings_account.code
                         unaffected_earnings_results[5] = unaffected_earnings_account.name
@@ -255,7 +255,7 @@ class L10n_FrFecExportWizard(models.TransientModel):
                     aa_code=aa_code,
                     aa_name=aa_name,
                 ))
-                self.env.cr.execute(SQL('%s GROUP BY account_move_line__partner_id.id, account_move_line__account_id.id', sql_query))
+                self.env.cr.execute(SQL('%s GROUP BY account_move_line__partner_id.id, account_move_line__account_id.id HAVING SUM(account_move_line.balance) != 0', sql_query))
 
                 for row in self.env.cr.fetchall():
                     listrow = list(row)

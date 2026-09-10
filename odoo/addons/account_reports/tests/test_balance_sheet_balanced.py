@@ -333,6 +333,10 @@ REPORT_CONFIG = {
         'asset_line_ref': 'l10n_us_reports.assets',
         'liability_line_ref': 'l10n_us_reports.liabilities_equity',
     },
+    'l10n_uz_reports.balance_sheet_l10n_uz': {
+        'asset_line_ref': 'l10n_uz_reports.account_financial_report_l10n_uz_bs_to_assets',
+        'liability_line_ref': 'l10n_uz_reports.account_financial_report_l10n_uz_bs_eq_and_obl',
+    },
     'l10n_vn_reports.balance_sheet_l10n_vn': {
         'asset_line_ref': 'l10n_vn_reports.account_financial_report_l10n_vn_bs_ta',
         'liability_line_ref': 'l10n_vn_reports.account_financial_report_l10n_vn_bs_tos',

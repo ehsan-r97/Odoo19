@@ -154,12 +154,12 @@ class TestPlanningReport(TestCommonPlanning):
         self.assertEqual(len(action['data']['group_by_slots_per_day_per_week'][0]), 3)
 
         # resources should be sorted as (False, display named in non DESC order)
-        self.assertEqual(action['data']['group_by_slots_per_day_per_week'][0][0], (False, {
+        self.assertEqual((action['data']['group_by_slots_per_day_per_week'][0][0][0], dict(action['data']['group_by_slots_per_day_per_week'][0][0][1])), (False, {
             '05/18/2025': [
-                {'title': '00:00 – 23:59', 'style': 'background-color: #80c3c2;'}
+                {'title': '12:00 AM – 11:59 PM', 'style': 'background-color: #80c3c2;'}
             ],
             '05/19/2025': [
-                {'title': '00:00 – 17:00', 'style': 'background-color: #80c3c2;'}
+                {'title': '12:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'}
             ],
         }))
 
@@ -170,28 +170,28 @@ class TestPlanningReport(TestCommonPlanning):
         self.assertEqual(action['data']['group_by_slots_per_day_per_week'][0][1][0], flexEmployee.resource_id.id)
         self.assertDictEqual(action['data']['group_by_slots_per_day_per_week'][0][1][1], {
             '05/18/2025': [
-                {'title': '00:00 – 23:59', 'style': 'background-color: #80c3c2;'}
+                {'title': '12:00 AM – 11:59 PM', 'style': 'background-color: #80c3c2;'}
             ],
             '05/19/2025': [
-                {'title': '00:00 – 23:59', 'style': 'background-color: #80c3c2;'}
+                {'title': '12:00 AM – 11:59 PM', 'style': 'background-color: #80c3c2;'}
             ],
             '05/20/2025': [
-                {'title': '00:00 – 17:00', 'style': 'background-color: #80c3c2;'}
+                {'title': '12:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'}
             ],
         })
 
         # STANDARD EMPLOYEE: from 22 to 23, other are eliminated because they're outside the week period and 24 is part of the weekend
         # each slot is from 08:00 to 17:00 and has 8 allocated hours, except day 22 (from 6 to 15) following exaclty company_calendar
         self.assertEqual(action['data']['group_by_slots_per_day_per_week'][0][2][0], standardEmployee.resource_id.id)
-        self.assertDictEqual(action['data']['group_by_slots_per_day_per_week'][0][2][1], {
+        self.assertDictEqual(dict(action['data']['group_by_slots_per_day_per_week'][0][2][1]), {
             '05/21/2025': [
-                {'title': '08:00 – 17:00', 'style': 'background-color: #80c3c2;'}
+                {'title': '08:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'}
             ],
             '05/22/2025': [
-                {'title': '06:00 – 15:00', 'style': 'background-color: #80c3c2;'}
+                {'title': '06:00 AM – 03:00 PM', 'style': 'background-color: #80c3c2;'}
             ],
             '05/23/2025': [
-                {'title': '08:00 – 17:00', 'style': 'background-color: #80c3c2;'}
+                {'title': '08:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'}
             ],
         })
 
@@ -204,3 +204,75 @@ class TestPlanningReport(TestCommonPlanning):
             '05/23/2025',
             '05/24/2025'
         ], 'Week from 05/18/2025 to 05/24/2025'))
+
+    def test_order_of_planning_slots_in_report(self):
+        self.employee_bert.resource_id.calendar_id = self.company_calendar
+        self.env.user.tz = 'UTC'
+        slots = self.env['planning.slot'].with_context(tz='UTC').create([{
+            'resource_id': self.employee_bert.resource_id.id,
+            'start_datetime': datetime(2025, 5, 20, 8, 0, 0),
+            'end_datetime': datetime(2025, 5, 20, 9, 0, 0),
+        }, {
+            'resource_id': self.employee_bert.resource_id.id,
+            'start_datetime': datetime(2025, 5, 20, 9, 0, 0),
+            'end_datetime': datetime(2025, 5, 20, 10, 0, 0),
+        }, {
+            'resource_id': self.employee_bert.resource_id.id,
+            'start_datetime': datetime(2025, 5, 20, 10, 0, 0),
+            'end_datetime': datetime(2025, 5, 22, 17, 0, 0),
+        }, {
+            'resource_id': self.employee_bert.resource_id.id,
+            'start_datetime': datetime(2025, 5, 21, 1, 0, 0),
+            'end_datetime': datetime(2025, 5, 21, 17, 0, 0),
+        }, {
+            'resource_id': self.employee_bert.resource_id.id,
+            'start_datetime': datetime(2025, 5, 20, 8, 0, 0),
+            'end_datetime': datetime(2025, 5, 20, 9, 0, 0),
+            'role_id': self.planning_role.id,
+        }])
+
+        action = self.env['planning.slot'].with_context(discard_logo_check=True).action_print_plannings(
+            date_start='2025-05-18 00:00:00',
+            date_end='2025-05-24 23:59:59',
+            group_bys=['resource_id'],
+            domain=[['start_datetime', '<', '2025-05-25 00:00:00'], ['end_datetime', '>', '2025-05-18 00:00:00']]
+        )
+
+        """
+        Expected slots
+        +---------------------------+---------------------------+---------------------------+
+        | Tue 20                    | Wed 21                    | Thu 22                    |
+        | 05/20/2025                | 05/21/2025                | 05/22/2025                |
+        +---------------------------+---------------------------+---------------------------+
+        | Slot 1                    | Slot 3                    | Slot 3                    |
+        | 8:00 AM – 9:00 AM         | 8:00 AM – 5:00 PM         | 6:00 AM – 5:00 PM         |
+        +---------------------------+---------------------------+---------------------------+
+        | Slot 5 (flex role)        | Slot 4                    |                           |
+        | 8:00 AM – 9:00 AM         | 1:00 AM – 5:00 PM         |                           |
+        +---------------------------+---------------------------+---------------------------+
+        | Slot 2                    |                           |                           |
+        | 9:00 AM – 10:00 AM        |                           |                           |
+        +---------------------------+---------------------------+---------------------------+
+        | Slot 3                    |                           |                           |
+        | 10:00 AM – 5:00 PM        |                           |                           |
+        +---------------------------+---------------------------+---------------------------+
+        """
+
+        weekly_slot_data = dict(action['data']['group_by_slots_per_day_per_week'][0][0][1])
+        slot5_color = slots[4].role_id._get_light_color(0.5, not slots[4].resource_id)
+        self.assertDictEqual(weekly_slot_data, {
+            # All the shits follow time order
+            '05/20/2025': [
+                {'title': '08:00 AM – 09:00 AM', 'style': 'background-color: #80c3c2;'},
+                {'title': '08:00 AM – 09:00 AM Developer', 'style': f'background-color: {slot5_color};'},
+                {'title': '09:00 AM – 10:00 AM', 'style': 'background-color: #80c3c2;'},
+                {'title': '10:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'},
+            ],
+            '05/21/2025': [
+                {'title': '08:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'},
+                {'title': '01:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'},
+            ],
+            '05/22/2025': [
+                {'title': '06:00 AM – 05:00 PM', 'style': 'background-color: #80c3c2;'},
+            ],
+        })

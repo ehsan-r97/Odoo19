@@ -7,7 +7,7 @@ import random
 
 from odoo import api, Command, models, fields, _
 from odoo.fields import Domain
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_round, SQL
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round, SQL
 from odoo.exceptions import ValidationError
 
 
@@ -530,13 +530,19 @@ class QualityCheck(models.Model):
                         check.do_pass()
                         return
                     move_line = check.move_line_id
+                    # For manually-created checks (via gear icon from picking)
+                    if not move_line and check.picking_id:
+                        move_line = check.picking_id.move_line_ids.filtered(lambda ml: ml.product_id == check.product_id)[:1]
+                        check.move_line_id = move_line
                     move = move_line.move_id
                     dest_location = failure_location_id or move_line.location_dest_id.id
                     if failed_qty == move_line.quantity:
                         move_line.location_dest_id = dest_location
-                        if move_line.quantity == move.quantity:
+                        is_failed_line_entire_move_qty = float_compare(move_line.quantity, move.quantity, precision_rounding=move.product_uom.rounding) == 0
+                        is_move_demand_fully_failed = float_compare(move.product_uom_qty, move_line.quantity, precision_rounding=move.product_uom.rounding) <= 0
+                        if is_failed_line_entire_move_qty and is_move_demand_fully_failed:
                             move.location_dest_id = dest_location
-                        else:
+                        elif not is_failed_line_entire_move_qty:
                             move.with_context(do_not_unreserve=True).product_uom_qty -= failed_qty
                             move.copy({
                                 'location_dest_id': dest_location,
@@ -563,7 +569,13 @@ class QualityCheck(models.Model):
                     })
                     # switch the checks, check in self should always be the failed one,
                     # new check linked to original move line will be passed check
-                    new_check = check.create(failed_move_line._get_check_values(check.point_id))
+                    new_check_vals = failed_move_line._get_check_values(check.point_id)
+                    if not check.point_id:
+                        new_check_vals.update({
+                            'team_id': check.team_id.id,
+                            'measure_on': check.measure_on,
+                        })
+                    new_check = check.create(new_check_vals)
                     check.move_line_id = failed_move_line
                     new_check.move_line_id = move_line
                     new_check.qty_tested = 0

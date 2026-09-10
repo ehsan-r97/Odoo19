@@ -81,10 +81,13 @@ export class ReportEditorPlugin extends Plugin {
                 commandId: "insertDynamicTable",
             }),
         ],
+        selection_placeholder_container_predicates:
+            this.selection_placeholder_container_predicates.bind(this),
     };
 
     CUSTOM_BRANDING_ATTR = [
         "ws-view-id",
+        "ws-view-name",
         "ws-call-key",
         "ws-call-group-key",
         "ws-real-children",
@@ -100,6 +103,32 @@ export class ReportEditorPlugin extends Plugin {
                 className: "bg-light",
             }
         );
+        this.protectedCracksParents = this.getProtectedLayoutCracksParents();
+    }
+
+    getProtectedLayoutCracksParents() {
+        const parents = new Map();
+        for (const el of this.editable.querySelectorAll(".header,.article,.footer")) {
+            parents.set(el.parentElement, true);
+        }
+        return parents;
+    }
+
+    selection_placeholder_container_predicates(container) {
+        if (this.protectedCracksParents.has(container)) {
+            return false;
+        }
+        if (["header", "footer"].some((cls) => container.classList.contains(cls))) {
+            return true;
+        }
+        if (container.classList.contains("article")) {
+            const viewNode = container.closest("[ws-view-id]");
+            const viewName =
+                viewNode?.getAttribute("t-name") || viewNode?.getAttribute("ws-view-name");
+            if (viewName && viewName.startsWith("web.")) {
+                return false;
+            }
+        }
     }
 
     isInsertAvailable(selection) {

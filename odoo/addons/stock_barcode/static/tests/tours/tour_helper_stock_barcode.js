@@ -33,6 +33,7 @@ export function _getLineOrFail(lineOrIndex, errorClue = "No line found") {
  */
 export function _prepareSelector(selector, description) {
     const { barcode, selected, completed } = description;
+    const dataPackage = description.package;
     if (selected !== undefined) {
         selector += selected ? ".o_selected" : ":not(.o_selected)";
     }
@@ -40,6 +41,7 @@ export function _prepareSelector(selector, description) {
         selector += completed ? ".o_line_completed" : ":not(.o_line_completed)";
     }
     selector += barcode ? `[data-barcode="${barcode}"]` : "";
+    selector += dataPackage ? `[data-package="${dataPackage}"]` : "";
     description.selector = selector;
     return selector;
 }
@@ -408,4 +410,15 @@ export function assertLineIsFaulty(lineOrIndex, expected = true) {
     const line = _getLineOrFail(lineOrIndex, "Can't check if the line is faulty");
     const errorMessage = `line ${expected ? "should" : "shouldn't"} be faulty`;
     assert(line.classList.contains("o_faulty"), expected, errorMessage);
+}
+
+/**
+ * @param {(HTMLElement|integer)} lineOrIndex @see _getLineOrFail
+ * @param {string} packagingQuantity packaging quantity on the line, formatted as "n UOM"
+ */
+export function assertLinePackaging(lineOrIndex, packagingQuantity) {
+    const line = _getLineOrFail(lineOrIndex, "Can't check the line's packaging");
+    const elPackaging = line.querySelector(".o_packaging");
+    const packagingText = elPackaging.innerText;
+    assert(packagingText, `Packaging: ${packagingQuantity}`, "Line packaging not matching");
 }

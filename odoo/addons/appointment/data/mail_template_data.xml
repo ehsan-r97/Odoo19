@@ -129,7 +129,7 @@
                 <span t-out="upcoming_appointment.appointment_type_id.name or ''">Technical Demo</span>
                 <span style="margin: 0 10px;">-</span>
                 <span t-out="upcoming_appointment.start or ''" t-options='{"widget": "datetime", "format": "medium", "tz_name": mail_tz}' style="font-weight: bold;">June 20th, 15:00</span>
-                <a t-attf-href="/calendar/view/#{upcoming_appointment.access_token}?partner_id=#{appointment_booker_id}" target="_blank" style="margin-left: 10px; font-size: 12px; color: #008f8c; text-decoration: underline;">View Details</a>
+                <a t-attf-href="/calendar/view/#{upcoming_appointment.sudo().access_token}?partner_id=#{appointment_booker_id}" target="_blank" style="margin-left: 10px; font-size: 12px; color: #008f8c; text-decoration: underline;">View Details</a>
             </li>
         </ul>
     </div>
@@ -219,6 +219,7 @@
     </div>
 </div>
             </field>
+            <field name="lang">{{ (object.appointment_booker_id or object.partner_id).lang }}</field>
             <field name="auto_delete" eval="True"/>
         </record>
 
@@ -370,7 +371,7 @@
                 <span t-out="upcoming_appointment.appointment_type_id.name or ''">Technical Demo</span>
                 <span style="margin: 0 10px;">-</span>
                 <span t-out="upcoming_appointment.start or ''" t-options='{"widget": "datetime", "format": "medium", "tz_name": object.mail_tz}' style="font-weight: bold;">June 20th, 15:00</span>
-                <a t-attf-href="/calendar/view/#{upcoming_appointment.access_token}?partner_id=#{appointment_booker_id}" target="_blank" style="margin-left: 10px; font-size: 12px; color: #008f8c; text-decoration: underline;">View Details</a>
+                <a t-attf-href="/calendar/view/#{upcoming_appointment.sudo().access_token}?partner_id=#{appointment_booker_id}" target="_blank" style="margin-left: 10px; font-size: 12px; color: #008f8c; text-decoration: underline;">View Details</a>
             </li>
         </ul>
     </div>

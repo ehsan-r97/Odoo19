@@ -132,7 +132,7 @@ class PosOrder(models.Model):
         for order in eligible_orders:
             try:
                 order._set_external_taxes(order._get_external_taxes())
-            except (UserError, ValidationError) as e:  # Don't block the POS
+            except (UserError, ValidationError, InsufficientCreditError) as e:  # Don't block the POS
                 order.l10n_br_last_avatax_status = "error"
                 order.l10n_br_avatax_error = str(e)
             else:
@@ -780,9 +780,10 @@ class PosOrder(models.Model):
                     ("l10n_br_avatax_code", "=", l10n_br_avatax_code),
                     ("price_include_override", "=", "tax_included"),
                     ("company_id", "=", self.company_id.id),
+                    ("type_tax_use", "=", "sale"),
                 ],
                 limit=1,
-                order="create_date desc",
+                order="create_date desc, id desc",
             )
         )
 

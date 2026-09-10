@@ -239,6 +239,7 @@ class TestTimesheetValidation(TestCommonTimesheet, MockEmail):
 
     def test_working_hours_for_employees(self):
         company = self.env['res.company'].create({'name': 'My_Company'})
+        uom_day = self.env.ref('uom.product_uom_day')
         employee = self.env['hr.employee'].with_company(company).create({
             'name': 'Juste Leblanc',
             'user_id': self.user_manager.id,
@@ -250,6 +251,17 @@ class TestTimesheetValidation(TestCommonTimesheet, MockEmail):
 
         working_hours = employee.get_timesheet_and_working_hours('2021-12-01', '2021-12-31')
         self.assertEqual(working_hours[employee.id]['working_hours'], 184.0, "Number of hours should be 23d * 8h/d = 184h")
+
+        # Switch timesheet encoding to days and simulate a translated UoM
+        # to ensure day detection does not rely on translated names.
+        company.timesheet_encode_uom_id = uom_day.id
+        self.env['res.lang']._activate_lang('fr_FR')
+        uom_day.with_context(lang='fr_FR').name = 'Jours'
+
+        working_hours = employee.with_context(lang='fr_FR').get_timesheet_and_working_hours_for_employees('2021-12-01', '2021-12-31')
+        self.assertEqual(working_hours[employee.id]['units_to_work'], 23, "Number of days should be 184h / 8h per day = 23d")
+
+        company.timesheet_encode_uom_id = self.env.ref('uom.product_uom_hour').id
 
         # Create a user in the second company and link it to the employee created above
         user = self.env['res.users'].with_company(company).create({
@@ -501,6 +513,7 @@ class TestTimesheetValidation(TestCommonTimesheet, MockEmail):
         # test that we get correct daily hours with flexible schedules
         employee.resource_calendar_id.flexible_hours = True
         employee.resource_calendar_id.hours_per_day = 2
+        employee.resource_calendar_id.hours_per_week = 10
 
         flexible_expected_hours = {
             '2021-03-22': 2.0,
@@ -509,6 +522,7 @@ class TestTimesheetValidation(TestCommonTimesheet, MockEmail):
             '2021-03-25': 2.0,
             '2021-03-26': 2.0,
             'full_time_required_hours': 28.57,
+            'hours_per_week': 7.14,
         }
         flexible_daily_hours = self.user_employee.with_user(self.user_employee).get_daily_working_hours('2021-03-22', '2021-03-26')
         self.assertEqual(flexible_expected_hours, flexible_daily_hours)

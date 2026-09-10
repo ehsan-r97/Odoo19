@@ -4,13 +4,14 @@
 #
 # Translators:
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 18:49+0000\n"
-"PO-Revision-Date: 2025-10-22 12:11+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
+"POT-Creation-Date: 2026-05-29 17:47+0000\n"
+"PO-Revision-Date: 2026-08-10 08:55+0000\n"
+"Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/"
 "web_gantt/ru/>\n"
 "Language: ru\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: web_gantt
 #. odoo-javascript
@@ -47,12 +48,14 @@ msgstr "Вид окна действий"
 
 #. module: web_gantt
 #. odoo-javascript
+#: code:addons/web_gantt/static/src/gantt_renderer_controls.js:0
 #: code:addons/web_gantt/static/src/gantt_renderer_controls.xml:0
 msgid "Activate dense mode"
 msgstr "Активировать плотный режим"
 
 #. module: web_gantt
 #. odoo-javascript
+#: code:addons/web_gantt/static/src/gantt_renderer_controls.js:0
 #: code:addons/web_gantt/static/src/gantt_renderer_controls.xml:0
 msgid "Activate sparse mode"
 msgstr "Активировать разреженный режим"
@@ -72,7 +75,7 @@ msgstr "База"
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_controller.js:0
 msgid "Bye-bye, record!"
-msgstr ""
+msgstr "Прощай, запись!"
 
 #. module: web_gantt
 #. odoo-javascript
@@ -96,13 +99,13 @@ msgstr "День"
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_controller.js:0
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #. module: web_gantt
 #: model:ir.model.fields,field_description:web_gantt.field_ir_actions_act_window_view__display_name
 #: model:ir.model.fields,field_description:web_gantt.field_ir_ui_view__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Отображаемое название"
 
 #. module: web_gantt
 #. odoo-javascript
@@ -126,7 +129,7 @@ msgstr "Расширить ряды"
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_renderer.js:0
 msgid "Failed to undo reschedule"
-msgstr ""
+msgstr "Не удалось отменить изменение"
 
 #. module: web_gantt
 #. odoo-javascript
@@ -197,7 +200,7 @@ msgstr "Представление Ганта может содержать то
 #: model:ir.model.fields,field_description:web_gantt.field_ir_actions_act_window_view__id
 #: model:ir.model.fields,field_description:web_gantt.field_ir_ui_view__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: web_gantt
 #. odoo-python
@@ -243,7 +246,7 @@ msgstr "Недопустимый режим отображения «%s» в д�
 #. odoo-python
 #: code:addons/web_gantt/models/models.py:0
 msgid "Invalid reschedule method %s"
-msgstr ""
+msgstr "Недопустимый метод переноса %s"
 
 #. module: web_gantt
 #. odoo-javascript
@@ -267,7 +270,7 @@ msgstr "Новый"
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_controller.js:0
 msgid "No, keep it"
-msgstr ""
+msgstr "Нет, оставить"
 
 #. module: web_gantt
 #. odoo-javascript
@@ -286,37 +289,37 @@ msgstr "План"
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_arch_parser.js:0
 msgid "Quarter"
-msgstr ""
+msgstr "Квартал"
 
 #. module: web_gantt
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_renderer.js:0
 msgid "Record could not be removed"
-msgstr ""
+msgstr "Не удалось удалить запись"
 
 #. module: web_gantt
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_renderer.js:0
 msgid "Record duplicated"
-msgstr ""
+msgstr "Запись продублирована"
 
 #. module: web_gantt
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_renderer.js:0
 msgid "Record removed"
-msgstr ""
+msgstr "Запись удалена"
 
 #. module: web_gantt
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_renderer.js:0
 msgid "Record reschedule undone"
-msgstr ""
+msgstr "Отмена переноса записи"
 
 #. module: web_gantt
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_renderer.js:0
 msgid "Record rescheduled"
-msgstr ""
+msgstr "Запись перенесена"
 
 #. module: web_gantt
 #. odoo-javascript
@@ -340,7 +343,7 @@ msgstr "Стоп"
 #. odoo-python
 #: code:addons/web_gantt/models/models.py:0
 msgid "Tasks rescheduled"
-msgstr ""
+msgstr "Задачи перенесены на другой срок"
 
 #. module: web_gantt
 #. odoo-python
@@ -395,7 +398,7 @@ msgstr "Неделя"
 #. odoo-javascript
 #: code:addons/web_gantt/static/src/gantt_arch_parser.js:0
 msgid "Week %(week)s, %(startDate)s - %(endDate)s"
-msgstr ""
+msgstr "Неделя %(week)s, %(startDate)s – %(endDate)s"
 
 #. module: web_gantt
 #. odoo-javascript

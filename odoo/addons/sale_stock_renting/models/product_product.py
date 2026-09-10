@@ -16,11 +16,11 @@ class ProductProduct(models.Model):
                 product.show_forecasted_qty_status_button = False
 
     @api.depends('type', 'rent_ok', 'qty_available', 'qty_in_rent')
-    @api.depends_context('in_rental_schedule', 'allowed_company_ids')
+    @api.depends_context("display_renting_stock_quantity", "allowed_company_ids")
     def _compute_display_name(self):
         """Override to include the quantity in stock in the rental schedule view."""
         super()._compute_display_name()
-        if self.env.context.get('in_rental_schedule'):
+        if self.env.context.get("display_renting_stock_quantity"):
             storable_rental_products = self.filtered(
                 lambda product: product.rent_ok and product.is_storable
             )
@@ -100,17 +100,10 @@ class ProductProduct(models.Model):
     ):
         self.ensure_one()
 
-        domain = [
-            ('is_rental', '=', True),
-            ('product_id', '=', self.id),
-            ('state', '=', 'sale'),
-        ]
+        domain = self.with_context(warehouse_id=warehouse_id)._get_qty_in_rent_domain()
 
         if ignored_soline_id:
             domain += [('id', '!=', ignored_soline_id)]
-
-        if warehouse_id:
-            domain += [('order_id.warehouse_id', '=', warehouse_id)]
 
         include_bounds = to_date == from_date
         domain += [

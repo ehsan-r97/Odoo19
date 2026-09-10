@@ -183,7 +183,7 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
         # Mandatory values for the D.406 declaration
         values.update({
             'xmlns': 'mfp:anaf:dgti:d406:declaratie:v1',
-            'file_version': '2.4.8',
+            'file_version': '2.0',
         })
 
         # The TaxAccountingBasis should indicate the type of CoA that is installed.

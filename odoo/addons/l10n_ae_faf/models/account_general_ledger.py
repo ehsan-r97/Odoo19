@@ -44,6 +44,15 @@ class AccountGeneralLedgerReportHandler(models.AbstractModel):
                 'args': format_list(self.env, args),
             }
 
+    def action_fill_company_details(self, options, params):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.env._('Missing company details.'),
+            'res_model': 'res.company',
+            'views': [(False, 'form')],
+            'res_id': self.env.company.id,
+        }
+
     @api.model
     def _l10n_ae_faf_sanitize_str(self, val):
         return (val and val.replace(',', ';')) or ''

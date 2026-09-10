@@ -369,11 +369,12 @@ class AccountEdiFormat(models.Model):
         # Update tax_details with l10n_ec info needed for the xml
         for line_items in base_lines:
             for tax_data in line_items['tax_details']['taxes_data']:
-                code_percentage = L10N_EC_VAT_SUBTAXES[tax_data['tax'].tax_group_id.l10n_ec_type]
+                tax = tax_data['tax']
+                code_percentage = L10N_EC_VAT_SUBTAXES.get(tax.tax_group_id.l10n_ec_type, tax.l10n_ec_code_ats)
                 tax_data.update({
-                    'code': self.env['account.move']._l10n_ec_map_tax_groups(tax_data['tax']),
+                    'code': self.env['account.move']._l10n_ec_map_tax_groups(tax),
                     'code_percentage': code_percentage,
-                    'rate': L10N_EC_VAT_RATES[code_percentage],
+                    'rate': L10N_EC_VAT_RATES.get(code_percentage, tax.amount),
                 })
 
         results = {

@@ -1,12 +1,13 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
-from pytz import UTC, utc
+from pytz import UTC, utc, timezone
 
 from odoo import api, fields, models
 from odoo.fields import Domain
 from odoo.tools import float_is_zero
-from odoo.tools.date_utils import localized
 
 
 class HrAttendance(models.Model):
@@ -35,6 +36,9 @@ class HrAttendance(models.Model):
         Compute the total work hours of the employee based on the intervals selected on the Gantt view.
         The calculation takes into account the working calendar (flexible or not).
         """
+        user_tz = timezone(self.env.user.tz or 'UTC')
+        start = datetime.combine(start.astimezone(user_tz).date(), datetime.min.time(), tzinfo=UTC)
+        stop = datetime.combine(stop.astimezone(user_tz).date(), datetime.min.time(), tzinfo=UTC)
         return self.env['resource.calendar']._get_attendance_intervals_days_data(employee._employee_attendance_intervals(start, stop))['hours']
 
     def _get_gantt_progress_bar_domain(self, res_ids, start, stop):
@@ -102,33 +106,7 @@ class HrAttendance(models.Model):
             return super()._gantt_unavailability(field, res_ids, start, stop, scale)
 
         employees = self.env['hr.employee'].browse(res_ids)
-
-        # Retrieve for each employee, their period linked to their calendars
-        calendar_periods_by_employee = employees._get_calendar_periods(
-            localized(start),
-            localized(stop),
-        )
-
-        unavailable_intervals = employees.resource_id._get_unavailable_intervals(start, stop)
-
-        result = {}
-        for employee in employees:
-            # When an employee doesn't have any calendar,
-            # he is considered unavailable for the entire interval
-            if employee not in calendar_periods_by_employee:
-                result[employee.id] = [{
-                    'start': start.astimezone(UTC),
-                    'stop': stop.astimezone(UTC),
-                }]
-                continue
-
-            intervals = unavailable_intervals.get(employee.resource_id.id, [])
-            result[employee.id] = [
-                {'start': inv[0], 'stop': inv[1]}
-                for inv in intervals
-            ]
-
-        return result
+        return employees._get_employee_unavailable_intervals(start, stop)
 
     def action_open_details(self):
         self.ensure_one()

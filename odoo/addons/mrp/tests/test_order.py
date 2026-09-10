@@ -2873,6 +2873,49 @@ class TestMrpOrder(TestMrpCommon):
         self.assertEqual(workorder.time_ids[0].loss_type, 'productive', "Remaining time tracking should be productive")
         self.assertEqual(workorder.time_ids[0].duration, real_duration_decreased - real_duration_under_expected, "Time tracking duration should have been reduced to reflect new shorter duration")
 
+    def test_duration_handles_overlaps_and_loss_types(self):
+        """Duration must merge overlapping intervals by time type."""
+        mo = Form(self.env['mrp.production'])
+        mo.bom_id = self.bom_4
+        mo = mo.save()
+        mo.action_confirm()
+        workorder = mo.workorder_ids[0]
+
+        base_dt = datetime(2024, 1, 1, 8, 0, 0)
+        productive_loss = self.env.ref('mrp.block_reason7')  # productive
+        availability_loss = self.env.ref('mrp.block_reason0')  # availability
+
+        self.env['mrp.workcenter.productivity'].create([
+            {   # 08:00-09:00 productive (60 min)
+                'workorder_id': workorder.id,
+                'workcenter_id': workorder.workcenter_id.id,
+                'loss_id': productive_loss.id,
+                'date_start': base_dt,
+                'date_end': base_dt + timedelta(hours=1),
+            },
+            {   # 08:30-09:30 productive - overlaps previous by 30 min
+                'workorder_id': workorder.id,
+                'workcenter_id': workorder.workcenter_id.id,
+                'loss_id': productive_loss.id,
+                'date_start': base_dt + timedelta(minutes=30),
+                'date_end': base_dt + timedelta(hours=1, minutes=30),
+            },
+            {   # 09:00-10:00 availability (60 min) - must NOT be counted in the same interval
+                'workorder_id': workorder.id,
+                'workcenter_id': workorder.workcenter_id.id,
+                'loss_id': availability_loss.id,
+                'date_start': base_dt + timedelta(hours=1, minutes=30),
+                'date_end': base_dt + timedelta(hours=2, minutes=30),
+            },
+        ])
+
+        # Merged productive pool: 08:00-09:30 = 90 min (overlap deduplicated)
+        # Availability alone = 60 min
+        self.assertAlmostEqual(
+            workorder.duration, 150.0, places=1,
+            msg="Overlapping productive intervals must be merged; availability must be completelly added",
+        )
+
     def test_propagate_quantity_on_backorders(self):
         """Create a MO for a product with several work orders.
         Produce different quantities to test quantity propagation and workorder cancellation.
@@ -5474,6 +5517,78 @@ class TestMrpOrder(TestMrpCommon):
             self.assertEqual(len(mo_form.workorder_ids), 1)
             mo_form.bom_id = self.env['mrp.bom']
             self.assertEqual(len(mo_form.workorder_ids), 0)
+
+    def test_update_bom_removes_deleted_operation_workorder(self):
+        """
+        When an operation is deleted from the BOM and action_update_bom is called on a
+        confirmed MO, the workorder for the deleted operation must be removed from workorder_ids.
+        """
+        final_product = self.env['product.product'].create({'name': 'Final Product', 'is_storable': True})
+        component_1 = self.env['product.product'].create({'name': 'Component 1', 'is_storable': True})
+        component_2 = self.env['product.product'].create({'name': 'Component 2', 'is_storable': True})
+        bom = self.env['mrp.bom'].create({
+            'product_tmpl_id': final_product.product_tmpl_id.id,
+            'product_qty': 1.0,
+            'bom_line_ids': [
+                Command.create({'product_id': component_1.id, 'product_qty': 1}),
+                Command.create({'product_id': component_2.id, 'product_qty': 1}),
+            ],
+            'operation_ids': [
+                Command.create({'name': 'Operation 1', 'workcenter_id': self.workcenter_1.id}),
+                Command.create({'name': 'Operation 2', 'workcenter_id': self.workcenter_2.id}),
+            ],
+        })
+        operation_to_update, operation_to_delete = bom.operation_ids
+        mo = self.env['mrp.production'].create({
+            'product_id': final_product.id,
+            'bom_id': bom.id,
+            'product_qty': 1.0,
+        })
+        mo.action_confirm()
+        self.assertEqual(mo.state, 'confirmed')
+        workorder_to_delete = mo.workorder_ids.filtered(lambda wo: wo.operation_id == operation_to_delete)
+        self.assertRecordValues(mo.workorder_ids - workorder_to_delete, [{'duration_expected': 90.0}])
+
+        operation_to_update.time_cycle_manual = 40.0
+        operation_to_delete.unlink()
+        mo.action_update_bom()
+        self.assertRecordValues(mo.workorder_ids, [{'operation_id': operation_to_update.id, 'duration_expected': 65.0}])
+        self.assertFalse(workorder_to_delete.exists())
+
+
+@tagged('-at_install', 'post_install')
+class TestMrpOrderPostInstall(TestMrpCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user_mrp_user.group_ids += cls.env.ref('stock.group_production_lot')
+
+    @users('hilda')
+    def test_basic_flow_with_minimal_access_rigths(self):
+        """
+        Test that an mrp user with minimal access rights can process and split an mo
+        """
+        self.bom_3.product_id.tracking = 'serial'
+        mo = self.env['mrp.production'].create({
+            'product_qty': 3.0,
+            'bom_id': self.bom_3.id,
+        })
+        mo.action_confirm()
+        split_wizard = Form.from_action(self.env, mo.action_split())
+        split_wizard.max_batch_size = 20
+        split_wizard.save().action_split()
+        serials_wizard = Form.from_action(self.env, mo.action_generate_serial())
+        serials_wizard.lot_name = 'sn#013'
+        serials_wizard = Form.from_action(self.env, serials_wizard.save().action_generate_serial_numbers())
+        serials_wizard.save().action_apply()
+        self.assertRecordValues(mo.lot_producing_ids.sorted('name'), [
+            {'name': f"sn#0{13 + i}"} for i in range(20)
+        ])
+        mo.button_mark_done()
+        self.assertRecordValues(mo.production_group_id.production_ids.sorted('state'), [
+            {'state': 'confirmed', 'product_qty': 16.0, 'qty_produced': 0.0},
+            {'state': 'done', 'product_qty': 20.0, 'qty_produced': 20.0},
+        ])
 
 
 @tagged('-at_install', 'post_install')

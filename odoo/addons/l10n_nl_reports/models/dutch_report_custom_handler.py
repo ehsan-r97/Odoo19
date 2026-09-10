@@ -16,7 +16,6 @@ class L10n_Nl_ReportsTaxReportHandler(models.AbstractModel):
         super()._custom_options_initializer(report, options, previous_options=previous_options)
         options['buttons'].append({'name': "XBRL", 'sequence': 30, 'action': 'open_xbrl_wizard', 'file_export_type': 'XBRL'})
         options['l10n_nl_is_correction'] = previous_options.get('l10n_nl_is_correction', False)
-        options['return_id'] = previous_options.get('return_id', False)
 
     def open_xbrl_wizard(self, options):
         report = self.env['account.report'].browse(options['report_id'])
@@ -180,13 +179,14 @@ class L10n_Nl_ReportsTaxReportHandler(models.AbstractModel):
                 case _:
                     new_lines.append(line)
 
+        current_return = self.env['account.return']._get_return_from_report_options(options)
         return_generic_domain = [
             ('company_id', '=', report._get_sender_company_for_export(options).id),
             ('type_id', 'in', (
                 self.env.ref('l10n_nl_reports.nl_tax_return_type').id,
                 self.env.ref('l10n_nl_reports.nl_tax_correction_return_type').id,
             )),
-            ('id', '!=', options['return_id']),
+            ('id', '!=', current_return.id),
         ]
 
         # Fill the values in the columns for the new lines.

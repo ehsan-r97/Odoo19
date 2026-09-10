@@ -3,6 +3,7 @@ import { SearchModel } from "@web/search/search_model";
 import { browser } from "@web/core/browser/browser";
 import { router } from "@web/core/browser/router";
 import { Domain } from "@web/core/domain";
+import { _t } from "@web/core/l10n/translation";
 import { useService } from "@web/core/utils/hooks";
 
 export class DocumentsSearchModel extends SearchModel {
@@ -48,6 +49,8 @@ export class DocumentsSearchModel extends SearchModel {
                 folderId = false;
             }
             this.toggleCategoryValue(folderSection.id, folderId);
+        } else {
+            this.documentService.currentFolderAccessToken = undefined;
         }
     }
 
@@ -393,5 +396,36 @@ export class DocumentsSearchModel extends SearchModel {
 
     _updateRouteState(state) {
         router.pushState(state);
+    }
+
+    /**
+     * Knowledge embeddings dedicated methods, preventing leaking information.
+     * Not in a bridge module as it should never be deactivated.
+     */
+    exportKnowledgeState() {
+        const state = super.exportState(...arguments);
+        const user_folder_id = this.getSelectedFolderId();
+        if (!user_folder_id) {
+            throw new Error(_t("Not allowed, select a folder")); // safety, shouldn't be possible
+        }
+        state.sections.forEach((section) => {
+            section[1].values = [section[1].values[0]]; // Keep "All"
+            section[1].activeValueId = false;
+        });
+        Object.assign(state.searchPanelInfo, { loaded: false, shouldReload: true });
+        return state;
+    }
+
+    get knowledgeViewContext() {
+        const folder = this.getSelectedFolder();
+        const folderOrTarget = folder.shortcut_document_id
+            ? { id: folder.shortcut_document_id[0], access_token: folder.target_access_token }
+            : { id: folder.id, access_token: folder.access_token };
+        return {
+            documents_show_default_breadcrumb: true,
+            documents_view_secondary: true,
+            searchpanel_default_user_folder_id: folderOrTarget.id,
+            documents_shared_access_token: folderOrTarget.access_token,
+        };
     }
 }

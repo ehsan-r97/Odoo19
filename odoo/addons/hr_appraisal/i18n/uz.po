@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:43+0000\n"
+"POT-Creation-Date: 2026-08-14 17:42+0000\n"
 "PO-Revision-Date: 2025-10-08 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -74,31 +74,11 @@ msgid ". Then, share it with appraisers."
 msgstr ". So‘ngra uni baholovchilarga yetkazing."
 
 #. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__100
-msgid "100%"
-msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__025
-msgid "25%"
-msgstr ""
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_res_config_settings__module_hr_appraisal_survey
 #: model_terms:ir.ui.view,arch_db:hr_appraisal.res_config_settings_view_employee_form
 #, fuzzy
 msgid "360 Feedback"
 msgstr "360 darajali fikr-mulohaza"
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__050
-msgid "50%"
-msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields.selection,name:hr_appraisal.selection__hr_appraisal_goal__progression__075
-msgid "75%"
-msgstr ""
 
 #. module: hr_appraisal
 #: model:mail.template,body_html:hr_appraisal.mail_template_appraisal_confirm
@@ -2962,12 +2942,6 @@ msgid "Request Appraisal"
 msgstr "Baholash so‘rovi"
 
 #. module: hr_appraisal
-#: model:ir.actions.server,name:hr_appraisal.action_create_multi_appraisals
-#, fuzzy
-msgid "Request Appraisals"
-msgstr "Baholashlarni so‘rash"
-
-#. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_request_appraisal
 #, fuzzy
 msgid "Request an Appraisal"
@@ -3690,3 +3664,7 @@ msgstr ""
 #, fuzzy
 msgid "{{ object.employee_id.name }}: Appraisal Confirmed"
 msgstr "{{ object.employee_id.name }}: Baholash tasdiqlandi"
+
+#, fuzzy
+#~ msgid "Request Appraisals"
+#~ msgstr "Baholashlarni so‘rash"

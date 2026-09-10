@@ -5,12 +5,13 @@
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Saara Hakanen <sahak@odoo.com>, 2025, 2026.
+# Jarmo Kortetjärvi <jarmo.kortetjarvi@futural.fi>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
-"PO-Revision-Date: 2026-02-28 09:52+0000\n"
+"POT-Creation-Date: 2026-08-28 17:46+0000\n"
+"PO-Revision-Date: 2026-08-12 14:48+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/ai/fi/>\n"
 "Language: fi\n"
@@ -18,41 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
-msgid ""
-"\n"
-"            **Tool Name: Read group**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **Työkalun nimi: Lue ryhmä**\n"
-"\n"
-"            Etsii tietyn mallin käyttäen domainia. Tarjotun domainin täytyy "
-"olla kelvollisessa JSON-muodossa.\n"
-"        "
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
-msgid ""
-"\n"
-"            **Tool Name: search**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **Työkalun nimi: haku**\n"
-"\n"
-"            Hakee tiettyä mallia domainia käyttäen. Domainin tulee olla "
-"kelvollisessa JSON  -muodossa.\n"
-"        "
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -442,6 +409,20 @@ msgstr ""
 "        "
 
 #. module: ai
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
+msgid ""
+"\n"
+"            Searches a particular model using a domain. The provided domain "
+"must be in valid JSON format.\n"
+"        "
+msgstr ""
+"\n"
+"            Etsii tiettyä mallia verkkotunnuksen avulla. Annetun "
+"verkkotunnuksen on oltava kelvollisessa JSON-muodossa.\n"
+"        "
+
+#. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_adjust_search
 msgid ""
 "\n"
@@ -590,7 +571,7 @@ msgstr "Tekoälyn toimintakehote"
 #. module: ai
 #: model:ir.model,name:ai.model_ai_agent
 msgid "AI Agent"
-msgstr "Tekoäly-agentti"
+msgstr "Tekoälyagentti"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ai_agent_source
@@ -610,7 +591,7 @@ msgstr "Tekoälyagentin voi asettaa vain ai_chat tai livechat-kanaville."
 #. module: ai
 #: model:ir.actions.server,name:ai.ir_cron_generate_embedding_ir_actions_server
 msgid "AI Embedding: Generate Embeddings"
-msgstr "Tekoälyn upottaminen: Luo upotuksia"
+msgstr "Tekoälyupotukset: Luo upotuksia"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__name
@@ -621,7 +602,7 @@ msgstr "Tekoälykehote"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_prompt/ai_field_selector_plugin.js:0
 msgid "AI Prompt Tools"
-msgstr "Tekoälyn kehotteiden työkalut"
+msgstr "Tekoälykehotetyökalut"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ir_actions_server__ai_tool_schema
@@ -640,12 +621,12 @@ msgstr "Tekoälytyökalun kuvaus"
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 #: model:ir.model.fields,field_description:ai.field_ai_topic__tool_ids
 msgid "AI Tools"
-msgstr "AI-työkalut"
+msgstr "Tekoälytyökalut"
 
 #. module: ai
 #: model:ir.model.fields.selection,name:ai.selection__discuss_channel__channel_type__ai_chat
 msgid "AI chat"
-msgstr "AI-keskustelu"
+msgstr "Tekoälychat"
 
 #. module: ai
 #. odoo-javascript
@@ -663,9 +644,7 @@ msgstr "Tekoäly ajattelee..."
 #. module: ai
 #: model:ir.model,name:ai.model_ai_composer
 msgid "AI model configurations (system prompts) for text drafting."
-msgstr ""
-"Tekoälymallin kokoonpanoasetukset (järjestelmäkehotukset) tekstin "
-"luonnosteluun."
+msgstr "Tekoälymallin asetukset (järjestelmäkehotteet) tekstin luonnosteluun."
 
 #. module: ai
 #. odoo-python
@@ -809,7 +788,7 @@ msgstr "Lisätään lähteitä..."
 #: model:ir.model.fields,field_description:ai.field_res_partner__agent_ids
 #: model:ir.model.fields,field_description:ai.field_res_users__agent_ids
 msgid "Agent"
-msgstr "Asiakaspalvelija"
+msgstr "Agentti"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__name
@@ -880,7 +859,7 @@ msgstr "Liite"
 #. module: ai
 #: model:ir.model,name:ai.model_ai_embedding
 msgid "Attachment Chunks Embedding"
-msgstr "Liitetiedostojen upottaminen"
+msgstr "Liitteen osien upotus"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_composer__available_prompts
@@ -918,19 +897,19 @@ msgid ""
 "Chat is private and unique between 2 persons. Group is private among invited "
 "persons. Channel can be freely joined (depending on its configuration)."
 msgstr ""
-"Chat on yksityinen ja ainutlaatuinen kahden henkilön välillä. Ryhmä on "
-"yksityinen kutsuttujen kesken. Kanavaan voi liittyä vapaasti (sen "
-"kokoonpanosta riippuen)."
+"Chat on yksityinen ja yksilöllinen kahden henkilön välillä. Ryhmä on "
+"yksityinen kutsun saaneiden kesken. Kanavalle voi liittyä vapaasti (riippuen "
+"sen asetuksista)."
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__checksum
 msgid "Checksum/SHA1"
-msgstr "Checksum/SHA1"
+msgstr "Tarkistussumma/SHA1"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__content
 msgid "Chunk Content"
-msgstr "Tietolohkojen sisältö"
+msgstr "Sisältölohko"
 
 #. module: ai
 #. odoo-javascript
@@ -942,17 +921,17 @@ msgstr "Sulje"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__composer_id
 msgid "Composer"
-msgstr "Composer"
+msgstr "Sisällöntuottaja"
 
 #. module: ai
 #: model:ir.model,name:ai.model_res_config_settings
 msgid "Config Settings"
-msgstr "Kokoonpanoasetukset"
+msgstr "Asetukset"
 
 #. module: ai
 #: model:ir.model,name:ai.model_res_partner
 msgid "Contact"
-msgstr "Yhteystiedot"
+msgstr "Yhteystieto"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_mail_compose_message__body
@@ -1024,6 +1003,11 @@ msgid "Customize to control relevance and formatting."
 msgstr "Räätälöi hallinnoidaksesi osuvuutta ja muotoilua."
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ai_agent__deprecated_model_replacement_hint
+msgid "Deprecated Model Replacement Hint"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 #: model:ir.model.fields,field_description:ai.field_ai_agent__subtitle
@@ -1088,7 +1072,7 @@ msgstr "Muokkaa kentän kehotetta"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Editor"
-msgstr "Muokkaaja"
+msgstr "Editori"
 
 #. module: ai
 #: model:ir.model,name:ai.model_mail_template
@@ -1181,6 +1165,13 @@ msgid "File Size"
 msgstr "Tiedostokoko"
 
 #. module: ai
+#: model:ir.model.fields,help:ai.field_ai_agent__response_style
+msgid ""
+"For thinking models (e.g. gpt-5): Analytical: Medium thinking, Balanced: Low "
+"thinking, Creative: Minimal thinking"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Generate or transform content with AI"
@@ -1192,7 +1183,7 @@ msgid "Get help on a record"
 msgstr "Hanki apua tietueesta"
 
 #. module: ai
-#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
+#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-2
 msgid "Google"
 msgstr "Google"
 
@@ -1241,7 +1232,7 @@ msgstr "Tunnus"
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent__restrict_to_sources
 msgid "If checked, the agent will only respond based on the provided sources."
-msgstr "Jos valittu, agentti vastaa vain annettuihin lähteisiin perustuen."
+msgstr "Jos ruksittu, agentti vastaa vain annettujen lähteiden perusteella."
 
 #. module: ai
 #: model:ir.model.fields,help:ai.field_ai_agent_source__is_active
@@ -1275,7 +1266,7 @@ msgstr "Lisää kenttä"
 #. odoo-javascript
 #: code:addons/ai/static/src/core/html_editor/prompt_plugin.js:0
 msgid "Insert an AI prompt"
-msgstr "Lisää AI-kehote"
+msgstr "Lisää tekoälykehote"
 
 #. module: ai
 #. odoo-javascript
@@ -1382,7 +1373,7 @@ msgstr "Viimeksi päivitetty"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_chat_launcher_service.js:0
 msgid "Log Note"
-msgstr "Loki Huomautus"
+msgstr "Muistiinpano"
 
 #. module: ai
 #. odoo-javascript
@@ -1393,12 +1384,12 @@ msgstr "Kirjaa muistiinpanona"
 #. module: ai
 #: model:ir.model,name:ai.model_mail_composer_mixin
 msgid "Mail Composer Mixin"
-msgstr "Sähköpostin luomisen mixin"
+msgstr "Sähköpostin kirjoittamisen mixin"
 
 #. module: ai
 #: model:ir.model,name:ai.model_mail_render_mixin
 msgid "Mail Render Mixin"
-msgstr "Mail Render Mixin"
+msgstr "Sähköpostin renderöinnin mixin"
 
 #. module: ai
 #. odoo-javascript
@@ -1433,7 +1424,7 @@ msgstr "Nimi"
 #. odoo-python
 #: code:addons/ai/utils/llm_api_service.py:0
 msgid "No API key set for provider '%s'"
-msgstr "API-avainta ei ole asetettu palveluntarjoajalle '%s'"
+msgstr "Palveluntarjoajalle '%s' ei ole määritetty API-avainta"
 
 #. module: ai
 #. odoo-python
@@ -1498,7 +1489,7 @@ msgstr "Muistiinpanot"
 #. odoo-javascript
 #: code:addons/ai/static/src/im_status_patch.xml:0
 msgid "Online"
-msgstr "Saatavilla"
+msgstr "Online"
 
 #. module: ai
 #. odoo-python
@@ -1548,7 +1539,7 @@ msgstr "Käsittelyssä"
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
 msgid "Processing..."
-msgstr "Prosessoidaan..."
+msgstr "Käsitellään..."
 
 #. module: ai
 #. odoo-javascript
@@ -1637,7 +1628,7 @@ msgstr "Valitse tietueet"
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_chat_launcher_service.js:0
 msgid "Send Message"
-msgstr "Lähetä viesti"
+msgstr "Viestin lähetys"
 
 #. module: ai
 #. odoo-javascript
@@ -1649,7 +1640,7 @@ msgstr "Lähetä viestinä"
 #: model:ir.model.fields,field_description:ai.field_ai_embedding__sequence
 #: model:ir.model.fields,field_description:ai.field_ai_prompt_button__sequence
 msgid "Sequence"
-msgstr "Järjestys"
+msgstr "Sekvenssi"
 
 #. module: ai
 #: model:ir.model,name:ai.model_ir_actions_server
@@ -1726,7 +1717,7 @@ msgstr ""
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__status
 msgid "Status"
-msgstr "Status"
+msgstr "Tila"
 
 #. module: ai
 #. odoo-javascript
@@ -1754,7 +1745,7 @@ msgstr "Järjestelmäagentti"
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent__system_prompt
 msgid "System Prompt"
-msgstr "Järjestelmäkehotus"
+msgstr "Järjestelmäkehote"
 
 #. module: ai
 #. odoo-python
@@ -1929,20 +1920,20 @@ msgid ""
 "actions\n"
 msgstr ""
 "Palvelintoiminnon tyyppi. Saatavilla seuraavat arvot:\n"
-"- 'Päivitä kirjaus': päivitä kirjauksen arvot\n"
-"- 'Luo toiminta': luo toiminnan (Viestintä)\n"
+"- 'Päivitä kirjaus': päivittää kirjauksen arvot\n"
+"- 'Luo toimenpide': luo toimenpiteen (Viestintä)\n"
 "- 'Lähetä sähköposti': lähettää viestin, huomautuksen tai sähköpostin "
 "(Viestintä)\n"
-"- 'Lähetä tekstiviesti': lähetä tekstiviestejä, kirjaa ne asiakirjoihin "
+"- 'Lähetä tekstiviesti': lähettää tekstiviestejä, kirjaa ne asiakirjoihin "
 "(Tekstiviesti)\n"
-"- 'Lisää/poista seuraajia': lisää tai poista seuraajia kirjaukseen "
+"- 'Lisää/poista seuraajia': lisää tai poistaa tietueen seuraajia "
 "(Viestintä)\n"
-"- 'Luo kirjaus': luo uusi kirjaus uusilla arvoilla\n"
-"- 'Suorita koodi': Python-koodin pätkä, joka suoritetaan\n"
-"- 'Lähetä Webhook-ilmoitus': lähetä POST-pyyntö ulkoiseen järjestelmään, "
-"joka tunnetaan myös nimellä Webhook\n"
-"- 'Suorita useita toimintoja': Määritä toiminto, joka käynnistää useita "
-"muita palvelintoimintoja\n"
+"- 'Luo kirjaus': luo uuden kirjauksen uusilla arvoilla\n"
+"- 'Suorita koodi': pätkä Python-koodia, joka suoritetaan\n"
+"- 'Lähetä Webhook-ilmoitus': lähettää JULKAISU-pyynnön ulkoiseen "
+"järjestelmään, joka tunnetaan myös nimellä Webhook\n"
+"- 'Useita toimintoja': määrittää toiminnon, joka laukaisee useita muita "
+"palvelintoimintoja\n"
 
 #. module: ai
 #: model:ir.model.fields,field_description:ai.field_ai_agent_source__url
@@ -2026,6 +2017,12 @@ msgid "User is online"
 msgstr "Käyttäjä on aktiivinen"
 
 #. module: ai
+#. odoo-python
+#: code:addons/ai/models/ai_agent.py:0
+msgid "Using %(llm_model_label)s based on your agent setup."
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
@@ -2103,3 +2100,33 @@ msgstr "fa-hashtag"
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
 msgstr "vektori"
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: Read group**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **Työkalun nimi: Lue ryhmä**\n"
+#~ "\n"
+#~ "            Etsii tietyn mallin käyttäen domainia. Tarjotun domainin "
+#~ "täytyy olla kelvollisessa JSON-muodossa.\n"
+#~ "        "
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: search**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **Työkalun nimi: haku**\n"
+#~ "\n"
+#~ "            Hakee tiettyä mallia domainia käyttäen. Domainin tulee olla "
+#~ "kelvollisessa JSON  -muodossa.\n"
+#~ "        "

@@ -9,17 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-03 18:42+0000\n"
-"PO-Revision-Date: 2026-02-14 10:06+0000\n"
+"POT-Creation-Date: 2026-05-08 17:41+0000\n"
+"PO-Revision-Date: 2026-05-16 09:34+0000\n"
 "Last-Translator: \"Noemi Pla Garcia (nopl)\" <nopl@odoo.com>\n"
-"Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/esg/es/"
-">\n"
+"Language-Team: Spanish <https://translate.odoo.com/projects/odoo-19/esg/es/>"
+"\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: esg
 #. odoo-python
@@ -131,10 +131,8 @@ msgstr "Tipo de actividad"
 
 #. module: esg
 #: model:ir.model,name:esg.model_esg_activity_type
-#, fuzzy
-#| msgid "Activity Type"
 msgid "Activity Type ESG"
-msgstr "Tipo de actividad"
+msgstr "Tipo de actividad de ASG"
 
 #. module: esg
 #: model:ir.model.fields,field_description:esg.field_esg_carbon_emission_report__activity_type_ids
@@ -1962,6 +1960,11 @@ msgstr "Válido a partir del"
 #: model:ir.model.fields,field_description:esg.field_esg_emission_factor__valid_to
 msgid "Valid To"
 msgstr "Válido hasta el"
+
+#. module: esg
+#: model_terms:ir.ui.view,arch_db:esg.emission_factor_form_view
+msgid "Validity Period"
+msgstr "Periodo de validez"
 
 #. module: esg
 #: model:esg.emission.source,name:esg.esg_emission_source_direct_2_1

@@ -1,7 +1,6 @@
 import { registry } from "@web/core/registry";
 import * as Utils from "@pos_self_order/../tests/tours/utils/common";
 import * as CartPage from "@pos_self_order/../tests/tours/utils/cart_page_util";
-import * as LandingPage from "@pos_self_order/../tests/tours/utils/landing_page_util";
 import * as ProductPage from "@pos_self_order/../tests/tours/utils/product_page_util";
 
 registry.category("web_tour.tours").add("takeaway_order_with_phone", {
@@ -9,7 +8,6 @@ registry.category("web_tour.tours").add("takeaway_order_with_phone", {
         [
             Utils.checkIsNoBtn("My Order"),
             Utils.clickBtn("Order Now"),
-            LandingPage.selectLocation("Takeaway"),
             ProductPage.clickProduct("Test Multi Category Product"),
             Utils.clickBtn("Checkout"),
             CartPage.checkProduct("Test Multi Category Product", "2.20", "1"),

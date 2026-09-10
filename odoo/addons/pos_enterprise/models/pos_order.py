@@ -56,8 +56,6 @@ class PosOrder(models.Model):
         # When an order is cancelled from the backend UI, ensure the preparation display
         # is updated to reflect the cancellation
         for order in orders['pos.order']:
-            if order['state'] != 'cancel':
-                continue
             self.env['pos.prep.order'].process_order(order['id'], {'cancelled': True})
         return orders
 
@@ -157,16 +155,16 @@ class PosOrder(models.Model):
                             note['used_qty'] += line.quantity
 
                         key = (line.product_id.id, line.internal_note or '[]', json.dumps(line.attribute_value_ids.ids), line.pos_order_line_uuid)
-                        key_new = (line.product_id.id, note['new'] or '', json.dumps(line.attribute_value_ids.ids), line.pos_order_line_uuid)
+                        key_new = (line.product_id.id, note['new'] or '[]', json.dumps(line.attribute_value_ids.ids), line.pos_order_line_uuid)
 
-                        line.internal_note = note['new']
+                        line.internal_note = note['new'] or '[]'
                         flag_change = True
                         category_ids.update(line.product_id.pos_categ_ids.ids)
 
                         if not quantity_data.get(key_new):
                             quantity_data[key_new] = {
                                 'attribute_value_ids': line.attribute_value_ids.ids,
-                                'note': note['new'] or '',
+                                'note': note['new'] or '[]',
                                 'product_id': line.product_id.id,
                                 'display': 0,
                                 'order': 0,

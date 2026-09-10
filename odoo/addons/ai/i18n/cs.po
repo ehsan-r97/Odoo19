@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 18:42+0000\n"
+"POT-Creation-Date: 2026-08-28 17:46+0000\n"
 "PO-Revision-Date: 2026-02-19 07:50+0000\n"
 "Last-Translator: \"Marta (wacm)\" <wacm@odoo.com>\n"
 "Language-Team: Czech <https://translate.odoo.com/projects/odoo-19/ai/cs/>\n"
@@ -19,40 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.14.3\n"
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
-msgid ""
-"\n"
-"            **Tool Name: Read group**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **Název nástroje: Read group**\n"
-"\n"
-"            Prohledává konkrétní model pomocí domény. Zadaná doména musí být "
-"v platném formátu JSON.\n"
-"        "
-
-#. module: ai
-#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
-msgid ""
-"\n"
-"            **Tool Name: search**\n"
-"\n"
-"            Searches a particular model using a domain. The provided domain "
-"must be in valid JSON format.\n"
-"        "
-msgstr ""
-"\n"
-"            **Název nástroje: search**\n"
-"\n"
-"Vyhledá konkrétní model pomocí domény. Zadaná doména musí být ve formátu "
-"JSON.\n"
-"        "
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_get_fields
@@ -430,6 +396,16 @@ msgstr ""
 "podrobností nabídky v jednom volání.\n"
 "⚠️ Vždy ověřte, zda vrácený model odpovídá vašim očekáváním.\n"
 "        "
+
+#. module: ai
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_read_group
+#: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_search
+msgid ""
+"\n"
+"            Searches a particular model using a domain. The provided domain "
+"must be in valid JSON format.\n"
+"        "
+msgstr ""
 
 #. module: ai
 #: model:ir.actions.server,ai_tool_description:ai.ir_actions_server_adjust_search
@@ -1013,6 +989,11 @@ msgid "Customize to control relevance and formatting."
 msgstr "Přizpůsobte si nastavení relevance a formátování."
 
 #. module: ai
+#: model:ir.model.fields,field_description:ai.field_ai_agent__deprecated_model_replacement_hint
+msgid "Deprecated Model Replacement Hint"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/ai_json_schema/ai_json_schema.xml:0
 #: model:ir.model.fields,field_description:ai.field_ai_agent__subtitle
@@ -1170,6 +1151,13 @@ msgid "File Size"
 msgstr "Velikost souboru"
 
 #. module: ai
+#: model:ir.model.fields,help:ai.field_ai_agent__response_style
+msgid ""
+"For thinking models (e.g. gpt-5): Analytical: Medium thinking, Balanced: Low "
+"thinking, Creative: Minimal thinking"
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/plugins/chatgpt_plugin.js:0
 msgid "Generate or transform content with AI"
@@ -1181,7 +1169,7 @@ msgid "Get help on a record"
 msgstr "Získejte pomoc k záznamu"
 
 #. module: ai
-#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-001
+#: model:ir.model.fields.selection,name:ai.selection__ai_embedding__embedding_model__gemini-embedding-2
 msgid "Google"
 msgstr "Google"
 
@@ -2012,6 +2000,12 @@ msgid "User is online"
 msgstr "Uživatel je online"
 
 #. module: ai
+#. odoo-python
+#: code:addons/ai/models/ai_agent.py:0
+msgid "Using %(llm_model_label)s based on your agent setup."
+msgstr ""
+
+#. module: ai
 #. odoo-javascript
 #: code:addons/ai/static/src/editor/embedded_components/core/readonly_voice_transcription.xml:0
 #: code:addons/ai/static/src/editor/embedded_components/core/voice_transcription.xml:0
@@ -2089,3 +2083,33 @@ msgstr "fa-hashtag"
 #: model:ir.model.fields.selection,name:ai.selection__ir_model_fields__ttype__vector
 msgid "vector"
 msgstr "vektor"
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: Read group**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **Název nástroje: Read group**\n"
+#~ "\n"
+#~ "            Prohledává konkrétní model pomocí domény. Zadaná doména musí "
+#~ "být v platném formátu JSON.\n"
+#~ "        "
+
+#~ msgid ""
+#~ "\n"
+#~ "            **Tool Name: search**\n"
+#~ "\n"
+#~ "            Searches a particular model using a domain. The provided "
+#~ "domain must be in valid JSON format.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            **Název nástroje: search**\n"
+#~ "\n"
+#~ "Vyhledá konkrétní model pomocí domény. Zadaná doména musí být ve formátu "
+#~ "JSON.\n"
+#~ "        "

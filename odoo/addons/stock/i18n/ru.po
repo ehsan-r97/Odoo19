@@ -3,18 +3,18 @@
 # * stock
 #
 # Translators:
-# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025, 2026.
 # "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025, 2026.
-# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-13 18:36+0000\n"
-"PO-Revision-Date: 2026-02-12 07:08+0000\n"
+"POT-Creation-Date: 2026-05-15 17:35+0000\n"
+"PO-Revision-Date: 2026-07-07 17:10+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
-"Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/stock/ru/"
-">\n"
+"Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/stock/"
+"ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: stock
 #. odoo-python
@@ -436,8 +436,8 @@ msgstr ""
 "* Клиент: виртуальная локация, представляющая локацию назначения для "
 "товаров, отправляемых вашим клиентам\n"
 "* Потеря запасов: виртуальная локация, служащая в качестве аналога операций "
-"с запасами, выполняемых для корректировки уровня запасов (физические "
-"запасы)\n"
+"с запасами, выполняемых для корректировки уровня запасов (физические запасы)"
+"\n"
 "* Производство: виртуальная локация-аналог для производственных операций. То "
 "есть на этой локации потребляется компоненты и производится готовая "
 "продукция\n"
@@ -491,52 +491,9 @@ msgid "1 Week"
 msgstr "1 неделя"
 
 #. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
-#: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_aggregated_move_lines
-msgid "1.00"
-msgstr "1.00"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_content
-msgid "12.0"
-msgstr "12.0"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_generic_barcode
-msgid "1234567890"
-msgstr "1234567890"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_lot_label
-msgid "12345678901"
-msgstr "12345678901"
-
-#. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__product_label_format__2x7xprice
 msgid "2 x 7 with price"
 msgstr "2 x 7 с ценой"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode
-msgid "2021-09-01"
-msgstr "2021-09-01"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_small
-msgid "2023-01-01"
-msgstr "2023-01-01"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_picking
-msgid "2023-09-24"
-msgstr "2023-09-24"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_content
-#: model_terms:ir.ui.view,arch_db:stock.report_picking
-msgid "3.00"
-msgstr "3.00"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__lot_label_layout__print_format__4x12
@@ -563,11 +520,6 @@ msgstr "4 x 12 с ценой"
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__product_label_format__4x7xprice
 msgid "4 x 7 with price"
 msgstr "4 x 7 с ценой"
-
-#. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_content
-msgid "54326786758"
-msgstr "54326786758"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_warn_insufficient_qty_form_view
@@ -676,8 +628,8 @@ msgstr ""
 "                <t t-set=\"multiple_carrier_tracking\" t-"
 "value=\"object.get_multiple_carrier_tracking()\"/>\n"
 "                <t t-if=\"multiple_carrier_tracking\">\n"
-"                    <t t-foreach=\"multiple_carrier_tracking\" t-"
-"as=\"line\">\n"
+"                    <t t-foreach=\"multiple_carrier_tracking\" t-as=\"line\">"
+"\n"
 "                        <br/><a t-att-href=\"line[1]\" target=\"_blank\" t-"
 "out=\"line[0] or ''\"/>\n"
 "                    </t>\n"
@@ -698,8 +650,8 @@ msgstr ""
 "        <t t-if=\"user.signature\" data-o-mail-quote-container=\"1\">\n"
 "            <br/>\n"
 "            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-"
-"out=\"user.signature or ''\" data-o-mail-quote=\"1\">Митчелл Админ</t></"
-"div>\n"
+"out=\"user.signature or ''\" data-o-mail-quote=\"1\">Митчелл Админ</t></div>"
+"\n"
 "        </t>\n"
 "    </p>\n"
 "</div>\n"
@@ -3079,6 +3031,23 @@ msgid ""
 "(the availability of this method depends on the \"Expiration Dates\" "
 "setting)."
 msgstr ""
+"Определяет метод по умолчанию, используемый для предложения точной локации "
+"(полки), откуда следует взять товар, какой лот и т. д. для данного "
+"местоположения. Этот метод может быть принудительно установлен на уровне "
+"категории товара; если здесь ничего не задано, используются резервные "
+"настройки родительских локаций.\n"
+"\n"
+"FIFO: товары/партии, поступившие на склад первыми, будут перемещены в первую "
+"очередь.\n"
+"LIFO: товары/партии, поступившие на склад последними, будут перемещены в "
+"первую очередь.\n"
+"Ближайшая локация: товары/партии, находящиеся ближе всего к целевой локации, "
+"будут перемещены в первую очередь.\n"
+"Наименьшее количество упаковок: товары/партии, которые были размещены в "
+"упаковках с наименьшим количеством, будут перемещены в первую очередь.\n"
+"FEFO: товары/партии с ближайшей датой истечения срока годности будут "
+"перемещены в первую очередь (доступность этого метода зависит от настройки «"
+"Сроки годности»)."
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__delay_alert_date
@@ -4181,8 +4150,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/stock/static/src/client_actions/multi_print.js:0
 msgid "HTML reports cannot be auto-printed, skipping report: %s"
-msgstr ""
-"HTML-отчеты не могут быть автоматически напечатаны, пропуская отчет: %s"
+msgstr "HTML-отчеты не могут быть автоматически напечатаны, пропуская отчет: %s"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_type_form
@@ -6214,8 +6182,8 @@ msgid ""
 "No products to return (only lines in Done state and not fully returned yet "
 "can be returned)."
 msgstr ""
-"Нет товаров для возврата (возвращаться могут только строки в состоянии "
-"«Выполнено» и не полностью возвращенные)."
+"Нет товаров для возврата (возвращаться могут только строки в состоянии «"
+"Выполнено» и не полностью возвращенные)."
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_putaway_tree
@@ -6784,6 +6752,7 @@ msgstr "Тип упаковки"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 #: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_aggregated_move_lines
+#: model_terms:ir.ui.view,arch_db:stock.stock_report_delivery_has_serial_move_line
 msgid "Pack of 6"
 msgstr ""
 
@@ -8885,8 +8854,7 @@ msgstr "Коннектор Sendcloud"
 #: model:mail.template,description:stock.mail_template_data_delivery_confirmation
 msgid ""
 "Sent to the customers when orders are delivered, if the setting is enabled"
-msgstr ""
-"Отправляется клиентам при доставке заказов, если эта настройка включена"
+msgstr "Отправляется клиентам при доставке заказов, если эта настройка включена"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_config_settings__barcode_separator
@@ -10117,8 +10085,8 @@ msgstr ""
 "позволяет создавать пополнение по запросу, привязанное к вашим заказам на "
 "продажу (например), как только они будут подтверждены. Заказы на закупку, "
 "производственные заказы и т. д. создаются автоматически в зависимости от "
-"установленного для товара способа пополнения (маршрут «Купить» или "
-"«Произвести»)."
+"установленного для товара способа пополнения (маршрут «Купить» или «"
+"Произвести»)."
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
@@ -10222,8 +10190,8 @@ msgid ""
 "                to see all the past or future movements for the product."
 msgstr ""
 "Это меню показывает все операции с запасами \n"
-"                 для конкретного товара. Вы можете отфильтровать по "
-"товару, \n"
+"                 для конкретного товара. Вы можете отфильтровать по товару, "
+"\n"
 "                 чтобы увидеть все его перемещения."
 
 #. module: stock
@@ -11857,8 +11825,8 @@ msgstr ""
 "прогнозах товарных запасов.\n"
 "            Выберите количество для закупки или производства и запускайте "
 "заказы одним щелчком мыши.\n"
-"            Чтобы сэкономить время в будущем, установите правила как "
-"«автоматические»."
+"            Чтобы сэкономить время в будущем, установите правила как «"
+"автоматические»."
 
 #. module: stock
 #: model_terms:res.company,lunch_notify_message:stock.res_company_1
@@ -12238,12 +12206,44 @@ msgid "units"
 msgstr "единицы"
 
 #. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_stock_replenishment_info
+msgid "x"
+msgstr ""
+
+#. module: stock
 #: model:mail.template,subject:stock.mail_template_data_delivery_confirmation
 msgid ""
 "{{ object.company_id.name }} Delivery Order (Ref {{ object.name or 'n/a' }})"
 msgstr ""
 "{{ object.company_id.name }} Заказ на доставку (Ссылка {{ object.name or 'n/"
 "a' }})"
+
+#~ msgid "1.00"
+#~ msgstr "1.00"
+
+#~ msgid "12.0"
+#~ msgstr "12.0"
+
+#~ msgid "1234567890"
+#~ msgstr "1234567890"
+
+#~ msgid "12345678901"
+#~ msgstr "12345678901"
+
+#~ msgid "2021-09-01"
+#~ msgstr "2021-09-01"
+
+#~ msgid "2023-01-01"
+#~ msgstr "2023-01-01"
+
+#~ msgid "2023-09-24"
+#~ msgstr "2023-09-24"
+
+#~ msgid "3.00"
+#~ msgstr "3.00"
+
+#~ msgid "54326786758"
+#~ msgstr "54326786758"
 
 #~ msgid "<strong>Customer Address</strong>"
 #~ msgstr "<strong>Адрес клиента</strong>"

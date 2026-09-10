@@ -47,13 +47,13 @@ class HrAttendance(models.Model):
             new_work_entries = self.env['hr.work.entry'].sudo().create(work_entries_vals_list)
             if new_work_entries:
                 # Fetch overlapping work entries, grouped by employees
-                start = min((datetime.combine(a.check_in, time.min) for a in attendances if a.check_in), default=False)
-                stop = max((datetime.combine(a.check_out, time.max) for a in attendances if a.check_out), default=False)
-                work_entry_groups = self.env['hr.work.entry'].sudo()._read_group([
-                    ('date', '<=', stop),
-                    ('date', '>=', start),
-                    ('employee_id', 'in', attendances.employee_id.ids),
-                ], ['employee_id'], ['id:recordset'])
+                work_entry_groups = self.env['hr.work.entry'].sudo()._read_group(Domain.OR([
+                    Domain.AND([
+                        Domain('employee_id', '=', work_entry.employee_id.id),
+                        Domain('date', '=', work_entry.date),
+                    ])
+                    for work_entry in new_work_entries
+                ]), ['employee_id'], ['id:recordset'])
                 work_entries_by_employee = {
                     employee.id: records
                     for employee, records in work_entry_groups

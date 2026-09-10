@@ -9,7 +9,7 @@ from markupsafe import Markup
 
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import get_lang, is_html_empty, format_date
+from odoo.tools import get_lang, is_html_empty, format_date, formataddr
 from odoo.tools.urls import urljoin as url_join
 
 
@@ -121,7 +121,7 @@ class SignRequest(models.Model):
             return NotImplemented
         my_partner_id = self.env.user.partner_id
         documents_ids = self.env['sign.request.item'].search([('partner_id', '=', my_partner_id.id), ('state', '=', 'sent'), ('is_mail_sent', '=', True)]).mapped('sign_request_id').ids
-        return [('id', 'not in', documents_ids)]
+        return [('id', 'in', documents_ids)]
 
     @api.depends('request_item_ids.state')
     def _compute_stats(self):
@@ -215,8 +215,13 @@ class SignRequest(models.Model):
         if vals.get('validity') and fields.Date.from_string(vals['validity']) < today:
             vals['state'] = 'expired'
 
-        res = super().write(vals)
-        return res
+        if vals.get('reference_doc'):
+            model, rec = vals['reference_doc'].split(',')
+            record = self.env[model].browse(int(rec)).exists()
+            if not record or not record.has_access('read'):
+                raise ValidationError(self.env._("You don't have access to the linked document."))
+
+        return super().write(vals)
 
     def copy_data(self, default=None):
         default = dict(default or {})
@@ -413,9 +418,9 @@ class SignRequest(models.Model):
         self.ensure_one()
         if access_token is None:
             access_token = self.access_token
-        subject = _("The document %(template_name)s has been rejected by %(partner_name)s",
+        subject = _("The document %(template_name)s has been rejected by %(refuser_name)s",
             template_name=self.template_id.name,
-            partner_name=partner.name,
+            refuser_name=refuser.name,
         )
         base_url = self.get_base_url()
         partner_lang = get_lang(self.env, lang_code=partner.lang).code
@@ -438,6 +443,7 @@ class SignRequest(models.Model):
             },
             mail_values={
                 'subject': subject,
+                **({'email_to': formataddr((sign_request_item.partner_id.name, sign_request_item.signer_email))} if sign_request_item else {}),
             },
             force_send=force_send,
         )
@@ -581,6 +587,7 @@ class SignRequest(models.Model):
             mail_values={
                 'attachment_ids': self.attachment_ids.ids + self.completed_document_attachment_ids.ids,
                 'subject': _('%s has been edited and signed', self.reference) if request_edited else _('%s has been signed', self.reference),
+                **({'email_to': formataddr((sign_request_item.partner_id.name, sign_request_item.signer_email))} if sign_request_item else {}),
             },
             force_send=force_send,
         )

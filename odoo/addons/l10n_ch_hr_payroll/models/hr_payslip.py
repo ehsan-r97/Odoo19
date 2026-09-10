@@ -5,11 +5,10 @@ from datetime import date
 from calendar import monthrange
 
 from odoo import api, fields, models, Command, _
+from odoo.exceptions import ValidationError, UserError
 from odoo.fields import Domain
 from odoo.tools.float_utils import float_round
 from dateutil.relativedelta import relativedelta
-from odoo.tools import date_utils
-from odoo.exceptions import ValidationError
 
 SWISS_LANGUAGES = ["it_IT", "de_DE", "de_CH", "fr_FR", "fr_CH", "en_EN", "en_US"]
 
@@ -77,6 +76,17 @@ class HrPayslip(models.Model):
         swiss_employees = self.env['hr.employee'].browse([val["employee_id"] for val in vals_list if "employee_id" in val]).filtered(lambda e: e.company_id.country_id.code == 'CH')
         swiss_employees._create_or_update_snapshot()
         return super().create(vals_list)
+
+    def _get_iso20022_communication(self, bank_account):
+        self.ensure_one()
+        bank = bank_account.bank_id
+        is_revolut = (bank.bic or '').upper().startswith('REVO') or 'revolut' in (bank.name or '').lower()
+        if is_revolut and self.company_id.country_id.code == 'CH' and bank_account in self.employee_id.bank_account_ids:
+            # Revolut accounts are pooled under Revolut's own IBANs: the beneficiary's name
+            # and country must appear in the communication so the payment can be credited
+            # to the right account.
+            return f'{self.employee_id.l10n_ch_legal_first_name} {self.employee_id.l10n_ch_legal_last_name}, CH'
+        return super()._get_iso20022_communication(bank_account)
 
     def _get_schedule_timedelta(self):
         self.ensure_one()
@@ -193,10 +203,7 @@ class HrPayslip(models.Model):
         total = super()._get_payslip_line_total(amount, quantity, rate, rule)
         if self.company_id.country_id.code != "CH" or not rule.l10n_ch_5_cents_rounding:
             return total
-        total = float_round(total, precision_rounding=0.01, rounding_method="HALF-UP")
-        if total % 0.05 >= 0.025:
-            return total + 0.05 - (total % 0.05)
-        return total - (total % 0.05)
+        return float_round(total, precision_rounding=0.05, rounding_method="HALF-UP")
 
     def _filter_not_in_contract_payslips(self):
         return super()._filter_not_in_contract_payslips().filtered(lambda p: p.struct_id.country_id.code != "CH")
@@ -312,12 +319,12 @@ class HrPayslip(models.Model):
             range_min = max(payslip.date_from, contract.date_start)
             range_max = min(payslip.date_to, contract.date_end or payslip.date_to)
 
-            leaves = leaves_grouped_by_employee.get(payslip.employee_id, self.env['hr.leave']).filtered(lambda l: l.date_from.date() <= range_max and l.date_to.date() >= range_min)
+            leaves = leaves_grouped_by_employee.get(payslip.employee_id, self.env['hr.leave']).filtered(lambda l: l.request_date_from <= range_max and l.request_date_to >= range_min)
 
             leave_days_map = {}
             for leave in leaves:
-                overlap_start = max(range_min, leave.date_from.date())
-                overlap_end = min(range_max, leave.date_to.date())
+                overlap_start = max(range_min, leave.request_date_from)
+                overlap_end = min(range_max, leave.request_date_to)
 
                 overlap_days = payslip._get_contract_days_in_payslip_range(overlap_start, overlap_end)
                 leave_type = leave.holiday_status_id
@@ -614,6 +621,14 @@ class HrPayslip(models.Model):
             payslip.net_wage = line_values['NET'][payslip._origin.id]['total'] + line_values['Net_Paid'][payslip._origin.id]['total']
             payslip.employer_cost = employer_cost_total
         super(HrPayslip, self - elm_slips)._compute_basic_net()
+
+    def refund_sheet(self):
+        if any(payslip.struct_id.country_id.code == "CH" for payslip in self):
+            raise UserError(_(
+                "Refunds are not supported for Swiss payroll as only one payslip per month is permitted. "
+                "Please cancel this payslip instead and generate a new one to apply corrections."
+            ))
+        return super().refund_sheet()
 
     def _get_base_local_dict(self):
         res = super()._get_base_local_dict()
@@ -921,7 +936,7 @@ class HrPayslip(models.Model):
                         self._log_is_line(is_canton=new_canton, is_code=new_code, municipality=new_municipality, code='ISDTSALARY', amount=is_dt_salary, corrected_payslip_id=payslip_to_reverse.id, is_correction=True, correction_type='new')
 
                         min_is, rate = self._find_rate(f"{new_canton}-{new_code}-{new_municipality}", is_dt_salary)
-                        is_amount = max(is_salary * rate / 100, 0)
+                        is_amount = max(is_salary * rate / 100, min_is)
                         total_compensation -= is_amount
                         self._log_is_line(is_canton=new_canton, is_code=new_code, municipality=new_municipality, code='IS', amount=is_amount, corrected_payslip_id=payslip_to_reverse.id, is_correction=True, correction_type='new')
 
@@ -972,11 +987,7 @@ class HrPayslip(models.Model):
         if code in ['ASDAYS', 'ISWORKEDDAYSINCH', 'ISWORKEDDAYS']:
             total_is = amount
         else:
-            total = float_round(amount, precision_rounding=0.01, rounding_method="HALF-UP")
-            if total % 0.05 >= 0.025:
-                total_is = total + 0.05 - (total % 0.05)
-            else:
-                total_is = total - (total % 0.05)
+            total_is = float_round(amount, precision_rounding=0.05, rounding_method="HALF-UP")
         if total_is or code in ['ISDTSALARY', 'ISSALARY', 'IS']:
             self.env['hr.payslip.is.log.line'].create({
                 'source_tax_canton': is_canton,
@@ -1164,18 +1175,6 @@ class HrPayslip(models.Model):
             raise ValidationError(self.env._("This feature is not available for payslips in Switzerland. If you wish to correct amounts please cancel the payslip or report corrections to the next month."))
         else:
             return super().action_adjust_payslip()
-
-    def action_payslip_payment_report(self, export_format='iso20022_ch'):
-        action = super().action_payslip_payment_report()
-        if self.company_id.country_code != 'CH':
-            return action
-        action.update({
-            'context': {
-                **action['context'],
-                'default_export_format': export_format,
-            },
-        })
-        return action
 
     @api.model
     def _get_dashboard_warnings_domain(self):

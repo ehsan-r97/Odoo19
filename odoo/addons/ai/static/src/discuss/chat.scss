@@ -3,6 +3,10 @@
     z-index: $zindex-sticky;
 }
 
+.o-mail-ChatWindow.o-isAiComposer{
+    --mail-ChatWindow-mobileZindex: #{$zindex-offcanvas};
+}
+
 .o-mail-ChatHub .o-mail-ChatWindow.o-isAiComposer:not(.o-mobile) {
     z-index: $zindex-sticky + 1;
 }

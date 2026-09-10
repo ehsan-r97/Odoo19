@@ -1,219 +1,244 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* pos_platform_order
+# * pos_platform_order
 #
+# Weblate <noreply-mt-weblate@weblate.org>, 2026.
+# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-03 18:47+0000\n"
-"PO-Revision-Date: 2026-04-03 18:47+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-07-25 21:25+0000\n"
+"Last-Translator: Rosen Vladimirov <vladimirov.rosen@gmail.com>\n"
+"Language-Team: Bulgarian <https://translate.odoo.com/projects/odoo-19/"
+"pos_platform_order/bg/>\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
 msgid "<span class=\"o_stat_text text-success\">Entites</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text text-success\">Обекти</span>"
 
 #. module: pos_platform_order
 #: model:ir.model.constraint,message:pos_platform_order.constraint_platform_order_entity_entity_id_uniq
 msgid "A store with the same external ID already exists for this provider."
-msgstr ""
+msgstr "Вече съществува обект със същия външен идентификатор за този доставчик."
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.xml:0
 msgid "Accept Order"
-msgstr ""
+msgstr "Приемане на поръчка"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__accepted
+#, fuzzy
 msgid "Accepted"
-msgstr ""
+msgstr "Приет"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_form
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
+#, fuzzy
 msgid "Accounting"
-msgstr ""
+msgstr "Счетоводство"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "An unknown error occurred."
-msgstr ""
+msgstr "Възникна неизвестна грешка."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__available_categ_ids_domain
 msgid "Available Categ Ids Domain"
-msgstr ""
+msgstr "Домейн на ID-та на налични категории"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__available_categ_ids
 msgid "Available Product Categories"
-msgstr ""
+msgstr "Налични продуктови категории"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_product_product__platform_order_available
 #: model:ir.model.fields,field_description:pos_platform_order.field_product_template__platform_order_available
 msgid "Available for Platform Orders"
-msgstr ""
+msgstr "Налична за поръчки от платформа"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_cancel_reason
 msgid "Cancellation Reason"
-msgstr ""
+msgstr "Причина за отмяна"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__cancelled
+#, fuzzy
 msgid "Cancelled"
-msgstr ""
+msgstr "Отказан"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Cannot reject the order as the driver has already arrived."
 msgstr ""
+"Поръчката не може да бъде отказана, тъй като шофьорът вече е пристигнал."
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Cannot update state for orders that are not in the allowed states: %s."
 msgstr ""
+"Състоянието не може да се промени за поръчки, които не са в позволените "
+"състояния: %s."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__provider_code
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__code
+#, fuzzy
 msgid "Code"
-msgstr ""
+msgstr "Код"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__collected
 msgid "Collected"
-msgstr ""
+msgstr "Получено"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_res_company
+#, fuzzy
 msgid "Companies"
-msgstr ""
+msgstr "Фирми"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__company_id
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__company_id
+#, fuzzy
 msgid "Company"
-msgstr ""
+msgstr "Фирма"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
+#, fuzzy
 msgid "Configuration"
-msgstr ""
+msgstr "Конфигурация"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__module_id
+#, fuzzy
 msgid "Corresponding Module"
-msgstr ""
+msgstr "Съответващ модул"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__country_id
+#, fuzzy
 msgid "Country"
-msgstr ""
+msgstr "Държава"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__country_code
+#, fuzzy
 msgid "Country Code"
-msgstr ""
+msgstr "Код на държава"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__create_uid
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_pricelist_line__create_uid
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__create_uid
+#, fuzzy
 msgid "Created by"
-msgstr ""
+msgstr "Създаден от"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__create_date
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_pricelist_line__create_date
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__create_date
+#, fuzzy
 msgid "Created on"
-msgstr ""
+msgstr "Създадено на"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
+#, fuzzy
 msgid "Credentials"
-msgstr ""
+msgstr "Акредитиви"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__currency_id
+#, fuzzy
 msgid "Currency"
-msgstr ""
+msgstr "Валута"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__default_payment_method_id
 msgid "Default Payment Method"
-msgstr ""
+msgstr "Начин на плащане по подразбиране"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__default_pricelist_id
 msgid "Default Price List"
-msgstr ""
+msgstr "Ценоразпис по подразбиране"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_provider__sequence
 msgid "Define the display order"
-msgstr ""
+msgstr "Определя реда на показване"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__delivered
+#, fuzzy
 msgid "Delivered"
-msgstr ""
+msgstr "Доставен"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_type__delivery
+#, fuzzy
 msgid "Delivery"
-msgstr ""
+msgstr "Доставка"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__delivery_preset_id
 msgid "Delivery Preset"
-msgstr ""
+msgstr "Шаблон за доставка"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Device is offline. Platform order requires an internet connection."
-msgstr ""
+msgstr "Устройството е офлайн. Поръчката от платформа изисква интернет връзка."
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_type__dine_in
 msgid "Dine In"
-msgstr ""
+msgstr "На място"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__dinein_preset_id
 msgid "Dine-in Preset"
-msgstr ""
+msgstr "Шаблон за консумация на място"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_provider__state__disabled
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
+#, fuzzy
 msgid "Disabled"
-msgstr ""
+msgstr "Изключен"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__display_name
@@ -226,60 +251,66 @@ msgstr ""
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_session__display_name
 #: model:ir.model.fields,field_description:pos_platform_order.field_product_template__display_name
 #: model:ir.model.fields,field_description:pos_platform_order.field_res_company__display_name
+#, fuzzy
 msgid "Display Name"
-msgstr ""
+msgstr "Име за показване"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_entity__menu_sync_state__done
+#, fuzzy
 msgid "Done"
-msgstr ""
+msgstr "Извършен"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_entity__menu_sync_state__draft
+#, fuzzy
 msgid "Draft"
-msgstr ""
+msgstr "Чернова"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__driver_allocated
 msgid "Driver Allocated"
-msgstr ""
+msgstr "Назначен шофьор"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__driver_arrived
 msgid "Driver Arrived"
-msgstr ""
+msgstr "Шофьорът пристигна"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_provider__state__enabled
+#, fuzzy
 msgid "Enabled"
-msgstr ""
+msgstr "Активирано"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__external_id
+#, fuzzy
 msgid "External ID"
-msgstr ""
+msgstr "Външна ИН"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_entity__external_id
 msgid "External ID used in the provider's system"
-msgstr ""
+msgstr "Външен идентификатор, използван в системата на доставчика"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_pricelist_line__external_key
 msgid "External Key"
-msgstr ""
+msgstr "Външен ключ"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_entity__menu_sync_state__failed
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__failed
+#, fuzzy
 msgid "Failed"
-msgstr ""
+msgstr "Неуспешен"
 
 #. module: pos_platform_order
 #. odoo-javascript
@@ -288,55 +319,57 @@ msgid ""
 "Failed to reject order. Please reject the order manually from the %s "
 "terminal."
 msgstr ""
+"Неуспешен отказ на поръчката. Моля, откажете поръчката ръчно от терминала %s."
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.xml:0
 msgid "Food Is Ready"
-msgstr ""
+msgstr "Храната е готова"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_food_ready
 msgid "Food Ready"
-msgstr ""
+msgstr "Готова храна"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Food is already marked as ready for pickup or delivery."
-msgstr ""
+msgstr "Храната вече е маркирана като готова за получаване или доставка."
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Food is now marked as ready for pickup or delivery."
-msgstr ""
+msgstr "Храната вече е маркирана като готова за получаване или доставка."
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Food marked as ready successfully."
-msgstr ""
+msgstr "Храната е маркирана като готова успешно."
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
 msgid "Food ordering provider"
-msgstr ""
+msgstr "Доставчик на поръчки за храна"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_form
+#, fuzzy
 msgid "General"
-msgstr ""
+msgstr "Основен"
 
 #. module: pos_platform_order
 #: model:platform.order.provider,name:pos_platform_order.platform_order_provider_gofood
 msgid "GoFood"
-msgstr ""
+msgstr "GoFood"
 
 #. module: pos_platform_order
 #: model:platform.order.provider,name:pos_platform_order.platform_order_provider_grabfood
 msgid "GrabFood"
-msgstr ""
+msgstr "GrabFood"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__id
@@ -349,91 +382,102 @@ msgstr ""
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_session__id
 #: model:ir.model.fields,field_description:pos_platform_order.field_product_template__id
 #: model:ir.model.fields,field_description:pos_platform_order.field_res_company__id
+#, fuzzy
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_form
 msgid "If no categories are selected, all categories will be available."
-msgstr ""
+msgstr "Ако не са избрани категории, всички категории ще бъдат налични."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_product_product__platform_order_available
 #: model:ir.model.fields,help:pos_platform_order.field_product_template__platform_order_available
 msgid "If this product is available for platform orders."
-msgstr ""
+msgstr "Дали този продукт е наличен за поръчки от платформа."
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/provider_logo.xml:0
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__image_1920
+#, fuzzy
 msgid "Image"
-msgstr ""
+msgstr "Изображение"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__image_1024
+#, fuzzy
 msgid "Image 1024"
-msgstr ""
+msgstr "Изображение 1024"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__image_128
+#, fuzzy
 msgid "Image 128"
-msgstr ""
+msgstr "Изображение 128"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__image_256
+#, fuzzy
 msgid "Image 256"
-msgstr ""
+msgstr "Изображение 256"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__image_512
+#, fuzzy
 msgid "Image 512"
-msgstr ""
+msgstr "Изображение 512"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_kanban
+#, fuzzy
 msgid "Install"
-msgstr ""
+msgstr "Инсталирайте"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__module_state
+#, fuzzy
 msgid "Installation State"
-msgstr ""
+msgstr "Състояние на съоръжение"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_search
+#, fuzzy
 msgid "Installed"
-msgstr ""
+msgstr "Инсталиран"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__last_menu_synced
 msgid "Last Menu Synced"
-msgstr ""
+msgstr "Последна синхронизация на менюто"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__write_uid
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_pricelist_line__write_uid
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__write_uid
+#, fuzzy
 msgid "Last Updated by"
-msgstr ""
+msgstr "Последно актуализирано от"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__write_date
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_pricelist_line__write_date
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__write_date
+#, fuzzy
 msgid "Last Updated on"
-msgstr ""
+msgstr "Последно актуализирано на"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_entity__pricelist_line_ids
 msgid "List of pricelist configurations for this entity."
-msgstr ""
+msgstr "Списък с конфигурации на ценоразписи за този обект."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__menu_sync_state
 msgid "Menu Sync Status"
-msgstr ""
+msgstr "Статус на синхронизация на менюто"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__name
@@ -442,43 +486,46 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_form
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_list
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
+#, fuzzy
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_status__new
+#, fuzzy
 msgid "New"
-msgstr ""
+msgstr "Нов"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "New platform order received."
-msgstr ""
+msgstr "Получена е нова поръчка от платформа."
 
 #. module: pos_platform_order
 #: model_terms:ir.actions.act_window,help:pos_platform_order.action_platform_order_providers
 msgid "No Platform Order Providers found"
-msgstr ""
+msgstr "Не са намерени доставчици на поръчки от платформи"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_provider__code__none
 msgid "No Provider Set"
-msgstr ""
+msgstr "Без зададен доставчик"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
+#, fuzzy
 msgid "Ongoing"
-msgstr ""
+msgstr "Протичащ"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_ref
 msgid "Online Order Reference"
-msgstr ""
+msgstr "Референция на онлайн поръчка"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_pos_category__service_hours_id
@@ -486,282 +533,300 @@ msgid ""
 "Only work for Platform Order. This calendar defines the service hours for "
 "this category."
 msgstr ""
+"Работи само за поръчки от платформа. Този календар определя работните часове "
+"за тази категория."
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Order %s has a total of %s. Are you sure you want to reject it?"
-msgstr ""
+msgstr "Поръчка %s е с обща сума %s. Сигурни ли сте, че искате да я откажете?"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_pin
 msgid "Order PIN"
-msgstr ""
+msgstr "ПИН на поръчка"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Order Reference: %s"
-msgstr ""
+msgstr "Референция на поръчка: %s"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_status
+#, fuzzy
 msgid "Order Status"
-msgstr ""
+msgstr "Състояние на поръчка"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_type
 msgid "Order Type"
-msgstr ""
+msgstr "Тип поръчка"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Order cancelled with reason: %s"
-msgstr ""
+msgstr "Поръчката е отменена с причина: %s"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Order has been accepted successfully."
-msgstr ""
+msgstr "Поръчката е приета успешно."
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Order has been rejected successfully."
-msgstr ""
+msgstr "Поръчката е отхвърлена успешно."
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Order rejected successfully."
-msgstr ""
+msgstr "Поръчката е отхвърлена успешно."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__source
+#, fuzzy
 msgid "Origin"
-msgstr ""
+msgstr "Произход"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/components/order_display/order_display.xml:0
+#, fuzzy
 msgid "PIN"
-msgstr ""
+msgstr "ПИН"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
+#, fuzzy
 msgid "Paid"
-msgstr ""
+msgstr "Платено"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__payment_method_id
+#, fuzzy
 msgid "Payment Method"
-msgstr ""
+msgstr "Метод за плащане"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__platform_order_type__pickup
 msgid "Pickup"
-msgstr ""
+msgstr "Вземане"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__pickup_preset_id
 msgid "Pickup Preset"
-msgstr ""
+msgstr "Шаблон за вземане"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.xml:0
 msgid "Plat. Orders"
-msgstr ""
+msgstr "Поръчки от платф."
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__pos_order__source__platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.product_template_form_view
 msgid "Platform Order"
-msgstr ""
+msgstr "Поръчка от платформа"
 
 #. module: pos_platform_order
 #: model:ir.actions.act_window,name:pos_platform_order.action_platform_order_entity
 msgid "Platform Order Entities"
-msgstr ""
+msgstr "Обекти за поръчки от платформи"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_platform_order_entity
 msgid "Platform Order Entity"
-msgstr ""
+msgstr "Обект за поръчки от платформа"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_platform_order_pricelist_line
 msgid "Platform Order Pricelist Line"
-msgstr ""
+msgstr "Ред от ценоразпис за поръчки от платформа"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_platform_order_provider
 msgid "Platform Order Provider"
-msgstr ""
+msgstr "Доставчик на поръчки от платформа"
 
 #. module: pos_platform_order
 #: model:ir.actions.act_window,name:pos_platform_order.action_platform_order_providers
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_list
 msgid "Platform Order Providers"
-msgstr ""
+msgstr "Доставчици на поръчки от платформи"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.product_pos_category_form_view_inherit
 msgid "Platform Order Settings"
-msgstr ""
+msgstr "Настройки за поръчки от платформи"
 
 #. module: pos_platform_order
 #: model:ir.ui.menu,name:pos_platform_order.menu_pos_platform_order_root
 msgid "Platform Orders"
-msgstr ""
+msgstr "Поръчки от платформи"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Platform status updated to %s."
-msgstr ""
+msgstr "Статусът на платформата е обновен на %s."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__config_id
+#, fuzzy
 msgid "Point of Sale"
-msgstr ""
+msgstr "Център за продажби"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_pos_category
+#, fuzzy
 msgid "Point of Sale Category"
-msgstr ""
+msgstr "Категория център за продажби"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_pos_config
+#, fuzzy
 msgid "Point of Sale Configuration"
-msgstr ""
+msgstr "Конфигурация на център за продажби"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_pos_order
+#, fuzzy
 msgid "Point of Sale Orders"
-msgstr ""
+msgstr "Поръчки на центъра за продажби"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_pos_payment
 msgid "Point of Sale Payments"
-msgstr ""
+msgstr "Плащания на каса"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_pos_session
+#, fuzzy
 msgid "Point of Sale Session"
-msgstr ""
+msgstr "Сесия на център за продажби"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_form
 msgid "Presets"
-msgstr ""
+msgstr "Шаблони"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_pricelist_line__pricelist_id
+#, fuzzy
 msgid "Pricelist"
-msgstr ""
+msgstr "Ценова листа"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__pricelist_line_ids
 msgid "Pricelist Lines"
-msgstr ""
+msgstr "Редове на ценоразпис"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_entity__menu_sync_state__processing
+#, fuzzy
 msgid "Processing"
-msgstr ""
+msgstr "Обработка"
 
 #. module: pos_platform_order
 #: model:ir.model,name:pos_platform_order.model_product_template
+#, fuzzy
 msgid "Product"
-msgstr ""
+msgstr "Продукт"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_entity__provider_id
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_provider_id
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_search
+#, fuzzy
 msgid "Provider"
-msgstr ""
+msgstr "Доставчик"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_provider_code
 msgid "Provider Code"
-msgstr ""
+msgstr "Код на доставчик"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_list
 msgid "Provider Entities"
-msgstr ""
+msgstr "Обекти на доставчик"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_form
 msgid "Provider Store"
-msgstr ""
+msgstr "Магазин на доставчик"
 
 #. module: pos_platform_order
 #: model:ir.ui.menu,name:pos_platform_order.menu_platform_order_providers
+#, fuzzy
 msgid "Providers"
-msgstr ""
+msgstr "Доставчици"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_entity__menu_sync_state__queuing
 msgid "Queuing"
-msgstr ""
+msgstr "На опашка"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_pos_order__platform_order_ref
 msgid "Reference of the order in the food ordering platform."
-msgstr ""
+msgstr "Референция на поръчката в платформата за поръчка на храна."
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Reject Order"
-msgstr ""
+msgstr "Отхвърляне на поръчка"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Reject reason"
-msgstr ""
+msgstr "Причина за отказ"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Rejected by user with error: %s"
-msgstr ""
+msgstr "Отказано от потребителя с грешка: %s"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Review Orders"
-msgstr ""
+msgstr "Преглед на поръчки"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/components/order_display/order_display.xml:0
 msgid "Rider"
-msgstr ""
+msgstr "Доставчик"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_rider_name
 msgid "Rider Name"
-msgstr ""
+msgstr "Име на доставчик"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__sequence
+#, fuzzy
 msgid "Sequence"
-msgstr ""
+msgstr "Последователност"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
 msgid "Server Error: Unable to fetch order."
-msgstr ""
+msgstr "Сървърна грешка: Поръчката не може да бъде заредена."
 
 #. module: pos_platform_order
 #: model:ir.actions.act_window,name:pos_platform_order.action_platform_order_service_hours
@@ -769,132 +834,142 @@ msgstr ""
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_category__service_hours_id
 #: model:ir.ui.menu,name:pos_platform_order.menu_platform_order_service_hours
 msgid "Service Hours"
-msgstr ""
+msgstr "Работно време"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.xml:0
 msgid "Set Food Ready"
-msgstr ""
+msgstr "Маркирай храната като готова"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/platform_order_entity.py:0
 msgid "Shop is closed."
-msgstr ""
+msgstr "Магазинът е затворен."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__state
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_search
+#, fuzzy
 msgid "State"
-msgstr ""
+msgstr "Област"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/components/order_display/order_display.xml:0
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "Състояние"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_pricelist_line__store_id
 #: model:ir.model.fields,field_description:pos_platform_order.field_pos_order__platform_order_store_id
 msgid "Store"
-msgstr ""
+msgstr "Магазин"
 
 #. module: pos_platform_order
 #: model:ir.ui.menu,name:pos_platform_order.menu_platform_order_entity
+#, fuzzy
 msgid "Stores"
-msgstr ""
+msgstr "Магазини"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__support_combo
 msgid "Supports Combo"
-msgstr ""
+msgstr "Поддържа комбо"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_form
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_entity_list
 msgid "Sync Menu"
-msgstr ""
+msgstr "Синхронизиране на меню"
 
 #. module: pos_platform_order
 #: model:ir.model.fields.selection,name:pos_platform_order.selection__platform_order_provider__state__test
+#, fuzzy
 msgid "Test"
-msgstr ""
+msgstr "Тест"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_form
+#, fuzzy
 msgid "Test Mode"
-msgstr ""
+msgstr "Тестов режим"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_provider__country_code
+#, fuzzy
 msgid ""
 "The ISO country code in two chars. \n"
 "You can use this field for quick search."
 msgstr ""
+"The ISO country code in two chars. \n"
+"Можете да използвате това поле за бързо търсене."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_provider__default_payment_method_id
 msgid "The default payment method to use for this provider."
-msgstr ""
+msgstr "Начинът на плащане по подразбиране за този доставчик."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_provider__default_pricelist_id
 msgid "The default price list to use for this provider."
-msgstr ""
+msgstr "Ценоразписът по подразбиране за този доставчик."
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/platform_order_provider.py:0
 msgid "The following fields must be filled: %s"
-msgstr ""
+msgstr "Следните полета трябва да бъдат попълнени: %s"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/platform_order_pricelist_line.py:0
 msgid "The pricelist currency must match the store currency."
-msgstr ""
+msgstr "Валутата на ценоразписа трябва да съвпада с валутата на магазина."
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "The provider '%s' is disabled."
-msgstr ""
+msgstr "Доставчикът '%s' е изключен."
 
 #. module: pos_platform_order
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_entity__provider_code
 #: model:ir.model.fields,help:pos_platform_order.field_platform_order_provider__code
 #: model:ir.model.fields,help:pos_platform_order.field_pos_order__platform_order_provider_code
 msgid "The technical code of this platform order provider."
-msgstr ""
+msgstr "Техническият код на този доставчик на поръчки от платформа."
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/models/pos_order.js:0
+#, fuzzy
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестен"
 
 #. module: pos_platform_order
 #. odoo-javascript
 #: code:addons/pos_platform_order/static/src/app/screens/ticket_screen/ticket_screen.js:0
 #: code:addons/pos_platform_order/static/src/app/services/pos_store.js:0
+#, fuzzy
 msgid "Unknown error"
-msgstr ""
+msgstr "Неразпозната грешка"
 
 #. module: pos_platform_order
 #. odoo-python
 #: code:addons/pos_platform_order/models/pos_order.py:0
 msgid "Unsupported status update action: %s"
-msgstr ""
+msgstr "Неподдържано действие за обновяване на статус: %s"
 
 #. module: pos_platform_order
 #: model:ir.model.fields,field_description:pos_platform_order.field_platform_order_provider__valid_for_seconds
 msgid "Valid for (Seconds)"
-msgstr ""
+msgstr "Валиден за (секунди)"
 
 #. module: pos_platform_order
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_kanban
 #: model_terms:ir.ui.view,arch_db:pos_platform_order.view_platform_order_provider_search
 msgid "provider"
-msgstr ""
+msgstr "доставчик"
